@@ -46,11 +46,7 @@
 							<tool id="cdt.managedbuild.tool.gnu.cross.cpp.linker.1895838080" name="Cross G++ Linker" superClass="cdt.managedbuild.tool.gnu.cross.cpp.linker">
 								<option id="gnu.cpp.link.option.libs.1363675797" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" useByScannerDiscovery="false" valueType="libs">
 									<listOptionValue builtIn="false" value="wpi"/>
-<<<<<<< HEAD
-									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="&quot;C:\Users\Academy HS Robotics\wpilib\user\cpp\lib\libnavx_frc_cpp.a&quot;"/>
-=======
 									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="&quot;C:\Users\jorda\wpilib\user\cpp\lib\libCTRLib.a&quot;"/>
->>>>>>> dd96cec5f75c66e55f2d5b710bc2cf141524c342
 								</option>
 								<option id="gnu.cpp.link.option.paths.1566479969" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" valueType="libPaths">
 									<listOptionValue builtIn="false" value="&quot;${WPILIB}/cpp/current/lib&quot;"/>
