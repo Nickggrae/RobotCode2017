@@ -7,7 +7,7 @@ CANTalon* DriveBase::fr;
 CANTalon* DriveBase::mr;
 CANTalon* DriveBase::rr;
 RobotDrive* DriveBase::robotDrive;
-
+AHRS* DriveBase::Navxahrs;
 void DriveBase::init() {
 	DriveBase::fl = new CANTalon(7);
 	DriveBase::fr = new CANTalon(1);
@@ -24,8 +24,25 @@ void DriveBase::init() {
 	DriveBase::rl->Set(DriveBase::fl->GetDeviceID());
 	DriveBase::mr->Set(DriveBase::fr->GetDeviceID());
 	DriveBase::rr->Set(DriveBase::fr->GetDeviceID());
-}
 
+	DriveBase::Navxahrs = new AHRS(SPI::Port::kMXP);
+
+	DriveBase::Navxahrs ->Reset();
+
+
+}
+void DriveBase::resetAccelGyro(){
+	DriveBase::Navxahrs ->Reset();
+}
 void DriveBase::drive(double x, double y){
 	DriveBase::robotDrive ->TankDrive(x,y,false);
+}
+double DriveBase::roll(){
+	return DriveBase::Navxahrs ->GetRoll();
+}
+double DriveBase::yaw(){
+	return DriveBase::Navxahrs ->GetYaw();
+}
+double DriveBase::pitch(){
+	return DriveBase::Navxahrs ->GetPitch();
 }
