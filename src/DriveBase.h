@@ -8,7 +8,7 @@ class DriveBase {
 	static CANTalon* fr;
 	static CANTalon* mr;
 	static CANTalon* rr;
-	static RobotDrive* robotDrive;
+	static frc::RobotDrive* robotDrive;
 public:
 	static void init();
 

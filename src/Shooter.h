@@ -1,11 +1,24 @@
 #include "Shared.h"
+ //#include <CANTalon.h>
 
-	class Shooter {
+
+class Shooter {
+public:
 	static CANTalon* shooter;
+ 	static CANTalon* angle;
 
-	void Shooter::init();
 
-	void Shooter::set(double rpm);
+ 	static void init();
 
-	double Shooter::get();
+
+ 	static void set(double rpm);
+
+
+ 	static double get();
+
+ 	static void setangle(double position);
+
+ 	static double getangle();
 };
+
+
