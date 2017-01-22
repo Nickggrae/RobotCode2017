@@ -4,7 +4,6 @@
  CANTalon* Shooter::shooter;
  CANTalon* Shooter::angle;
 
-
  void Shooter::init() {
  	Shooter::shooter = new CANTalon(5);
  	Shooter::shooter->Set (0.0);
@@ -21,10 +20,11 @@
  	Shooter::angle ->SetFeedbackDevice(CANTalon::CtreMagEncoder_Relative);
  	Shooter::angle->ConfigNominalOutputVoltage(+0., -0.);
  	Shooter::angle->ConfigPeakOutputVoltage(+12., -12.);
- 	Shooter::angle->SetAllowableClosedLoopErr(.01);
+ 	Shooter::angle->SetAllowableClosedLoopErr(0.05);
  	Shooter::angle->SelectProfileSlot(0);
- 	Shooter::angle ->SetPID(0.2,0.00015,0.000011);
+ 	Shooter::angle ->SetPID(0.11,0.0001,0.0001);
  	Shooter::angle->SetControlMode(CANSpeedController::kPosition);
+ 	Shooter::angle->SetSensorDirection(true);
  }
  void Shooter::set(double rpm){
 	 Shooter::shooter->Set(rpm);

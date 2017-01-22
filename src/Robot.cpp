@@ -20,29 +20,17 @@
 
 
 	 void RobotInit(){
-		 Intake::init();
+//		 Intake::init();
+		 Shooter::init();
 		 SmartDashboard::init();
-		 SmartDashboard::PutBoolean("On??",false);
-
-//		 Shooter::init();
-//
-//		 SmartDashboard::init();
-//		 SmartDashboard::PutNumber("Turn",0.0);
-//		 SmartDashboard::PutNumber("ShooterTurnVal", 0.0);
+		 SmartDashboard::PutNumber("Turn",0.0);
+		 SmartDashboard::PutNumber("ShooterTurnVal", 0.0);
 
 	 }
 	 void TeleopPeriodic(){
-		 if(SmartDashboard::GetBoolean("On??",false)){
-			 Intake::turnOn();
-		 }
-		 else{
-			 Intake::turnOff();
-		 }
-//		 Intake::turnOff()
-
-
-//		 Shooter::setangle(SmartDashboard::GetNumber("Turn", 0));
-//		 SmartDashboard::PutNumber("ShooterTurnVal", Shooter::getangle());
+		 Shooter::setangle(SmartDashboard::GetNumber("Turn", 0));
+		 SmartDashboard::PutNumber("ShooterTurnVal", Shooter::getangle());
+		 SmartDashboard::PutNumber("Shooter Power", SmartDashboard::GetNumber("Turn", 0));
 	 }
 
  };
