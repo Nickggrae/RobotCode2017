@@ -1,5 +1,4 @@
 #include "Shared.h"
-#include <AHRS.h>
 //#include "DriveBase.cpp"
 
 class DriveBase {
@@ -9,16 +8,11 @@ class DriveBase {
 	static CANTalon* fr;
 	static CANTalon* mr;
 	static CANTalon* rr;
-	static RobotDrive* robotDrive;
-	static AHRS* Navxahrs;
+	static frc::RobotDrive* robotDrive;
 public:
 	static void init();
 
 	static void drive(double x, double y);
-	double DriveBase::roll();
-	double DriveBase::yaw();
-	double DriveBase::pitch();
-	void DriveBase::resetAccelGyro();
 };
 
 /**TODO:
