@@ -21,10 +21,11 @@
  	Shooter::angle ->SetFeedbackDevice(CANTalon::CtreMagEncoder_Relative);
  	Shooter::angle->ConfigNominalOutputVoltage(+0., -0.);
  	Shooter::angle->ConfigPeakOutputVoltage(+12., -12.);
- 	Shooter::angle->SetAllowableClosedLoopErr(.01);
+ 	Shooter::angle->SetAllowableClosedLoopErr(0.05);
  	Shooter::angle->SelectProfileSlot(0);
- 	Shooter::angle ->SetPID(0.2,0.00015,0.000011);
+ 	Shooter::angle ->SetPID(7,0,1);
  	Shooter::angle->SetControlMode(CANSpeedController::kPosition);
+ 	Shooter::angle->SetSensorDirection(true);
  }
  void Shooter::set(double rpm){
 	 Shooter::shooter->Set(rpm);
@@ -34,9 +35,11 @@
  	return Shooter::shooter->Get();
  }
 
- void Shooter::setangle(double position){
- 	Shooter::angle->Set(position);
+ //Set CANTalon rotations based on angle [aka ihatedavid]
+ void Shooter::setangle(double ihatedavid){
+	 Shooter::angle->Set((ihatedavid * (95.0/180.0))/42.1052631578947);
+
  }
  double Shooter::getangle(){
- 	return Shooter::angle->Get();
+ 	return (Shooter::angle->Get() * 42.1052631578947) / (95.0/180.0);
  }
