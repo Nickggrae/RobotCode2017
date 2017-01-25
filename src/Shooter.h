@@ -16,7 +16,7 @@ public:
 
  	static double get();
 
- 	static void setangle(double position);
+ 	static void setangle(double ihatedavid);
 
  	static double getangle();
 };

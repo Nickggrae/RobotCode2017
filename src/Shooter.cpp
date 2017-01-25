@@ -4,6 +4,7 @@
  CANTalon* Shooter::shooter;
  CANTalon* Shooter::angle;
 
+
  void Shooter::init() {
  	Shooter::shooter = new CANTalon(5);
  	Shooter::shooter->Set (0.0);
@@ -22,7 +23,7 @@
  	Shooter::angle->ConfigPeakOutputVoltage(+12., -12.);
  	Shooter::angle->SetAllowableClosedLoopErr(0.05);
  	Shooter::angle->SelectProfileSlot(0);
- 	Shooter::angle ->SetPID(0.11,0.0001,0.0001);
+ 	Shooter::angle ->SetPID(7,0,0);
  	Shooter::angle->SetControlMode(CANSpeedController::kPosition);
  	Shooter::angle->SetSensorDirection(true);
  }
@@ -34,9 +35,11 @@
  	return Shooter::shooter->Get();
  }
 
- void Shooter::setangle(double position){
- 	Shooter::angle->Set(position);
+ //Set CANTalon rotations based on angle [aka ihatedavid]
+ void Shooter::setangle(double ihatedavid){
+	 Shooter::angle->Set((ihatedavid/42.1052631578947) * (18.0/23.0));
+
  }
  double Shooter::getangle(){
- 	return Shooter::angle->Get();
+ 	return Shooter::angle->Get() * 42.1052631578947 / (18.0/23.0);
  }
