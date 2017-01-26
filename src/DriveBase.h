@@ -1,4 +1,6 @@
 #include "Shared.h"
+#include <Solenoid.h>
+#include <DoubleSolenoid.h>
 //#include "DriveBase.cpp"
 
 class DriveBase {
@@ -9,10 +11,16 @@ class DriveBase {
 	static CANTalon* mr;
 	static CANTalon* rr;
 	static frc::RobotDrive* robotDrive;
+	static DoubleSolenoid* solenoid;
+	static int gearState;
 public:
 	static void init();
 
-	static void drive(double x, double y);
+	static void drive(double left, double right); //tank drive robot drive with left and right side
+
+	static void switchGear(bool gear); //set piston forward if true and reverse if false
+
+	static int getGearState(); //check whether gear has been released or not
 };
 
 /**TODO:

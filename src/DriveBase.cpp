@@ -6,7 +6,9 @@ CANTalon* DriveBase::rl;
 CANTalon* DriveBase::fr;
 CANTalon* DriveBase::mr;
 CANTalon* DriveBase::rr;
+frc::DoubleSolenoid* DriveBase::solenoid;
 frc::RobotDrive* DriveBase::robotDrive;
+
 
 
 void DriveBase::init() {
@@ -26,8 +28,25 @@ void DriveBase::init() {
 	DriveBase::rl->Set(DriveBase::fl->GetDeviceID());
 	DriveBase::mr->Set(DriveBase::fr->GetDeviceID());
 	DriveBase::rr->Set(DriveBase::fr->GetDeviceID());
+	DriveBase::solenoid = new frc::DoubleSolenoid(1,2);
+	DriveBase::solenoid->Set(frc::DoubleSolenoid::kOff);
 }
 
-void DriveBase::drive(double x, double y){
-	DriveBase::robotDrive ->TankDrive(x,y,false);
+void DriveBase::drive(double left, double right){
+	DriveBase::robotDrive ->TankDrive(left,right,false);
+}
+
+void DriveBase::switchGear(bool gear){
+	if (gear){
+		DriveBase::solenoid->Set(frc::DoubleSolenoid::kForward);
+		DriveBase::gearState = 1;
+	}
+	else{
+		DriveBase::solenoid->Set(frc::DoubleSolenoid::kReverse);
+		DriveBase::gearState = 0;
+	}
+}
+
+int DriveBase::getGearState(){
+	return gearState;
 }
