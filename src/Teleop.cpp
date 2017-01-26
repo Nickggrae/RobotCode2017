@@ -32,15 +32,15 @@ void Teleop::run() {
 		}
 
 	}
-	bool Shooter = joy->GetRawButton(1);
-	if(Shooter > Prev_Button_1){
-		if(DriveBase::shooterOn() == true){
-			DriveBase::setShooter(false);
-		}
-		else{
-			DriveBase::setShooter(true);
-		}
-	}
+//	bool Shooter = joy->GetRawButton(1);
+//	if(Shooter > Prev_Button_1){
+//		if(DriveBase::shooterOn() == true){
+//			DriveBase::setShooter(false);
+//		}
+//		else{
+//			DriveBase::setShooter(true);
+//		}
+//	}
 
 }
 

@@ -6,13 +6,16 @@ CANTalon* DriveBase::rl;
 CANTalon* DriveBase::fr;
 CANTalon* DriveBase::mr;
 CANTalon* DriveBase::rr;
+
 frc::DoubleSolenoid* DriveBase::solenoid;
 frc::RobotDrive* DriveBase::robotDrive;
-
+Compressor *c;
 
 
 void DriveBase::init() {
+	c = new Compressor();
 
+	c->SetClosedLoopControl(true);
 	DriveBase::fl = new CANTalon(7);
 	DriveBase::fr = new CANTalon(5);
 	DriveBase::robotDrive = new frc::RobotDrive(DriveBase::fl,DriveBase::fr);
@@ -28,7 +31,7 @@ void DriveBase::init() {
 	DriveBase::rl->Set(DriveBase::fl->GetDeviceID());
 	DriveBase::mr->Set(DriveBase::fr->GetDeviceID());
 	DriveBase::rr->Set(DriveBase::fr->GetDeviceID());
-	DriveBase::solenoid = new frc::DoubleSolenoid(1,2);
+	DriveBase::solenoid = new frc::DoubleSolenoid(0,1);
 	DriveBase::solenoid->Set(frc::DoubleSolenoid::kOff);
 }
 

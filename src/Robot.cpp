@@ -29,7 +29,7 @@
 	 }
 	 void TeleopPeriodic(){
 		 Shooter::setangle(SmartDashboard::GetNumber("Turn", 0));
-		 SmartDashboard::PutNumber("ShooterTurnVal", Shooter::getangle());
+		 SmartDashboard::PutNumber("ShooterTurnVal", Shoot er::getangle());
 		 SmartDashboard::PutNumber("Shooter Power", SmartDashboard::GetNumber("Turn", 0));
 	 }
 

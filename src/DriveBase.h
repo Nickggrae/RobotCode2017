@@ -1,4 +1,5 @@
 #include "Shared.h"
+#include <Compressor.h>
 #include <Solenoid.h>
 #include <DoubleSolenoid.h>
 //#include "DriveBase.cpp"
