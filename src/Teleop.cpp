@@ -23,11 +23,23 @@ void Teleop::run() {
 
 	bool Switch = joy->GetRawButton(0);
 	if(Switch == true){
-	//	DriveBase::Switch();
+		if(DriveBase::getGearState()){
+			DriveBase::switchGear(false);
+
+		}
+		else{
+			DriveBase::switchGear(true);
+		}
+
 	}
 	bool Shooter = joy->GetRawButton(1);
 	if(Shooter > Prev_Button_1){
-
+		if(DriveBase::shooterOn() == true){
+			DriveBase::setShooter(false);
+		}
+		else{
+			DriveBase::setShooter(true);
+		}
 	}
 
 }
