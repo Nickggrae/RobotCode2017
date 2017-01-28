@@ -7,15 +7,16 @@ CANTalon* DriveBase::fr;
 CANTalon* DriveBase::mr;
 CANTalon* DriveBase::rr;
 
+int DriveBase::gearState;
+
 frc::DoubleSolenoid* DriveBase::solenoid;
 frc::RobotDrive* DriveBase::robotDrive;
 Compressor *c;
 
 
 void DriveBase::init() {
-	c = new Compressor();
 
-	c->SetClosedLoopControl(true);
+
 	DriveBase::fl = new CANTalon(7);
 	DriveBase::fr = new CANTalon(5);
 	DriveBase::robotDrive = new frc::RobotDrive(DriveBase::fl,DriveBase::fr);
@@ -31,8 +32,14 @@ void DriveBase::init() {
 	DriveBase::rl->Set(DriveBase::fl->GetDeviceID());
 	DriveBase::mr->Set(DriveBase::fr->GetDeviceID());
 	DriveBase::rr->Set(DriveBase::fr->GetDeviceID());
+
+	c = new Compressor(1);
+	c->SetClosedLoopControl(true);
+	c->Start();
+
 	DriveBase::solenoid = new frc::DoubleSolenoid(0,1);
 	DriveBase::solenoid->Set(frc::DoubleSolenoid::kOff);
+
 }
 
 void DriveBase::drive(double left, double right){
@@ -51,5 +58,5 @@ void DriveBase::switchGear(bool gear){
 }
 
 int DriveBase::getGearState(){
-	return gearState;
+	return DriveBase::gearState;
 }

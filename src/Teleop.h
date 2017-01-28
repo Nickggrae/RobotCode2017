@@ -11,7 +11,7 @@
 #include "Shared.h"
 
 class Teleop{
-	Joystick *joy;
+	static Joystick* joy;
 public:
 	static void init();
 	static void run();

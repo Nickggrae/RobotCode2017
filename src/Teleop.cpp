@@ -10,18 +10,18 @@
 
 int Prev_Button_1 = 0;
 
-
+Joystick* Teleop::joy;
 void Teleop::init() {
-	joy = new Joystick(1);
+	Teleop::joy = new Joystick(0);
 	DriveBase::init();
 
 }
 void Teleop::run() {
-	double leftDrive = joy->GetRawAxis(1);
-	double rightDrive = joy->GetRawAxis(5);
+	double leftDrive = Teleop::joy->GetRawAxis(1);
+	double rightDrive = Teleop::joy->GetRawAxis(5);
 	DriveBase::drive(leftDrive, rightDrive);
 
-	bool Switch = joy->GetRawButton(0);
+	bool Switch = Teleop::joy->GetRawButton(1);
 	if(Switch == true){
 		if(DriveBase::getGearState()){
 			DriveBase::switchGear(false);
@@ -30,8 +30,9 @@ void Teleop::run() {
 		else{
 			DriveBase::switchGear(true);
 		}
-
+		SmartDashboard::PutBoolean("Gear State", DriveBase::getGearState());
 	}
+	SmartDashboard::PutBoolean("Button", Switch);
 //	bool Shooter = joy->GetRawButton(1);
 //	if(Shooter > Prev_Button_1){
 //		if(DriveBase::shooterOn() == true){

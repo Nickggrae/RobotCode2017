@@ -1,7 +1,7 @@
 #pragma once
  #include <WPILib.h>
- #include "Shooter.h"
- #include "Intake.h"
+ #include "Teleop.h"
+// #include "DriveBase.h"
 
 
  /**
@@ -21,16 +21,13 @@
 
 	 void RobotInit(){
 //		 Intake::init();
-		 Shooter::init();
-		 SmartDashboard::init();
-		 SmartDashboard::PutNumber("Turn",0.0);
-		 SmartDashboard::PutNumber("ShooterTurnVal", 0.0);
+		 Teleop::init();
+//		 DriveBase::init();
+
 
 	 }
 	 void TeleopPeriodic(){
-		 Shooter::setangle(SmartDashboard::GetNumber("Turn", 0));
-		 SmartDashboard::PutNumber("ShooterTurnVal", Shoot er::getangle());
-		 SmartDashboard::PutNumber("Shooter Power", SmartDashboard::GetNumber("Turn", 0));
+		 Teleop::run();
 	 }
 
  };
