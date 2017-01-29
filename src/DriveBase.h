@@ -1,6 +1,6 @@
 #include "Shared.h"
 #include <Compressor.h>
-#include <Solenoid.h>
+//#include <Solenoid.h>
 #include <DoubleSolenoid.h>
 //#include "DriveBase.cpp"
 
@@ -12,7 +12,7 @@ class DriveBase {
 	static CANTalon* mr;
 	static CANTalon* rr;
 	static frc::RobotDrive* robotDrive;
-	static DoubleSolenoid* solenoid;
+	static frc::DoubleSolenoid* solenoid;
 	static int gearState;
 public:
 	static void init();

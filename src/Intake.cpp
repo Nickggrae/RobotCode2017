@@ -1,16 +1,14 @@
-//made by the one and only Nicholas Wharton
-//#include "Shared.h"
 #include "Intake.h"
 
 CANTalon* Intake::Intakeu;
 double Intake::motorSpeed;
 
 void Intake::init(){
-	Intake::Intakeu = new CANTalon(7);
+	Intake::Intakeu = new CANTalon(0);
 }
 
 void Intake::turnOn(){
-	Intake::Intakeu->Set(1.0);
+	Intake::Intakeu->Set(.50);
 }
 
 void Intake::turnOff(){

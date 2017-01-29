@@ -1,10 +1,8 @@
 #include "DriveBase.h"
 
 CANTalon* DriveBase::fl;
-CANTalon* DriveBase::ml;
 CANTalon* DriveBase::rl;
 CANTalon* DriveBase::fr;
-CANTalon* DriveBase::mr;
 CANTalon* DriveBase::rr;
 
 int DriveBase::gearState;
@@ -17,29 +15,20 @@ Compressor *c;
 void DriveBase::init() {
 
 
-	DriveBase::fl = new CANTalon(7);
-	DriveBase::fr = new CANTalon(5);
-	DriveBase::robotDrive = new frc::RobotDrive(DriveBase::fl,DriveBase::fr);
-	DriveBase::ml = new CANTalon(6);
-	DriveBase::rl = new CANTalon(0);
-	DriveBase::mr = new CANTalon(2);
-	DriveBase::rr = new CANTalon(3);
-	DriveBase::ml->SetControlMode(frc::CANSpeedController::kFollower);
-	DriveBase::rl->SetControlMode(frc::CANSpeedController::kFollower);
-	DriveBase::mr->SetControlMode(frc::CANSpeedController::kFollower);
-	DriveBase::rr->SetControlMode(frc::CANSpeedController::kFollower);
-	DriveBase::ml->Set(DriveBase::fl->GetDeviceID());
-	DriveBase::rl->Set(DriveBase::fl->GetDeviceID());
-	DriveBase::mr->Set(DriveBase::fr->GetDeviceID());
-	DriveBase::rr->Set(DriveBase::fr->GetDeviceID());
+	DriveBase::fl = new CANTalon(2);
+	DriveBase::fl->SetInverted(true);
+	DriveBase::fr = new CANTalon(3);
+	DriveBase::rl = new CANTalon(4);
+	DriveBase::rl->SetInverted(true);
+	DriveBase::rr = new CANTalon(9);
+	DriveBase::robotDrive = new frc::RobotDrive(DriveBase::fl,DriveBase::rl,DriveBase::fr,DriveBase::rr);
 
 	c = new Compressor(1);
 	c->SetClosedLoopControl(true);
 	c->Start();
 
-	DriveBase::solenoid = new frc::DoubleSolenoid(0,1);
+	DriveBase::solenoid = new frc::DoubleSolenoid(1, 0, 1);
 	DriveBase::solenoid->Set(frc::DoubleSolenoid::kOff);
-
 }
 
 void DriveBase::drive(double left, double right){
@@ -47,6 +36,7 @@ void DriveBase::drive(double left, double right){
 }
 
 void DriveBase::switchGear(bool gear){
+	SmartDashboard::PutBoolean("JordanIsGay", gear);
 	if (gear){
 		DriveBase::solenoid->Set(frc::DoubleSolenoid::kForward);
 		DriveBase::gearState = 1;

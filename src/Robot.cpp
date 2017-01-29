@@ -1,6 +1,7 @@
 #pragma once
  #include <WPILib.h>
  #include "Teleop.h"
+ #include "Intake.h"
 // #include "DriveBase.h"
 
 
@@ -23,7 +24,7 @@
 //		 Intake::init();
 		 Teleop::init();
 //		 DriveBase::init();
-
+		 DriveBase::switchGear(false);
 
 	 }
 	 void TeleopPeriodic(){

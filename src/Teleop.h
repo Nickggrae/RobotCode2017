@@ -7,7 +7,7 @@
 
 #ifndef SRC_TELEOP_H_
 #define SRC_TELEOP_H_
-
+#include "DriveBase.h"
 #include "Shared.h"
 
 class Teleop{
