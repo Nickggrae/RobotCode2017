@@ -1,5 +1,6 @@
 #include "DriveBase.h"
 
+
 CANTalon* DriveBase::fl;
 CANTalon* DriveBase::rl;
 CANTalon* DriveBase::fr;
@@ -10,7 +11,7 @@ int DriveBase::gearState;
 frc::DoubleSolenoid* DriveBase::solenoid;
 frc::RobotDrive* DriveBase::robotDrive;
 Compressor *c;
-
+AHRS* ahrs;
 
 void DriveBase::init() {
 
@@ -29,6 +30,8 @@ void DriveBase::init() {
 
 	DriveBase::solenoid = new frc::DoubleSolenoid(1, 0, 1);
 	DriveBase::solenoid->Set(frc::DoubleSolenoid::kOff);
+
+	ahrs = new AHRS(frc::SPI::Port);
 }
 
 void DriveBase::drive(double left, double right){

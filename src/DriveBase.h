@@ -15,6 +15,7 @@ class DriveBase {
 	static frc::DoubleSolenoid* solenoid;
 	static int gearState;
 public:
+
 	static void init();
 
 	static void drive(double left, double right); //tank drive robot drive with left and right side
