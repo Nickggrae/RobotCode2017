@@ -14,3 +14,7 @@ void Intake::turnOn(){
 void Intake::turnOff(){
 	Intake::Intakeu->Set(0.0);
 }
+
+bool Intake::isOn(){
+	return (Intake::Intakeu->Get() > 0.1);
+}

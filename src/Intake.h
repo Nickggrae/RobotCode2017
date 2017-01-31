@@ -12,5 +12,6 @@ public:
 	static void turnOn();
 //	static double turnon;
 	static void turnOff();
+	static bool isOn();
 
 };
