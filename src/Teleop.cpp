@@ -21,12 +21,7 @@ void Teleop::run() {
 	DriveBase::drive(leftDrive, rightDrive);
 
 	if(prevButton1 < Teleop::joy->GetRawButton(1)){
-		if (Intake::isOn()){
-			Intake::turnOff();
-		}
-		else{
-			Intake::turnOn();
-		}
+		Intake::toggleIntake();
 	}
 	prevButton1 = Teleop::joy->GetRawButton(1);
 
