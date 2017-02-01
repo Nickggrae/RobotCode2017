@@ -13,7 +13,6 @@
 class Teleop{
 	static Joystick* joy;
 public:
-	static AHRS* ahrs;
 	static void init();
 	static void run();
 };

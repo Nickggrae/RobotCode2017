@@ -44,7 +44,14 @@ void Teleop::run() {
 //					frc::Wait(.1);
 		}
 	}
-
+//	SmartDashboard::PutNumber("XDisplacement", DriveBase::ahrs.GetDisplacementX());
+//	SmartDashboard::PutNumber("YDisplacement", DriveBase::ahrs.GetDisplacementY());
+//	SmartDashboard::PutNumber("ZDisplacement", DriveBase::ahrs.GetDisplacementZ());
+//
+//	if(joy->GetRawButton(5))
+//	{
+//		DriveBase::ahrs.ResetDisplacement();
+//	}
 //	SmartDashboard::PutBoolean("Usaid Wanted It", intakebutton);
 //	bool Shooter = joy->GetRawButton(1);
 //	if(Shooter > Prev_Button_1){

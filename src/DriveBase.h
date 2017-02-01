@@ -2,6 +2,7 @@
 #include <Compressor.h>
 //#include <Solenoid.h>
 #include <DoubleSolenoid.h>
+#include <AHRS.h>
 //#include "DriveBase.cpp"
 
 class DriveBase {
@@ -15,7 +16,7 @@ class DriveBase {
 	static frc::DoubleSolenoid* solenoid;
 	static int gearState;
 public:
-
+	static AHRS ahrs;
 	static void init();
 
 	static void drive(double left, double right); //tank drive robot drive with left and right side

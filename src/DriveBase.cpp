@@ -11,7 +11,7 @@ int DriveBase::gearState;
 frc::DoubleSolenoid* DriveBase::solenoid;
 frc::RobotDrive* DriveBase::robotDrive;
 Compressor *c;
-AHRS* ahrs;
+//AHRS ahrs = AHRS(frc::SPI::Port);
 
 void DriveBase::init() {
 
@@ -29,9 +29,8 @@ void DriveBase::init() {
 	c->Start();
 
 	DriveBase::solenoid = new frc::DoubleSolenoid(1, 0, 1);
-	DriveBase::solenoid->Set(frc::DoubleSolenoid::kOff);
+	DriveBase::solenoid->Set(frc::DoubleSolenoid::kReverse);
 
-	ahrs = new AHRS(frc::SPI::Port);
 }
 
 void DriveBase::drive(double left, double right){
@@ -41,12 +40,12 @@ void DriveBase::drive(double left, double right){
 void DriveBase::switchGear(bool gear){
 	SmartDashboard::PutBoolean("JordanIsGay", gear);
 	if (gear){
-		DriveBase::solenoid->Set(frc::DoubleSolenoid::kForward);
-		DriveBase::gearState = 1;
+		DriveBase::solenoid->Set(frc::DoubleSolenoid::kForward); //sets into high gear
+		DriveBase::gearState = 1; //1 is high gear
 	}
 	else{
-		DriveBase::solenoid->Set(frc::DoubleSolenoid::kReverse);
-		DriveBase::gearState = 0;
+		DriveBase::solenoid->Set(frc::DoubleSolenoid::kReverse); //sets into low gear
+		DriveBase::gearState = 0; //0 is low gear
 	}
 }
 
