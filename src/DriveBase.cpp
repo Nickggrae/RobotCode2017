@@ -17,6 +17,7 @@ void DriveBase::init() {
 
 
 	DriveBase::fl = new CANTalon(2);
+	 DriveBase::fl->SetFeedbackDevice(CANTalon::CtreMagEncoder_Relative);
 	DriveBase::fl->SetInverted(true);
 	DriveBase::fr = new CANTalon(3);
 	DriveBase::rl = new CANTalon(4);
@@ -51,4 +52,19 @@ void DriveBase::switchGear(bool gear){
 
 int DriveBase::getGearState(){
 	return DriveBase::gearState;
+}
+
+double DriveBase::getEncoderfl(){
+	return DriveBase::fl->GetEncPosition();
+}
+
+void DriveBase::resetEncoderfl(){
+	DriveBase::fl->Reset();
+}
+double DriveBase::getEncoderfr(){
+	return DriveBase::fr->GetEncPosition();
+}
+
+void DriveBase::resetEncoderfr(){
+	DriveBase::fr->Reset();
 }

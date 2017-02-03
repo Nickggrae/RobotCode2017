@@ -6,17 +6,32 @@
 //#include "DriveBase.cpp"
 
 class DriveBase {
+	//initializes front left
 	static CANTalon* fl;
-	static CANTalon* ml;
+
+	//initializes rear left
 	static CANTalon* rl;
+
+	//initializes front right
 	static CANTalon* fr;
-	static CANTalon* mr;
+
+	//initializes rear right
 	static CANTalon* rr;
+
+	//initializes robot drive
 	static frc::RobotDrive* robotDrive;
+
+	//initializes solenoid for pneumatics
 	static frc::DoubleSolenoid* solenoid;
+
+	//initializes the gear state
 	static int gearState;
 public:
+
+	//starts navX
 	static AHRS ahrs;
+
+	//initializes base robot code
 	static void init();
 
 	static void drive(double left, double right); //tank drive robot drive with left and right side
@@ -24,6 +39,14 @@ public:
 	static void switchGear(bool gear); //set piston forward if true and reverse if false
 
 	static int getGearState(); //check whether gear has been released or not
+
+	static double DriveBase::getEncoderfl(); //gets the encoder position of encoder front left
+
+	static void DriveBase::resetEncoderfl(); //resets the front left encoder
+
+	static double DriveBase::getEncoderfr(); // get the encoder position of encoder front right
+
+	static void DriveBase::resetEncoderfr(); //resets the front right encoder
 };
 
 /**TODO:
