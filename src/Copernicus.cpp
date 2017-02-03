@@ -1,7 +1,7 @@
 #include "Shared.h"
 #include "Copernicus.h"
 
-NetworkTable* Copernicus::table = nullptr;
+std::shared_ptr<NetworkTable> Copernicus::table = nullptr;
 
 void Copernicus::createTable(){
 	table = NetworkTable::GetTable("copernicus");

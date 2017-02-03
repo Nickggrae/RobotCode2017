@@ -5,6 +5,7 @@
  *      Author: Academy HS Robotics
  */
 #include "Teleop.h"
+#include "Shooter.h"
 #include "Intake.h"
 
 int prevButton1 = 0;
@@ -13,7 +14,10 @@ Joystick* Teleop::joy;
 void Teleop::init() {
 	Teleop::joy = new Joystick(0);
 	DriveBase::init();
+	Shooter::init();
 	Intake::init();
+	SmartDashboard::PutNumber("Angle",0.0);
+	SmartDashboard::PutNumber("Shooter",0.0);
 }
 void Teleop::run() {
 	double leftDrive = Teleop::joy->GetRawAxis(1);
@@ -56,10 +60,16 @@ void Teleop::run() {
 //		else{
 //			DriveBase::setShooter(true);
 //		}
-//	}
+//	}s
 
+	double angle = SmartDashboard::GetNumber("Angle", 0.0);
+	Shooter::setangle(angle);
+	SmartDashboard::PutNumber("Shooter Angle", Shooter::getangle());
 	frc::Wait(0.005);
 
+	double shooter = SmartDashboard::GetNumber("Shooter", 0.0);
+	Shooter::set(0.5);
+	SmartDashboard::PutNumber("Shooter speed", Shooter::get());
 
 }
 

@@ -40,13 +40,17 @@ public:
 
 	static int getGearState(); //check whether gear has been released or not
 
-	static double DriveBase::getEncoderfl(); //gets the encoder position of encoder front left
+	static double getEncoderfl(); //gets the encoder position of encoder front left
 
-	static void DriveBase::resetEncoderfl(); //resets the front left encoder
+	static void resetEncoderfl(); //resets the front left encoder
 
-	static double DriveBase::getEncoderfr(); // get the encoder position of encoder front right
+	static double getEncoderfr(); // get the encoder position of encoder front right
 
-	static void DriveBase::resetEncoderfr(); //resets the front right encoder
+	static void resetEncoderfr(); //resets the front right encoder
+
+	static void enable(); // enables the DriveBase. TURNED ON BY DEFAULT
+
+	static void disable(); // disables the DriveBase CANTalons
 };
 
 /**TODO:
@@ -62,14 +66,10 @@ public:
  *  - resets the gyro
  * has a resetAccel()
  *  - resets the accel
- * has a resetEncoder()
- *  - resets the encoders
  * has a getGyro()
  *  - returns a DOUBLE with the current Gyro value
  * has a getAccel()
  *  - returns a DOUBLE with the current Accel value
- * has a getEncoder()
- *  - returns a DOUBLE with the current Encoder value
  * has a enable()
  *  - enables the DriveBase. TURNED ON BY DEFAULT
  * has a disable()
