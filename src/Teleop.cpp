@@ -7,6 +7,8 @@
 #include "Teleop.h"
 #include "Shooter.h"
 #include "Intake.h"
+	//#include "DriveBase.h"
+
 
 int prevButton1 = 0;
 
@@ -47,10 +49,10 @@ void Teleop::run() {
 //	SmartDashboard::PutNumber("YDisplacement", DriveBase::ahrs.GetDisplacementY());
 //	SmartDashboard::PutNumber("ZDisplacement", DriveBase::ahrs.GetDisplacementZ());
 //
-//	if(joy->GetRawButton(5))
-//	{
-//		DriveBase::ahrs.ResetDisplacement();
-//	}
+	if(joy->GetRawButton(5))
+	{
+		DriveBase::ahrs->ResetDisplacement();
+	}
 //	SmartDashboard::PutBoolean("Usaid Wanted It", intakebutton);
 //	bool Shooter = joy->GetRawButton(1);
 //	if(Shooter > Prev_Button_1){
@@ -71,6 +73,33 @@ void Teleop::run() {
 	Shooter::set(0.5);
 	SmartDashboard::PutNumber("Shooter speed", Shooter::get());
 
+
+	SmartDashboard::PutNumber("Pitch", DriveBase::getPitch());
+
+	SmartDashboard::PutNumber("Roll", DriveBase::getRoll());
+
+	SmartDashboard::PutNumber("Yaw", DriveBase::getYaw());
+
+	SmartDashboard::PutNumber("DisplacementX", (DriveBase::DisplacementX()*100));
+
+	SmartDashboard::PutNumber("DisplacementY", (DriveBase::DisplacementY()*100));
+
+	SmartDashboard::PutNumber("DisplacementZ", (DriveBase::DisplacementZ()*100));
+
+	SmartDashboard::PutNumber("AccelX", DriveBase::getAccelX());
+
+	SmartDashboard::PutNumber("AccelY", DriveBase::getAccelY());
+
+	SmartDashboard::PutNumber("AccelZ", DriveBase::getAccelZ());
+
+	SmartDashboard::PutNumber("isTalonEnabled", DriveBase::isTalonEnabled());
+
+//Usaid if you are reading this it was a test just get rid of it
+	SmartDashboard::PutNumber("VelocityX", DriveBase::velocityX());
+
+	SmartDashboard::PutNumber("VelocityY", DriveBase::velocityY());
+
+	SmartDashboard::PutNumber("VelocityZ", DriveBase::velocityZ());
 }
 
 

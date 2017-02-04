@@ -26,10 +26,11 @@ class DriveBase {
 
 	//initializes the gear state
 	static int gearState;
+
 public:
 
 	//starts navX
-	static AHRS ahrs;
+	static AHRS *ahrs;
 
 	//initializes base robot code
 	static void init();
@@ -51,6 +52,37 @@ public:
 	static void enable(); // enables the DriveBase. TURNED ON BY DEFAULT
 
 	static void disable(); // disables the DriveBase CANTalons
+
+	static double getPitch(); // gets Pitch
+
+	static double getYaw(); // gets Yaw
+
+	static double getRoll(); // gets Roll
+
+	static double DisplacementX();
+
+	static double DisplacementY();
+
+	static double DisplacementZ();
+
+	static double getAccelX();
+
+	static double getAccelY();
+
+	static double getAccelZ();
+
+	static void talonEnable();
+
+	static void talonDisable();
+
+	static double isTalonEnabled();
+
+//Usaid if you are reading this it was a test just get rid of it
+	static double velocityX();
+
+	static double velocityY();
+
+	static double velocityZ();
 };
 
 /**TODO:
