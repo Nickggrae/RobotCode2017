@@ -11,13 +11,16 @@
 
 
 int prevButton1 = 0;
+int prevButton2 =0;
 
 Joystick* Teleop::joy;
+Joystick* Teleop::stick;
 void Teleop::init() {
 	Teleop::joy = new Joystick(0);
 	DriveBase::init();
 	Shooter::init();
 	Intake::init();
+	Climber::init();
 	SmartDashboard::PutNumber("Angle",0.0);
 	SmartDashboard::PutNumber("Shooter",0.0);
 }
@@ -30,6 +33,10 @@ void Teleop::run() {
 		Intake::toggleIntake();
 	}
 	prevButton1 = Teleop::joy->GetRawButton(1);
+
+	if(prevButton1 <Teleop::stick->GetRawButton(7)){
+		Climber::turnOn();
+	}
 
 	bool rightButton = Teleop::joy->GetRawButton(6);
 	bool leftButton = Teleop::joy->GetRawButton(5);
