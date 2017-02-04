@@ -18,7 +18,7 @@ public:
 private:
 	static void createTable();
 
-	static NetworkTable* table;
+	static std::shared_ptr<NetworkTable> table;
 };
 
 #endif /* SRC_TELEOP_H_ */

@@ -26,10 +26,11 @@ class DriveBase {
 
 	//initializes the gear state
 	static int gearState;
+
 public:
 
 	//starts navX
-	static AHRS ahrs;
+	static AHRS *ahrs;
 
 	//initializes base robot code
 	static void init();
@@ -40,13 +41,48 @@ public:
 
 	static int getGearState(); //check whether gear has been released or not
 
-	static double DriveBase::getEncoderfl(); //gets the encoder position of encoder front left
+	static double getEncoderfl(); //gets the encoder position of encoder front left
 
-	static void DriveBase::resetEncoderfl(); //resets the front left encoder
+	static void resetEncoderfl(); //resets the front left encoder
 
-	static double DriveBase::getEncoderfr(); // get the encoder position of encoder front right
+	static double getEncoderfr(); // get the encoder position of encoder front right
 
-	static void DriveBase::resetEncoderfr(); //resets the front right encoder
+	static void resetEncoderfr(); //resets the front right encoder
+
+	static void enable(); // enables the DriveBase. TURNED ON BY DEFAULT
+
+	static void disable(); // disables the DriveBase CANTalons
+
+	static double getPitch(); // gets Pitch
+
+	static double getYaw(); // gets Yaw
+
+	static double getRoll(); // gets Roll
+
+	static double DisplacementX();
+
+	static double DisplacementY();
+
+	static double DisplacementZ();
+
+	static double getAccelX();
+
+	static double getAccelY();
+
+	static double getAccelZ();
+
+	static void talonEnable();
+
+	static void talonDisable();
+
+	static double isTalonEnabled();
+
+//Usaid if you are reading this it was a test just get rid of it
+	static double velocityX();
+
+	static double velocityY();
+
+	static double velocityZ();
 };
 
 /**TODO:
@@ -62,14 +98,10 @@ public:
  *  - resets the gyro
  * has a resetAccel()
  *  - resets the accel
- * has a resetEncoder()
- *  - resets the encoders
  * has a getGyro()
  *  - returns a DOUBLE with the current Gyro value
  * has a getAccel()
  *  - returns a DOUBLE with the current Accel value
- * has a getEncoder()
- *  - returns a DOUBLE with the current Encoder value
  * has a enable()
  *  - enables the DriveBase. TURNED ON BY DEFAULT
  * has a disable()

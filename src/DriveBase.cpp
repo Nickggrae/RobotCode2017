@@ -11,11 +11,10 @@ int DriveBase::gearState;
 frc::DoubleSolenoid* DriveBase::solenoid;
 frc::RobotDrive* DriveBase::robotDrive;
 Compressor *c;
-//AHRS ahrs = AHRS(frc::SPI::Port);
+AHRS *DriveBase::ahrs(NULL);
 
 void DriveBase::init() {
-
-
+	DriveBase::ahrs = new AHRS(SPI::Port::kMXP);
 	DriveBase::fl = new CANTalon(2);
 	 DriveBase::fl->SetFeedbackDevice(CANTalon::CtreMagEncoder_Relative);
 	DriveBase::fl->SetInverted(true);
@@ -67,4 +66,75 @@ double DriveBase::getEncoderfr(){
 
 void DriveBase::resetEncoderfr(){
 	DriveBase::fr->Reset();
+}
+
+double DriveBase::getYaw(){
+	return ahrs->GetYaw();
+}
+
+double DriveBase::getPitch(){
+	return ahrs->GetPitch();
+}
+
+double DriveBase::getRoll(){
+	return ahrs->GetRoll();
+}
+
+double DriveBase::DisplacementX(){
+	return ahrs->GetDisplacementX();
+}
+
+double DriveBase::DisplacementY(){
+	return ahrs->GetDisplacementY();
+}
+
+double DriveBase::DisplacementZ(){
+	return ahrs->GetDisplacementZ();
+}
+
+double DriveBase::getAccelX(){
+	return ahrs->GetWorldLinearAccelX();
+
+}
+
+double DriveBase::getAccelY(){
+	return ahrs->GetWorldLinearAccelY();
+
+}
+
+double DriveBase::getAccelZ(){
+	return ahrs->GetWorldLinearAccelZ();
+
+}
+
+void DriveBase::talonEnable(){
+	DriveBase::fl->Enable();
+	DriveBase::rl->Enable();
+	DriveBase::rr->Enable();
+	DriveBase::fr->Enable();
+}
+
+void DriveBase::talonDisable(){
+	DriveBase::fl->Disable();
+	DriveBase::rl->Disable();
+	DriveBase::rr->Disable();
+	DriveBase::fr->Disable();
+}
+
+double DriveBase::isTalonEnabled(){
+	return DriveBase::fl->IsEnabled();
+}
+
+
+//Usaid if you are reading this it was a test just get rid of it
+double DriveBase::velocityX(){
+	return ahrs->GetVelocityX();
+}
+
+double DriveBase::velocityY(){
+	return ahrs->GetVelocityY();
+}
+
+double DriveBase::velocityZ(){
+	return ahrs->GetVelocityZ();
 }
