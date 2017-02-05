@@ -2,7 +2,7 @@
 
 class Climber{
 	static CANTalon* climb;
-	static Joystick* joy;
+public:
 	static void init();
 	static void turnOn();
-}
+};

@@ -122,7 +122,7 @@ void Teleop::run() {
 	SmartDashboard::PutNumber("Shooter Angle", Shooter::getangle());
 	frc::Wait(0.005);
 
-	double shooter = SmartDashboard::GetNumber("Shooter", 0.0);
+//	double shooter = SmartDashboard::GetNumber("Shooter", 0.0);
 	Shooter::set(0.5);
 	SmartDashboard::PutNumber("Shooter speed", Shooter::get());
 

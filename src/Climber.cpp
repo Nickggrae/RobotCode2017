@@ -1,7 +1,6 @@
 #include "Climber.h"
 
 CANTalon* Climber::climb;
-Joystick* Climber::joy;
 
 
 void Climber::init(){
