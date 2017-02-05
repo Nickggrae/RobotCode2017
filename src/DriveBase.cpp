@@ -7,8 +7,10 @@ CANTalon* DriveBase::fr;
 CANTalon* DriveBase::rr;
 
 int DriveBase::gearState;
+int DriveBase::sliderState;
 
 frc::DoubleSolenoid* DriveBase::solenoid;
+frc::DoubleSolenoid* DriveBase::solenoid2;
 frc::RobotDrive* DriveBase::robotDrive;
 Compressor *c;
 AHRS *DriveBase::ahrs(NULL);
@@ -16,7 +18,7 @@ AHRS *DriveBase::ahrs(NULL);
 void DriveBase::init() {
 	DriveBase::ahrs = new AHRS(SPI::Port::kMXP);
 	DriveBase::fl = new CANTalon(2);
-	 DriveBase::fl->SetFeedbackDevice(CANTalon::CtreMagEncoder_Relative);
+	DriveBase::fl->SetFeedbackDevice(CANTalon::CtreMagEncoder_Relative);
 	DriveBase::fl->SetInverted(true);
 	DriveBase::fr = new CANTalon(3);
 	DriveBase::rl = new CANTalon(4);
@@ -31,6 +33,9 @@ void DriveBase::init() {
 	DriveBase::solenoid = new frc::DoubleSolenoid(1, 0, 1);
 	DriveBase::solenoid->Set(frc::DoubleSolenoid::kReverse);
 
+	DriveBase::solenoid2 = new frc::DoubleSolenoid(1, 2, 3);
+	DriveBase::solenoid2->Set(frc::DoubleSolenoid::kReverse);
+
 }
 
 void DriveBase::drive(double left, double right){
@@ -38,7 +43,7 @@ void DriveBase::drive(double left, double right){
 }
 
 void DriveBase::switchGear(bool gear){
-	SmartDashboard::PutBoolean("JordanIsGay", gear);
+	SmartDashboard::PutBoolean("Jordan", gear);
 	if (gear){
 		DriveBase::solenoid->Set(frc::DoubleSolenoid::kForward); //sets into high gear
 		DriveBase::gearState = 1; //1 is high gear
@@ -49,6 +54,20 @@ void DriveBase::switchGear(bool gear){
 	}
 }
 
+void DriveBase::switchSlider(bool slider){
+	if (slider){
+		DriveBase::solenoid2->Set(frc::DoubleSolenoid::kForward);
+		DriveBase::sliderState = 1;
+	}
+	else{
+		DriveBase::solenoid2->Set(frc::DoubleSolenoid::kReverse);
+		DriveBase::sliderState = 0;
+	}
+}
+
+int DriveBase::getSliderState(){
+	return DriveBase::sliderState;
+}
 int DriveBase::getGearState(){
 	return DriveBase::gearState;
 }

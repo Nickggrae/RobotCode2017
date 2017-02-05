@@ -7,13 +7,30 @@
 #include "Teleop.h"
 #include "Shooter.h"
 #include "Intake.h"
-	//#include "DriveBase.h"
+//#include "DriveBase.h"
+
 
 
 int prevButton1 = 0;
 
 Joystick* Teleop::joy;
 void Teleop::init() {
+//	udp_server server;
+//	server.setBottomIntake(false);
+//	server.setCrosshairOffset(1.2);
+//	server.setHighGear(true);
+//	server.setHoldsGear(false);
+//	server.setLeftRPM(129);
+//	server.setMode(1);
+//	server.setPowered(true);
+//	server.setPressure(30);
+//	server.setRPM(367);
+//	server.setRightRPM(458);
+//	server.setStream(false);
+//	server.setTopIntake(true);
+//	server.setTurretAngle(1.23);
+//	server.createJson();
+//	server.serverInit();
 	Teleop::joy = new Joystick(0);
 	DriveBase::init();
 	Shooter::init();
@@ -21,6 +38,18 @@ void Teleop::init() {
 	SmartDashboard::PutNumber("Angle",0.0);
 	SmartDashboard::PutNumber("Shooter",0.0);
 }
+/*lt intake off
+//rt intake on
+ * button for reversing the intake
+ * get amperage for the backup climber stop
+ * limit switch to work for stopping the climber
+ * brain storm stopping the rope
+ * 2nd joy stick for manual override y axis = rpm
+ * manuel shooting on top and trigger to automatically shooting
+ *
+*/
+
+
 void Teleop::run() {
 	double leftDrive = Teleop::joy->GetRawAxis(1);
 	double rightDrive = Teleop::joy->GetRawAxis(5);
@@ -45,6 +74,23 @@ void Teleop::run() {
 //					frc::Wait(.1);
 		}
 	}
+	bool rightSlider = Teleop::joy->GetRawButton(2);
+	bool leftSlider = Teleop::joy->GetRawButton(3);
+	if(rightSlider && !leftSlider){
+		if(!DriveBase::getSliderState()){
+			DriveBase::switchSlider(true);
+		}
+	}
+	else if(!rightSlider && leftSlider){
+		if(DriveBase::getSliderState()){
+			DriveBase::switchSlider(false);
+		}
+	}
+
+
+
+
+
 //	SmartDashboard::PutNumber("XDisplacement", DriveBase::ahrs.GetDisplacementX());
 //	SmartDashboard::PutNumber("YDisplacement", DriveBase::ahrs.GetDisplacementY());
 //	SmartDashboard::PutNumber("ZDisplacement", DriveBase::ahrs.GetDisplacementZ());

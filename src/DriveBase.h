@@ -24,8 +24,12 @@ class DriveBase {
 	//initializes solenoid for pneumatics
 	static frc::DoubleSolenoid* solenoid;
 
+	static frc::DoubleSolenoid* solenoid2;
+
 	//initializes the gear state
 	static int gearState;
+
+	static int sliderState;
 
 public:
 
@@ -83,6 +87,10 @@ public:
 	static double velocityY();
 
 	static double velocityZ();
+
+	static void switchSlider(bool slider);
+
+	static int getSliderState();
 };
 
 /**TODO:
