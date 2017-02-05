@@ -6,7 +6,7 @@ class Shooter {
 public:
 	static CANTalon* shooter;
  	static CANTalon* angle;
- 	static CANTalon* agitator;
+ 	static CANTalon* shooterIntake;
 
 
  	static void init();

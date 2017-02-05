@@ -4,7 +4,7 @@ CANTalon* Intake::Intakeu;
 double Intake::motorSpeed;
 
 void Intake::init() {
-	Intake::Intakeu = new CANTalon(0);
+	Intake::Intakeu = new CANTalon(floorIntake);
 }
 
 void Intake::turnOn() {

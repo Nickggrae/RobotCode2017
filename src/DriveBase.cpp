@@ -17,13 +17,13 @@ AHRS *DriveBase::ahrs(NULL);
 
 void DriveBase::init() {
 	DriveBase::ahrs = new AHRS(SPI::Port::kMXP);
-	DriveBase::fl = new CANTalon(2);
+	DriveBase::fl = new CANTalon(leftDriveBack);
 	DriveBase::fl->SetFeedbackDevice(CANTalon::CtreMagEncoder_Relative);
 	DriveBase::fl->SetInverted(true);
-	DriveBase::fr = new CANTalon(3);
-	DriveBase::rl = new CANTalon(4);
+	DriveBase::fr = new CANTalon(rightDriveFront);
+	DriveBase::rl = new CANTalon(leftDriveFront);
 	DriveBase::rl->SetInverted(true);
-	DriveBase::rr = new CANTalon(9);
+	DriveBase::rr = new CANTalon(rightDriveBack);
 	DriveBase::robotDrive = new frc::RobotDrive(DriveBase::fl,DriveBase::rl,DriveBase::fr,DriveBase::rr);
 
 	c = new Compressor(1);

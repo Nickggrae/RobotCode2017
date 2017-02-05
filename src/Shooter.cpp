@@ -3,11 +3,11 @@
 
  CANTalon* Shooter::shooter;
  CANTalon* Shooter::angle;
- CANTalon* Shooter::agitator;
+ CANTalon* Shooter::shooterIntake;
 
 
  void Shooter::init() {
- 	Shooter::shooter = new CANTalon(2);
+ 	Shooter::shooter = new CANTalon(flyWheels);
  	Shooter::shooter->Set (0.0);
  	Shooter::shooter->SetFeedbackDevice(CANTalon::CtreMagEncoder_Absolute);
  	Shooter::shooter->ConfigNominalOutputVoltage(+0., -0.);
@@ -18,7 +18,7 @@
  	Shooter::shooter->SetControlMode(CANSpeedController::kSpeed);
 
 
- 	Shooter::angle = new CANTalon(6);
+ 	Shooter::angle = new CANTalon(turrentTable);
  	Shooter::angle->Set (0.0);
  	Shooter::angle ->SetFeedbackDevice(CANTalon::CtreMagEncoder_Relative);
  	Shooter::angle ->SetClosedLoopOutputDirection(true);
@@ -29,6 +29,9 @@
  	Shooter::angle ->SetPID(.415,0,0);
  	Shooter::angle->SetControlMode(CANSpeedController::kPosition);
  	Shooter::angle->SetSensorDirection(true);
+
+ 	Shooter::shooterIntake = new CANTalon(shooterIntake);
+ 	Shooter::shooterIntake->Set(0.0);
  }
  void Shooter::set(double rpm){
 	 Shooter::shooter->Set(rpm);
@@ -48,5 +51,5 @@
  }
 
  void Shooter::agitatorOn(){
-	 Shooter::agitator->Set(0.5);
+	 Shooter::shooterIntake->Set(0.5);
  }

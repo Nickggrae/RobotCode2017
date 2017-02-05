@@ -4,7 +4,7 @@ CANTalon* Climber::climb;
 
 
 void Climber::init(){
-	climb = new CANTalon(0);
+	climb = new CANTalon(climber);
 	climb->ClearStickyFaults();
 	climb->ConfigNeutralMode(CANSpeedController::NeutralMode::kNeutralMode_Brake);
 
