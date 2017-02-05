@@ -5,4 +5,5 @@ class Climber{
 public:
 	static void init();
 	static void turnOn();
+	static void back();
 };

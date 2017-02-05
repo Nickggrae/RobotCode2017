@@ -10,13 +10,13 @@
  	Shooter::shooter = new CANTalon(2);
  	Shooter::shooter->Set (0.0);
  	Shooter::shooter->SetFeedbackDevice(CANTalon::CtreMagEncoder_Absolute);
-/* 	Shooter::shooter->ConfigNominalOutputVoltage(+0., -0.);
+ 	Shooter::shooter->ConfigNominalOutputVoltage(+0., -0.);
  	Shooter::shooter->ConfigPeakOutputVoltage(+12., -12.);
  	Shooter::shooter->SetAllowableClosedLoopErr(0);
  	Shooter::shooter->SelectProfileSlot(0);
  	Shooter::shooter->SetPID(1,0,0);
  	Shooter::shooter->SetControlMode(CANSpeedController::kSpeed);
- */
+
 
  	Shooter::angle = new CANTalon(6);
  	Shooter::angle->Set (0.0);
