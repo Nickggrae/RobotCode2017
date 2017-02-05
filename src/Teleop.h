@@ -9,19 +9,7 @@
 #define SRC_TELEOP_H_
 #include "DriveBase.h"
 #include "Shared.h"
-<<<<<<< HEAD
-//#include <asio.hpp>
-//#include <bind.hpp>
-//#include <shared_ptr.hpp>
-//#include <rapidjson/document.h>
-//#include <rapidjson/writer.h>
-//#include <rapidjson/stringbuffer.h>
-//#include <thread>
-//#include <chrono>
-//#include <iostream>
-//#include <udpServer.h>
-=======
->>>>>>> a07a116cc21391198be2bcede2f95bca269e3e1e
+
 #include "Climber.h"
 
 class Teleop{

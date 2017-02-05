@@ -19,22 +19,6 @@ Joystick* Teleop::stick;
 Joystick* Teleop::extremepro;
 
 void Teleop::init() {
-//	udp_server server;
-//	server.setBottomIntake(false);
-//	server.setCrosshairOffset(1.2);
-//	server.setHighGear(true);
-//	server.setHoldsGear(false);
-//	server.setLeftRPM(129);
-//	server.setMode(1);
-//	server.setPowered(true);
-//	server.setPressure(30);
-//	server.setRPM(367);
-//	server.setRightRPM(458);
-//	server.setStream(false);
-//	server.setTopIntake(true);
-//	server.setTurretAngle(1.23);
-//	server.createJson();
-//	server.serverInit();
 	Teleop::joy = new Joystick(0);
 	DriveBase::init();
 	Shooter::init();
