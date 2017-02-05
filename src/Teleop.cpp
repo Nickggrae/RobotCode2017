@@ -65,9 +65,19 @@ void Teleop::run() {
 	}
 	prevButton1 = Teleop::joy->GetRawButton(1);
 
-	if(prevButton1 <Teleop::stick->GetRawButton(7)){
+	bool climberUpButton = Teleop::extremepro->GetRawButton(8);
+	bool climberDownButton = Teleop::extremepro->GetRawButton(7);
+
+	if(climberUpButton && !climberDownButton) {
 		Climber::turnOn();
 	}
+	else if (!climberUpButton && climberDownButton) {
+		Climber::back();
+	}
+
+//	if(prevButton2 < Teleop::stick->GetRawButton(7)){
+//		Climber::turnOn();
+//	}
 
 	bool rightButton = Teleop::joy->GetRawButton(6);
 	bool leftButton = Teleop::joy->GetRawButton(5);
@@ -124,8 +134,16 @@ void Teleop::run() {
 	SmartDashboard::PutNumber("Shooter Angle", Shooter::getangle());
 	frc::Wait(0.005);
 
-//	double shooter = SmartDashboard::GetNumber("Shooter", 0.0);
-	Shooter::set(extremepro->GetRawAxis(1));
+	double shooter = SmartDashboard::GetNumber("Shooter", 0.0);
+	double extreme_y = extremepro->GetRawAxis(1);
+	double scaled_y = (extreme_y*0.5)+0.5;
+	// -1 to 1
+
+
+
+	//Accepts rpm setting
+	double setRPM = scaled_y * 6000;
+	Shooter::set(shooter);
 	SmartDashboard::PutNumber("Shooter speed", Shooter::get());
 
 
