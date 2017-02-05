@@ -3,11 +3,12 @@
 
  CANTalon* Shooter::shooter;
  CANTalon* Shooter::angle;
+ CANTalon* Shooter::agitator;
 
 
  void Shooter::init() {
  	Shooter::shooter = new CANTalon(2);
- 	Shooter::shooter->Set (0.5);
+ 	Shooter::shooter->Set (0.0);
  	Shooter::shooter->SetFeedbackDevice(CANTalon::CtreMagEncoder_Absolute);
 /* 	Shooter::shooter->ConfigNominalOutputVoltage(+0., -0.);
  	Shooter::shooter->ConfigPeakOutputVoltage(+12., -12.);
@@ -34,7 +35,7 @@
  }
 
  double Shooter::get(){
- 	return Shooter::shooter->Get();
+ 	return Shooter::shooter->GetEncVel();
  }
 
  //Set CANTalon rotations based on angle [aka ihatedavid]
@@ -44,4 +45,8 @@
  }
  double Shooter::getangle(){
  	return (Shooter::angle->Get() / .0076388888888889);
+ }
+
+ void Shooter::agitatorOn(){
+	 Shooter::agitator->Set(0.5);
  }

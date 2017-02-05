@@ -16,6 +16,8 @@ int prevButton2 =0;
 
 Joystick* Teleop::joy;
 Joystick* Teleop::stick;
+Joystick* Teleop::extremepro;
+
 void Teleop::init() {
 //	udp_server server;
 //	server.setBottomIntake(false);
@@ -123,7 +125,7 @@ void Teleop::run() {
 	frc::Wait(0.005);
 
 //	double shooter = SmartDashboard::GetNumber("Shooter", 0.0);
-	Shooter::set(0.5);
+	Shooter::set(extremepro->GetRawAxis(1));
 	SmartDashboard::PutNumber("Shooter speed", Shooter::get());
 
 

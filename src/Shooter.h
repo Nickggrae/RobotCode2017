@@ -6,6 +6,7 @@ class Shooter {
 public:
 	static CANTalon* shooter;
  	static CANTalon* angle;
+ 	static CANTalon* agitator;
 
 
  	static void init();
@@ -19,6 +20,8 @@ public:
  	static void setangle(double ihatedavid);
 
  	static double getangle();
+
+ 	static void agitatorOn();
 };
 
 
