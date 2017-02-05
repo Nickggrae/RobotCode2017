@@ -19,8 +19,10 @@
 //#include <chrono>
 //#include <iostream>
 //#include <udpServer.h>
+#include "Climber.h"
 
 class Teleop{
+	static Joystick* stick;
 	static Joystick* joy;
 public:
 	static void init();
