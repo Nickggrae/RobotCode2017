@@ -4,7 +4,7 @@
  *  Created on: Jan 24, 2017
  *      Author: Academy HS Robotics
  */
-
+#pragma once
 #ifndef SRC_TELEOP_H_
 #define SRC_TELEOP_H_
 #include "DriveBase.h"
@@ -19,7 +19,5 @@ public:
 	static void init();
 	static void run();
 };
-
-
 
 #endif /* SRC_TELEOP_H_ */

@@ -1,19 +1,15 @@
 #include "Shared.h"
  //#include <CANTalon.h>
 
-
 class Shooter {
 public:
 	static CANTalon* shooter;
  	static CANTalon* angle;
  	static CANTalon* shooterIntake;
 
-
  	static void init();
 
-
  	static void set(double rpm);
-
 
  	static double get();
 

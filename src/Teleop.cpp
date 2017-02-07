@@ -9,8 +9,6 @@
 #include "Intake.h"
 //#include "DriveBase.h"
 
-
-
 int prevButton1 = 0;
 int prevButton2 =0;
 
@@ -37,7 +35,6 @@ void Teleop::init() {
  * manuel shooting on top and trigger to automatically shooting
  *
 */
-
 
 void Teleop::run() {
 	double leftDrive = Teleop::joy->GetRawAxis(1);
@@ -73,8 +70,8 @@ void Teleop::run() {
 	}
 	else if(!rightButton && leftButton){
 		if(DriveBase::getGearState()){
-					DriveBase::switchGear(false);
-//					frc::Wait(.1);
+			DriveBase::switchGear(false);
+//			frc::Wait(.1);
 		}
 	}
 	bool rightSlider = Teleop::joy->GetRawButton(2);
@@ -119,17 +116,16 @@ void Teleop::run() {
 	frc::Wait(0.005);
 
 	double shooter = SmartDashboard::GetNumber("Shooter", 0.0);
+	//Liav here - nice camel case. by that i mean that there isnt any.
 	double extreme_y = extremepro->GetRawAxis(1);
 	double scaled_y = (extreme_y*0.5)+0.5;
 	// -1 to 1
 
-
-
 	//Accepts rpm setting
-	double setRPM = scaled_y * 6000;
+	double setRPM = scaled_y * 6000.0;
 	Shooter::set(shooter);
-	SmartDashboard::PutNumber("Shooter speed", Shooter::get());
 
+	SmartDashboard::PutNumber("Shooter speed", Shooter::get());
 
 	SmartDashboard::PutNumber("Pitch", DriveBase::getPitch());
 

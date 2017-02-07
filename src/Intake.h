@@ -1,12 +1,11 @@
+//Liav here - put a #pragma once and include guard
+
 #include "Shared.h"
 //#include <CANTalon.h>
 
 class Intake{
 
 public:
-	// CANTalon used to control the intake
-	static CANTalon* Intakeu;
-	static double motorSpeed;
 	//initialize the CANTalon for intake
 	static void init();
 	//turns on intake
@@ -17,5 +16,10 @@ public:
 	static bool isOn();
 	// Switches intake from on to off if intake button is pressed
 	static void toggleIntake();
+
+	// CANTalon used to control the intake
+	//Liav - Please rename this
+	static CANTalon* Intakeu;
+	static double motorSpeed;
 
 };

@@ -1,6 +1,5 @@
 #include "DriveBase.h"
 
-
 CANTalon* DriveBase::fl;
 CANTalon* DriveBase::rl;
 CANTalon* DriveBase::fr;
@@ -12,7 +11,7 @@ int DriveBase::sliderState;
 frc::DoubleSolenoid* DriveBase::solenoid;
 frc::DoubleSolenoid* DriveBase::solenoid2;
 frc::RobotDrive* DriveBase::robotDrive;
-Compressor *c;
+frc::Compressor *c;
 AHRS *DriveBase::ahrs(NULL);
 
 void DriveBase::init() {
@@ -26,7 +25,7 @@ void DriveBase::init() {
 	DriveBase::rr = new CANTalon(rightDriveBack);
 	DriveBase::robotDrive = new frc::RobotDrive(DriveBase::fl,DriveBase::rl,DriveBase::fr,DriveBase::rr);
 
-	c = new Compressor(1);
+	c = new frc::Compressor(1);
 	c->SetClosedLoopControl(true);
 	c->Start();
 
@@ -43,6 +42,7 @@ void DriveBase::drive(double left, double right){
 }
 
 void DriveBase::switchGear(bool gear){
+	//HEY - BAD NAMING
 	SmartDashboard::PutBoolean("Jordan", gear);
 	if (gear){
 		DriveBase::solenoid->Set(frc::DoubleSolenoid::kForward); //sets into high gear
@@ -146,6 +146,7 @@ double DriveBase::isTalonEnabled(){
 
 
 //Usaid if you are reading this it was a test just get rid of it
+//Liav is reading this do it yourself
 double DriveBase::velocityX(){
 	return ahrs->GetVelocityX();
 }

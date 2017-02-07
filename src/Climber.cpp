@@ -2,7 +2,6 @@
 
 CANTalon* Climber::climb;
 
-
 void Climber::init(){
 	climb = new CANTalon(climber);
 	climb->ClearStickyFaults();
