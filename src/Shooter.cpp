@@ -14,8 +14,9 @@ void Shooter::init() {
 	Shooter::shooter->ConfigPeakOutputVoltage(+12., -12.);
 	Shooter::shooter->SetAllowableClosedLoopErr(0);
 	Shooter::shooter->SelectProfileSlot(0);
-	Shooter::shooter->SetPID(0.2,0.0015,0.0001);
+	Shooter::shooter->SetPID(20,0.0015,0.0001); // 20 P is pretty close and it goes up very fast
 	Shooter::shooter->SetControlMode(CANSpeedController::kSpeed);
+
 
 
 	Shooter::angle = new CANTalon(2);

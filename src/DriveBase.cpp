@@ -32,7 +32,7 @@ void DriveBase::init() {
 	DriveBase::solenoid = new frc::DoubleSolenoid(0, 0, 1);
 	DriveBase::solenoid->Set(frc::DoubleSolenoid::kReverse);
 
-	DriveBase::solenoid2 = new frc::DoubleSolenoid(0, 2, 3);
+	DriveBase::solenoid2 = new frc::DoubleSolenoid(0, 6, 7);
 	DriveBase::solenoid2->Set(frc::DoubleSolenoid::kReverse);
 
 }
@@ -43,7 +43,7 @@ void DriveBase::drive(double left, double right){
 
 void DriveBase::switchGear(bool gear){
 	//HEY - BAD NAMING
-	SmartDashboard::PutBoolean("Jordan", gear);
+	SmartDashboard::PutBoolean("Gear Status", gear);
 	if (gear){
 		DriveBase::solenoid->Set(frc::DoubleSolenoid::kForward); //sets into high gear
 		DriveBase::gearState = 1; //1 is high gear
