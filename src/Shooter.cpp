@@ -44,7 +44,7 @@ void Shooter::set(double rpm){
 }
 
 double Shooter::get(){
-	return Shooter::shooter->GetEncVel();
+	return Shooter::shooter->GetSpeed();
 }
 
 //Set CANTalon rotations based on angle [aka ihatedavid]
