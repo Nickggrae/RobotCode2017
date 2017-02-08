@@ -9,12 +9,12 @@
 #define SRC_TELEOP_H_
 #include "DriveBase.h"
 #include "Shared.h"
-
 #include "Climber.h"
 
 class Teleop{
 	static Joystick* stick;
 	static Joystick* joy;
+	static Joystick* extremepro;
 public:
 	static void init();
 	static void run();

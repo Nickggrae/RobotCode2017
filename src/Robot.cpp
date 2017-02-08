@@ -11,9 +11,9 @@ public:
 	//		 Intake::init();
 		Teleop::init();
 	//		 DriveBase::init();
-		DriveBase::switchGear(false);
-		CameraServer::GetInstance()->StartAutomaticCapture();
-		CameraServer::GetInstance()->StartAutomaticCapture(1);
+//		DriveBase::switchGear(false);
+//		CameraServer::GetInstance()->StartAutomaticCapture();
+//		CameraServer::GetInstance()->StartAutomaticCapture(1);
 	//		 CameraServer::GetInstance()->StartAutomaticCapture();
 	}
 	void TeleopPeriodic(){

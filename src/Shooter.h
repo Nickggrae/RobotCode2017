@@ -6,6 +6,7 @@ public:
 	static CANTalon* shooter;
  	static CANTalon* angle;
  	static CANTalon* shooterIntake;
+ 	static CANTalon* conveyor;
 
  	static void init();
 
@@ -18,6 +19,8 @@ public:
  	static double getangle();
 
  	static void agitatorOn();
+
+ 	static void agitatorOff();
 };
 
 

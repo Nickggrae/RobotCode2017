@@ -17,6 +17,10 @@ public:
 	// Switches intake from on to off if intake button is pressed
 	static void toggleIntake();
 
+	static void agitatorOn();
+
+	static void agitatorOff();
+
 	// CANTalon used to control the intake
 	//Liav - Please rename this
 	static CANTalon* Intakeu;

@@ -18,6 +18,7 @@ Joystick* Teleop::extremepro;
 
 void Teleop::init() {
 	Teleop::joy = new Joystick(0);
+	Teleop::extremepro = new Joystick(1);
 	DriveBase::init();
 	Shooter::init();
 	Intake::init();
@@ -120,7 +121,14 @@ void Teleop::run() {
 	double extreme_y = extremepro->GetRawAxis(1);
 	double scaled_y = (extreme_y*0.5)+0.5;
 	// -1 to 1
-
+	if(Teleop::extremepro->GetRawButton(2))
+	{
+		Shooter::agitatorOn();
+	}
+	else
+	{
+		Shooter::agitatorOff();
+	}
 	//Accepts rpm setting
 	double setRPM = scaled_y * 6000.0;
 	Shooter::set(shooter);
