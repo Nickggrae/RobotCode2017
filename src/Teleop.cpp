@@ -7,10 +7,16 @@
 #include "Teleop.h"
 #include "Shooter.h"
 #include "Intake.h"
+#include <iostream>
 //#include "DriveBase.h"
 
 int prevButton1 = 0;
-int prevButton2 =0;
+int prevButton2 = 0;
+
+double target = 3200;
+double max = 0;
+double min = 1000000;
+bool passedTarget = false;
 
 Joystick* Teleop::joy;
 Joystick* Teleop::stick;
@@ -40,7 +46,7 @@ void Teleop::init() {
 void Teleop::run() {
 	double leftDrive = Teleop::joy->GetRawAxis(1);
 	double rightDrive = Teleop::joy->GetRawAxis(5);
-	DriveBase::drive(leftDrive, rightDrive);
+	DriveBase::drive(0.0, 0.0);
 
 	if(prevButton1 < Teleop::joy->GetRawButton(1)){
 		Intake::toggleIntake();
@@ -89,8 +95,10 @@ void Teleop::run() {
 	}
 
 
-
-
+	if((Shooter::get() > target) && !passedTarget)
+	{
+		passedTarget = true;
+	}
 
 //	SmartDashboard::PutNumber("XDisplacement", DriveBase::ahrs.GetDisplacementX());
 //	SmartDashboard::PutNumber("YDisplacement", DriveBase::ahrs.GetDisplacementY());
@@ -114,9 +122,20 @@ void Teleop::run() {
 	double angle = SmartDashboard::GetNumber("Angle", 0.0);
 	Shooter::setangle(angle);
 	SmartDashboard::PutNumber("Shooter Angle", Shooter::getangle());
-	frc::Wait(0.005);
+//	frc::Wait(0.005);
 
 	double shooter = SmartDashboard::GetNumber("Shooter", 0.0);
+	if(shooter > 0.1)
+	{
+		target = shooter;
+	}
+
+	if(Teleop::extremepro->GetRawButton(12))
+	{
+		min = 100000;
+		max = 0;
+	}
+
 	//Liav here - nice camel case. by that i mean that there isnt any.
 	double extreme_y = extremepro->GetRawAxis(1);
 	double scaled_y = (extreme_y*0.5)+0.5;
@@ -132,35 +151,21 @@ void Teleop::run() {
 	//Accepts rpm setting
 	double setRPM = scaled_y * 6000.0;
 	Shooter::set(shooter);
+	double currentRPM = Shooter::get();
+	if(passedTarget)
+	{
 
-	SmartDashboard::PutNumber("Shooter speed", Shooter::get());
+		if(max < currentRPM)
+			max = currentRPM;
+		if(min > currentRPM)
+			min = currentRPM;
+		//std::cout << currentRPM << "," << max << "," << min << "," << max - min << "\n";
+	}
+	SmartDashboard::PutNumber("Shooter speed", currentRPM);
 
-	SmartDashboard::PutNumber("Pitch", DriveBase::getPitch());
 
-	SmartDashboard::PutNumber("Roll", DriveBase::getRoll());
-
-	SmartDashboard::PutNumber("Yaw", DriveBase::getYaw());
-
-	SmartDashboard::PutNumber("DisplacementX", (DriveBase::DisplacementX()*100));
-
-	SmartDashboard::PutNumber("DisplacementY", (DriveBase::DisplacementY()*100));
-
-	SmartDashboard::PutNumber("DisplacementZ", (DriveBase::DisplacementZ()*100));
-
-	SmartDashboard::PutNumber("AccelX", DriveBase::getAccelX());
-
-	SmartDashboard::PutNumber("AccelY", DriveBase::getAccelY());
-
-	SmartDashboard::PutNumber("AccelZ", DriveBase::getAccelZ());
-
-	SmartDashboard::PutNumber("isTalonEnabled", DriveBase::isTalonEnabled());
-
-//Usaid if you are reading this it was a test just get rid of it
-	SmartDashboard::PutNumber("VelocityX", DriveBase::velocityX());
-
-	SmartDashboard::PutNumber("VelocityY", DriveBase::velocityY());
-
-	SmartDashboard::PutNumber("VelocityZ", DriveBase::velocityZ());
+	SmartDashboard::PutNumber("MaxRPM", max);
+	SmartDashboard::PutNumber("MinRPM", min);
 }
 
 

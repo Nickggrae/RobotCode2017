@@ -9,14 +9,14 @@ void Shooter::init() {
 	Shooter::shooter = new CANTalon(14);
 	Shooter::shooter->Set (0.0);
 	Shooter::shooter->SetFeedbackDevice(CANTalon::EncRising);
+	Shooter::shooter->SetStatusFrameRateMs(CANTalon::StatusFrameRate::StatusFrameRateFeedback, 1);
 	Shooter::shooter->ConfigEncoderCodesPerRev(1024);
 	Shooter::shooter->ConfigNominalOutputVoltage(+0., -0.);
 	Shooter::shooter->ConfigPeakOutputVoltage(+12., -12.);
 	Shooter::shooter->SetAllowableClosedLoopErr(0);
 	Shooter::shooter->SelectProfileSlot(0);
-	Shooter::shooter->SetPID(20,0.0015,0.0001); // 20 P is pretty close and it goes up very fast
+	Shooter::shooter->SetPID(10,0.0015,0.0001);
 	Shooter::shooter->SetControlMode(CANSpeedController::kSpeed);
-
 
 
 	Shooter::angle = new CANTalon(2);
