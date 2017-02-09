@@ -46,7 +46,9 @@ void Teleop::init() {
 void Teleop::run() {
 	double leftDrive = Teleop::joy->GetRawAxis(1);
 	double rightDrive = Teleop::joy->GetRawAxis(5);
-	DriveBase::drive(0.0, 0.0);
+	DriveBase::drive(leftDrive, rightDrive){
+		DriveBase::robotDrive->TankDrive(leftDrive, rightDrive, false);
+	}
 
 	if(prevButton1 < Teleop::joy->GetRawButton(1)){
 		Intake::toggleIntake();

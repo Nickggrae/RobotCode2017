@@ -3,6 +3,7 @@
 #include <ctime>
 
 class Auton {
+public:
 	// Initialize the drivebase, set's starttime to current time, set's motor speed to half
 	static void init();
 

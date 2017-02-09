@@ -1,6 +1,7 @@
 #include <WPILib.h>
 #include "Teleop.h"
 #include "Intake.h"
+#include "Auton.h"
 // #include "DriveBase.h"
 
 
@@ -10,6 +11,7 @@ public:
 		NetworkTable::Initialize();
 		NetworkTable::SetServerMode();
 		NetworkTable::SetTeam(5431);
+		Auton::init();
 
 		std::shared_ptr<NetworkTable> table = NetworkTable::GetTable("vision");
 	//		 Intake::init();
@@ -22,6 +24,10 @@ public:
 	}
 	void TeleopPeriodic(){
 		Teleop::run();
+	}
+	void AutonomousPeriodic(){
+		Auton::periodic();
+		SmartDashboard::PutNumber("Gayisnick", 0.0)
 	}
 };
 
