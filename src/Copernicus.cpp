@@ -92,23 +92,52 @@ void Copernicus::setString(const char* key, const char* val){
 #elif defined(COPERNICUS_USE_UDP)
 std::unique_ptr<udp_server> Copernicus::server = nullptr;
 
-void Copernicus::createTable(){
-	udp_server server;
-	server.setBottomIntake(false);
-	server.setCrosshairOffset(0);
-	server.setHighGear(false);
-	server.setHoldsGear(false);
-	server.setLeftRPM(0);
-	server.setMode(0);
-	server.setPowered(false);
-	server.setPressure(0);
-	server.setRPM(0);
-	server.setRightRPM(0);
-	server.setStream(false);
-	server.setTopIntake(false);
-	server.setTurretAngle(0);
-	server.createJson();
+void Copernicus::createServer(){
+	server->setBottomIntake(false);
+	server->setCrosshairOffset(0);
+	server->setHighGear(false);
+	server->setHoldsGear(false);
+	server->setLeftRPM(0);
+	server->setMode(0);
+	server->setPowered(false);
+	server->setPressure(0);
+	server->setRPM(0);
+	server->setRightRPM(0);
+	server->setStream(false);
+	server->setTopIntake(false);
+	server->setTurretAngle(0);
+	server->createJson();
 	server.serverInit();
 }
+
+#else
+
+void Copernicus::setPressure(const double psi){}
+
+void Copernicus::setHighGear(const bool gear){}
+
+void Copernicus::setFloorIntake(const bool floorIntake){}
+
+void Copernicus::setStream(const bool stream){}
+
+void Copernicus::setCrosshairOffset(const double offset){}
+
+void Copernicus::setTurretAngle(const double radians){}
+
+void Copernicus::setFlywheelRPM(const int rpm){}
+
+void Copernicus::setTargetRPM(const int rpm){}
+
+void Copernicus::setTopIntake(const bool intaking){}
+
+void Copernicus::setLeftRPM(const int rpm){}
+
+void Copernicus::setRightRPM(const int rpm){}
+
+void Copernicus::setHasGear(const bool gear){}
+
+void Copernicus::setMode(const Copernicus::Mode mode){}
+
+void Copernicus::update(){}
 
 #endif
