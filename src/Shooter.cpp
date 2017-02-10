@@ -15,7 +15,7 @@ void Shooter::init() {
 	Shooter::shooter->ConfigPeakOutputVoltage(+12., -12.);
 	Shooter::shooter->SetAllowableClosedLoopErr(0);
 	Shooter::shooter->SelectProfileSlot(0);
-	Shooter::shooter->SetPID(10,0.0015,0.0001);
+	Shooter::shooter->SetPID(6.25,0.0025,0.0);
 	Shooter::shooter->SetControlMode(CANSpeedController::kSpeed);
 
 
