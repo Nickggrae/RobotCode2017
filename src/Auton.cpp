@@ -8,12 +8,10 @@ std::time_t startTime;
 
 void Auton::init() {
 	SmartDashboard::PutNumber("State",0.0);
-	DriveBase::init();
-
 //	time(&startTime); // store time at time of initialization
 //	DriveBase::drive(0.5, 0.5);
 }
-	double start = 1;
+	int start = 1;
 void Auton::periodic() {
 	switch(start){
 	case 1:
@@ -34,5 +32,5 @@ void Auton::periodic() {
 		DriveBase::drive(0, 0);
 	break;
 	}
-	SmartDashboard::PutNumber("State", start);
+	SmartDashboard::PutNumber("State", static_cast<double>(start));
 }

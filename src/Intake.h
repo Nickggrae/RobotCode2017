@@ -1,5 +1,4 @@
-//Liav here - put a #pragma once and include guard
-
+#pragma once
 #include "Shared.h"
 //#include <CANTalon.h>
 
