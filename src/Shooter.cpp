@@ -15,11 +15,7 @@ void Shooter::init() {
 	Shooter::shooter->ConfigPeakOutputVoltage(+12., -12.);
 	Shooter::shooter->SetAllowableClosedLoopErr(0);
 	Shooter::shooter->SelectProfileSlot(0);
-<<<<<<< HEAD
-	Shooter::shooter->SetPID(0.28,0.0,0.0);
-=======
 	Shooter::shooter->SetPID(6.25,0.0025,0.0);
->>>>>>> branch 'master' of https://github.com/frc5431/RobotCode2017.git
 	Shooter::shooter->SetControlMode(CANSpeedController::kSpeed);
 
 
