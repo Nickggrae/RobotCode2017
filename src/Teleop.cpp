@@ -7,15 +7,17 @@
 #include "Teleop.h"
 #include "Shooter.h"
 #include "Intake.h"
+#include "udpServer.hpp"
 #include <iostream>
+
 //#include "DriveBase.h"
 
 int prevButton1 = 0;
 int prevButton2 = 0;
 
 double target = 3200;
-double max = 0;
-double min = 1000000;
+//double max_d = 0;
+//double min_d = 1000000;
 bool passedTarget = false;
 
 Joystick* Teleop::joy;
@@ -128,12 +130,11 @@ void Teleop::run() {
 		target = shooter;
 	}
 
-	if(Teleop::extremepro->GetRawButton(12))
+	/*if(Teleop::extremepro->GetRawButton(12))
 	{
 		min = 100000;
 		max = 0;
-	}
-
+	}*/
 	//Liav here - nice camel case. by that i mean that there isnt any.
 	double extreme_y = extremepro->GetRawAxis(1);
 	double scaled_y = (extreme_y*0.5)+0.5;
@@ -150,20 +151,20 @@ void Teleop::run() {
 	double setRPM = scaled_y * 6000.0;
 	Shooter::set(shooter);
 	double currentRPM = Shooter::get();
-	if(passedTarget)
+	/*if(passedTarget)
 	{
 
-		if(max < currentRPM)
-			max = currentRPM;
-		if(min > currentRPM)
-			min = currentRPM;
+		if(max_d < currentRPM)
+			max_d = currentRPM;
+		if(min_d > currentRPM)
+			min_d = currentRPM;
 		//std::cout << currentRPM << "," << max << "," << min << "," << max - min << "\n";
-	}
+	}*/
 	SmartDashboard::PutNumber("Shooter speed", currentRPM);
 
 
-	SmartDashboard::PutNumber("MaxRPM", max);
-	SmartDashboard::PutNumber("MinRPM", min);
+	//SmartDashboard::PutNumber("MaxRPM", max);
+	//SmartDashboard::PutNumber("MinRPM", min);
 }
 
 
