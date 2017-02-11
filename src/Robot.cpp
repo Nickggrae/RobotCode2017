@@ -2,6 +2,8 @@
 #include "Teleop.h"
 #include "Intake.h"
 #include "Auton.h"
+#include "Copernicus.h"
+#include "Shooter.h"
 
 #include "udpServer.hpp"
 #include "udpClient2.hpp"
@@ -12,7 +14,7 @@
 // #include "DriveBase.h"
 
 void startLoop() {
-	udp_server udp_servers;
+	/*udp_server udp_servers;
 	udp_servers.setPressure(0);
 	udp_servers.setHighGear(false);
 	udp_servers.setBottomIntake(false);
@@ -27,10 +29,10 @@ void startLoop() {
 	udp_servers.setMode(0);
 	udp_servers.setPowered(0);
 	udp_servers.createJson();
-	udp_servers.serverInit();
-	/*boost::asio::io_service io_service;
+	udp_servers.serverInit();*/
+	boost::asio::io_service io_service;
 	udp_client udp_client(io_service);
-	io_service.run();*/
+	io_service.run();
 }
 
 

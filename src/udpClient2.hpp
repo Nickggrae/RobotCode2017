@@ -129,7 +129,7 @@ class udp_client{
         }
         void start_send(){
                 udp::resolver resolver(io_service);
-                udp::resolver::query query("127.0.0.1","25566");
+                udp::resolver::query query("10.54.31.26","25566");
                 udp::endpoint reciever_endpoint = *resolver.resolve(query);
                 udp::socket socket(io_service);
                 socket.open(udp::v4());
