@@ -32,7 +32,7 @@ void DriveBase::init() {
 	DriveBase::solenoid = new frc::DoubleSolenoid(0, 0, 1);
 	DriveBase::solenoid->Set(frc::DoubleSolenoid::kReverse);
 
-	DriveBase::solenoid2 = new frc::DoubleSolenoid(0, 6, 7);
+	DriveBase::solenoid2 = new frc::DoubleSolenoid(0, 7, 6);
 	DriveBase::solenoid2->Set(frc::DoubleSolenoid::kReverse);
 
 }

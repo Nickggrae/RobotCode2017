@@ -6,7 +6,7 @@ CANTalon* Shooter::shooterIntake;
 CANTalon* Shooter::conveyor;
 
 void Shooter::init() {
-	Shooter::shooter = new CANTalon(14);
+	Shooter::shooter = new CANTalon(5);
 	Shooter::shooter->Set (0.0);
 	Shooter::shooter->SetFeedbackDevice(CANTalon::EncRising);
 	Shooter::shooter->SetStatusFrameRateMs(CANTalon::StatusFrameRate::StatusFrameRateFeedback, 1);
@@ -15,7 +15,7 @@ void Shooter::init() {
 	Shooter::shooter->ConfigPeakOutputVoltage(+12., -12.);
 	Shooter::shooter->SetAllowableClosedLoopErr(0);
 	Shooter::shooter->SelectProfileSlot(0);
-	Shooter::shooter->SetPID(10,0.0015,0.0001);
+	Shooter::shooter->SetPID(0.28,0.0,0.0);
 	Shooter::shooter->SetControlMode(CANSpeedController::kSpeed);
 
 
@@ -31,13 +31,13 @@ void Shooter::init() {
 	Shooter::angle->SetControlMode(CANSpeedController::kPosition);
 	Shooter::angle->SetSensorDirection(true);
 
-	Shooter::shooterIntake = new CANTalon(9);
+	Shooter::shooterIntake = new CANTalon(3);
 	Shooter::shooterIntake->Set(0.0);
-	Shooter::shooterIntake->SetInverted(true);
+	Shooter::shooterIntake->SetInverted(false);
 
-	Shooter::conveyor = new CANTalon(13);
+	Shooter::conveyor = new CANTalon(2);
 	Shooter::conveyor->Set(0.0);
-	Shooter::conveyor->SetInverted(true);
+	Shooter::conveyor->SetInverted(false);
 }
 
 void Shooter::set(double rpm){
@@ -58,7 +58,7 @@ double Shooter::getangle(){
 
 void Shooter::agitatorOn(){
 	Shooter::shooterIntake->Set(0.5);
-	Shooter::conveyor->Set(0.5);
+	Shooter::conveyor->Set(0.45);
 }
 
 void Shooter::agitatorOff(){
