@@ -20,13 +20,17 @@ double target = 3200;
 //double min_d = 1000000;
 bool passedTarget = false;
 
+bool isDriving = false;
+double angle = 0.0;
+bool isAgitatorOn = false;
+
 Joystick* Teleop::joy;
 Joystick* Teleop::stick;
-Joystick* Teleop::extremepro;
+Joystick* Teleop::extremePro;
 
 void Teleop::init() {
 	Teleop::joy = new Joystick(0);
-	Teleop::extremepro = new Joystick(1);
+	Teleop::extremePro = new Joystick(1);
 	SmartDashboard::PutNumber("Angle",0.0);
 	SmartDashboard::PutNumber("Shooter",0.0);
 }
@@ -41,20 +45,36 @@ void Teleop::init() {
  *
 */
 
-void Teleop::run() {
+void Teleop::run(double turnAngle) {
 	double leftDrive = Teleop::joy->GetRawAxis(1);
 	double rightDrive = Teleop::joy->GetRawAxis(5);
-	DriveBase::drive(leftDrive, rightDrive);{
-		DriveBase::robotDrive->TankDrive(leftDrive, rightDrive, false);
+
+	//Dead zone
+	if(leftDrive < 0.1 || leftDrive > -0.1)
+		leftDrive = 0.0;
+	if(rightDrive < 0.1 || rightDrive > -0.1)
+		rightDrive = 0.0;
+
+	if(leftDrive != 0.0 || rightDrive != 0.0)
+	{
+		DriveBase::drive(leftDrive, rightDrive);
+		isDriving = true;
 	}
+	else
+		if(isDriving)//If we were driving, then tell motors to stop. This is in order not to keep telling motors to stop when they are
+		{
+			DriveBase::drive(0.0, 0.0);
+			isDriving = false;
+		}
+
 
 	if(prevButton1 < Teleop::joy->GetRawButton(1)){
 		Intake::toggleIntake();
 	}
 	prevButton1 = Teleop::joy->GetRawButton(1);
 
-	bool climberUpButton = Teleop::extremepro->GetRawButton(8);
-	bool climberDownButton = Teleop::extremepro->GetRawButton(7);
+	bool climberUpButton = Teleop::extremePro->GetRawButton(8);
+	bool climberDownButton = Teleop::extremePro->GetRawButton(7);
 //#gotta fix the code cause the code is bad to the bone!!!!!!!!!!!!
 	if(climberUpButton && !climberDownButton) {
 		Climber::turnOn();
@@ -100,29 +120,18 @@ void Teleop::run() {
 		passedTarget = true;
 	}
 
-//	SmartDashboard::PutNumber("XDisplacement", DriveBase::ahrs.GetDisplacementX());
-//	SmartDashboard::PutNumber("YDisplacement", DriveBase::ahrs.GetDisplacementY());
-//	SmartDashboard::PutNumber("ZDisplacement", DriveBase::ahrs.GetDisplacementZ());
-//
 	if(joy->GetRawButton(5))
 	{
 		DriveBase::ahrs->ResetDisplacement();
 	}
-//	SmartDashboard::PutBoolean("Usaid Wanted It", intakebutton);
-//	bool Shooter = joy->GetRawButton(1);
-//	if(Shooter > Prev_Button_1){
-//		if(DriveBase::shooterOn() == true){
-//			DriveBase::setShooter(false);
-//		}
-//		else{
-//			DriveBase::setShooter(true);
-//		}
-//	}s
 
-	double angle = SmartDashboard::GetNumber("Angle", 0.0);
-	Shooter::setangle(angle);
+	if(turnAngle != angle)
+	{
+		angle = turnAngle;
+		Shooter::setangle(angle);
+	}
+
 	SmartDashboard::PutNumber("Shooter Angle", Shooter::getangle());
-//	frc::Wait(0.005);
 
 	double shooter = SmartDashboard::GetNumber("Shooter", 0.0);
 	if(shooter > 0.1)
@@ -130,23 +139,26 @@ void Teleop::run() {
 		target = shooter;
 	}
 
-	/*if(Teleop::extremepro->GetRawButton(12))
+	/*if(Teleop::extremePro->GetRawButton(12))
 	{
 		min = 100000;
 		max = 0;
 	}*/
-	//Liav here - nice camel case. by that i mean that there isnt any.
-	double extreme_y = extremepro->GetRawAxis(1);
+
+	double extreme_y = extremePro->GetRawAxis(1);
 	double scaled_y = (extreme_y*0.5)+0.5;
 	// -1 to 1
-	if(Teleop::extremepro->GetRawButton(2))
+	if(Teleop::extremePro->GetRawButton(2))
 	{
 		Shooter::agitatorOn();
+		isAgitatorOn = true;
 	}
 	else
-	{
+		if(isAgitatorOn)
+		{
 		Shooter::agitatorOff();
-	}
+		isAgitatorOn = false;
+		}
 	//Accepts rpm setting
 	double setRPM = scaled_y * 6000.0;
 	Shooter::set(shooter);
