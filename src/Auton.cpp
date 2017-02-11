@@ -7,7 +7,7 @@ std::time_t startTime;
 
 
 void Auton::init() {
-	DriveBase::init();
+	SmartDashboard::PutNumber("State",0.0);
 //	time(&startTime); // store time at time of initialization
 //	DriveBase::drive(0.5, 0.5);
 }
@@ -23,7 +23,7 @@ void Auton::periodic() {
 		std::time_t currentTime;
 		std::time(&currentTime);
 		//double difference = difftime(currentTime, startTime); // get difference in seconds
-		if (std::difftime(currentTime, startTime) >= 10) { // stop after 10 seconds
+		if (std::difftime(currentTime, startTime) >= 2) { // stop after 10 seconds
 			start = 3;
 		}
 	break;
@@ -32,4 +32,5 @@ void Auton::periodic() {
 		DriveBase::drive(0, 0);
 	break;
 	}
+	SmartDashboard::PutNumber("State", static_cast<double>(start));
 }

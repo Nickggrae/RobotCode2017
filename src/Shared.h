@@ -1,5 +1,4 @@
-//Liav here - put a #pragma once and include guard
-
+#pragma once
 //FOR HEADERS THAT ALL COMPONENTS USE
 #include <WPILib.h>
 #include <CANTalon.h>

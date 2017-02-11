@@ -25,10 +25,6 @@ Joystick* Teleop::extremepro;
 void Teleop::init() {
 	Teleop::joy = new Joystick(0);
 	Teleop::extremepro = new Joystick(1);
-	DriveBase::init();
-	Shooter::init();
-	Intake::init();
-	Climber::init();
 	SmartDashboard::PutNumber("Angle",0.0);
 	SmartDashboard::PutNumber("Shooter",0.0);
 }
@@ -46,7 +42,9 @@ void Teleop::init() {
 void Teleop::run() {
 	double leftDrive = Teleop::joy->GetRawAxis(1);
 	double rightDrive = Teleop::joy->GetRawAxis(5);
-	DriveBase::drive(0.0, 0.0);
+	DriveBase::drive(leftDrive, rightDrive);{
+		DriveBase::robotDrive->TankDrive(leftDrive, rightDrive, false);
+	}
 
 	if(prevButton1 < Teleop::joy->GetRawButton(1)){
 		Intake::toggleIntake();
@@ -55,7 +53,7 @@ void Teleop::run() {
 
 	bool climberUpButton = Teleop::extremepro->GetRawButton(8);
 	bool climberDownButton = Teleop::extremepro->GetRawButton(7);
-
+//#gotta fix the code cause the code is bad to the bone!!!!!!!!!!!!
 	if(climberUpButton && !climberDownButton) {
 		Climber::turnOn();
 	}

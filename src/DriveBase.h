@@ -1,3 +1,5 @@
+#pragma once
+
 #include "Shared.h"
 #include <Compressor.h>
 //#include <Solenoid.h>
@@ -6,6 +8,7 @@
 //#include "DriveBase.cpp"
 
 class DriveBase {
+public:
 	//initializes front left
 	static CANTalon* fl;
 
