@@ -16,8 +16,7 @@
 #include <memory>
 
 #ifdef COPERNICUS_USE_UDP
-#	include <asio.hpp>
-#	include <bind.hpp>
+3
 #	include <shared_ptr.hpp>
 #	include <rapidjson/document.h>
 #	include <rapidjson/writer.h>
