@@ -5,22 +5,53 @@
 #include "Shooter.h"
 #include "Climber.h"
 #include "Auton.h"
+#include "udpServer.hpp"
+#include "udpClient2.hpp"
+
+#include <boost/thread.hpp>
+#include <boost/bind.hpp>
+#include <boost/chrono.hpp>
+
 // #include "DriveBase.h"
+
+void startLoop() {
+	udp_server udp_servers;
+	udp_servers.setPressure(0);
+	udp_servers.setHighGear(false);
+	udp_servers.setBottomIntake(false);
+	udp_servers.setStream(false);
+	udp_servers.setCrosshairOffset(0);
+	udp_servers.setTurretAngle(0);
+	udp_servers.setRPM(0);
+	udp_servers.setTopIntake(false);
+	udp_servers.setLeftRPM(0);
+	udp_servers.setRightRPM(0);
+	udp_servers.setHoldsGear(0);
+	udp_servers.setMode(0);
+	udp_servers.setPowered(0);
+	udp_servers.createJson();
+	udp_servers.serverInit();
+	/*boost::asio::io_service io_service;
+	udp_client udp_client(io_service);
+	io_service.run();*/
+}
 
 
 class Robot: public IterativeRobot {
 public:
 	void RobotInit(){
-		NetworkTable::Initialize();
-		NetworkTable::SetServerMode();
-		NetworkTable::SetTeam(5431);
+//		NetworkTable::Initialize();
+//		NetworkTable::SetServerMode();
+//		NetworkTable::SetTeam(5431);
 		DriveBase::init();
 		Shooter::init();
 		Intake::init();
 		Climber::init();
 		Auton::init();
 
-		std::shared_ptr<NetworkTable> table = NetworkTable::GetTable("vision");
+		boost::thread startTruck(startLoop);
+		//udp_server.serverInit();
+		//std::shared_ptr<NetworkTable> table = NetworkTable::GetTable("vision");
 	//		 Intake::init();
 	//		 DriveBase::init();
 //		DriveBase::switchGear(false);
@@ -36,7 +67,7 @@ public:
 	}
 	void AutonomousPeriodic(){
 		Auton::periodic();
-		SmartDashboard::PutNumber("Gayisnick", 0.0);
+		//SmartDashboard::PutNumber("Gayisnick", 0.0);
 	}
 };
 
