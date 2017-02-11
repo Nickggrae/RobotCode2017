@@ -14,10 +14,10 @@
 class Teleop{
 	static Joystick* stick;
 	static Joystick* joy;
-	static Joystick* extremepro;
+	static Joystick* extremePro;
 public:
 	static void init();
-	static void run();
+	static void run(double angle);
 };
 
 #endif /* SRC_TELEOP_H_ */

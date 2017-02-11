@@ -65,7 +65,7 @@ public:
 	//		 CameraServer::GetInstance()->StartAutomaticCapture();
 	}
 	void TeleopPeriodic(){
-		Teleop::run();
+		Teleop::run(udp_client.turretAngle);
 		Copernicus::setMode(Copernicus::Mode::TELEOP);
 		Copernicus::update();
 	}
