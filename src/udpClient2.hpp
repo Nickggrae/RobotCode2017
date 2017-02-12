@@ -50,7 +50,7 @@ class udp_client{
                     cout<<settingsJson.c_str()<<endl;
                     document.Parse(settingsJson.c_str());
                         if(document.IsObject()){
-                            cout<<"isobject"<<endl;
+//                            cout<<"isobject"<<endl;
                             if(document.HasMember("pressure")&&document.HasMember("highGear")&&document.HasMember("bottomIntake")&&
                                 document.HasMember("stream")&&document.HasMember("crosshairOffset")&&document.HasMember("turretAngle")&&
                                 document.HasMember("RPM")&&document.HasMember("topIntake")&&document.HasMember("leftRPM")&&document.HasMember("rightRPM")&&
@@ -72,8 +72,8 @@ class udp_client{
                                         holdsGear=document["holdsGear"].GetBool();
                                         mode=document["mode"].GetInt();
                                         powered=document["powered"].GetBool();
-                                        cout<<pressure<<" "<<highGear<<" "<<bottomIntake<<" "<<stream<<" "<<crosshairOffset<<" "<<turretAngle<<" "
-                                        <<RPM<<" "<<topIntake<<" "<<leftRPM<<" "<<rightRPM<<" "<<holdsGear<<" "<<mode<<" "<<powered<<endl;
+//                                      cout<<pressure<<" "<<highGear<<" "<<bottomIntake<<" "<<stream<<" "<<crosshairOffset<<" "<<turretAngle<<" "
+//                                        <<RPM<<" "<<topIntake<<" "<<leftRPM<<" "<<rightRPM<<" "<<holdsGear<<" "<<mode<<" "<<powered<<endl;
                             }
                         }
                     }
@@ -92,7 +92,7 @@ class udp_client{
             finalString = firstString.substr(0,firstString.find(delimeter)+1);
             document.Parse(finalString.c_str());
             if(document.IsObject()){
-                cout<<"Its a json"<<endl;
+//                cout<<"Its a json"<<endl;
                 if(document.HasMember("pressure")&&document.HasMember("highGear")&&document.HasMember("bottomIntake")&&
                 document.HasMember("stream")&&document.HasMember("crosshairOffset")&&document.HasMember("turretAngle")&&
                 document.HasMember("RPM")&&document.HasMember("topIntake")&&document.HasMember("leftRPM")&&document.HasMember("rightRPM")&&
@@ -101,7 +101,7 @@ class udp_client{
                         document["stream"].IsBool()&&document["crosshairOffset"].IsDouble()&&document["turretAngle"].IsDouble()&&
                         document["RPM"].IsInt()&&document["topIntake"].IsBool()&&document["leftRPM"].IsInt()&&document["rightRPM"].IsInt()&&
                         document["holdsGear"].IsBool()&&document["mode"].IsInt()&&document["powered"].IsBool()){
-                            cout<<"I can read it"<<endl;
+//                          cout<<"I can read it"<<endl;
                             pressure=document["pressure"].GetDouble();
                             highGear=document["highGear"].GetBool();
                             bottomIntake=document["bottomIntake"].GetBool();
