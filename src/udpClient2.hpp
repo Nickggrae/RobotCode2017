@@ -134,7 +134,7 @@ class udp_client{
                 udp::socket socket(io_service);
                 socket.open(udp::v4());
                 udp::endpoint sender_endpoint;
-                boost::shared_ptr<string> message(new string ("0"));
+//                boost::shared_ptr<string> message(new string ("0"));
                 socket_.async_send_to(
                 boost::asio::buffer("0"),reciever_endpoint,
                 boost::bind(&udp_client::handle_send,this,

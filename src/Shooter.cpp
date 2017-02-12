@@ -6,7 +6,7 @@ CANTalon* Shooter::shooterIntake;
 CANTalon* Shooter::conveyor;
 
 void Shooter::init() {
-	Shooter::shooter = new CANTalon(5);
+	Shooter::shooter = new CANTalon(14);
 	Shooter::shooter->Set (0.0);
 	Shooter::shooter->SetFeedbackDevice(CANTalon::EncRising);
 	Shooter::shooter->SetStatusFrameRateMs(CANTalon::StatusFrameRate::StatusFrameRateFeedback, 1);
