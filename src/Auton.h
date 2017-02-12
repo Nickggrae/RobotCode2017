@@ -9,5 +9,14 @@ public:
 	static void init();
 
 	// Loops through for the whole time of autonomous
-	static void periodic();
+	static void periodic(int routine);
+	enum AutonRoutines
+	{
+		RedLeft = 0,
+		RedMiddle = 1,
+		RedRight = 2,
+		BlueLeft = 3,
+		BlueMiddle = 4,
+		BlueRight = 5
+	};
 };
