@@ -93,37 +93,74 @@ class udp_client{
             document.Parse(finalString.c_str());
             if(document.IsObject()){
 //                cout<<"Its a json"<<endl;
-                if(document.HasMember("pressure")&&document.HasMember("highGear")&&document.HasMember("bottomIntake")&&
-                document.HasMember("stream")&&document.HasMember("crosshairOffset")&&document.HasMember("turretAngle")&&
-                document.HasMember("RPM")&&document.HasMember("topIntake")&&document.HasMember("leftRPM")&&document.HasMember("rightRPM")&&
-                document.HasMember("holdsGear")&&document.HasMember("mode")&&document.HasMember("powered")){
-                    if(document["pressure"].IsDouble()&&document["highGear"].IsBool()&&document["bottomIntake"].IsBool()&&
-                        document["stream"].IsBool()&&document["crosshairOffset"].IsDouble()&&document["turretAngle"].IsDouble()&&
-                        document["RPM"].IsInt()&&document["topIntake"].IsBool()&&document["leftRPM"].IsInt()&&document["rightRPM"].IsInt()&&
-                        document["holdsGear"].IsBool()&&document["mode"].IsInt()&&document["powered"].IsBool()){
-//                          cout<<"I can read it"<<endl;
-                            pressure=document["pressure"].GetDouble();
-                            highGear=document["highGear"].GetBool();
-                            bottomIntake=document["bottomIntake"].GetBool();
-                            stream=document["stream"].GetBool();
-                            crosshairOffset=document["crosshairOffset"].GetDouble();
-                            turretAngle=document["turretAngle"].GetDouble();
-                            RPM=document["RPM"].GetInt();
-                            topIntake=document["topIntake"].GetBool();
-                            leftRPM=document["leftRPM"].GetInt();
-                            rightRPM=document["rightRPM"].GetInt();
-                            holdsGear=document["holdsGear"].GetBool();
-                            mode=document["mode"].GetInt();
-                            powered=document["powered"].GetBool();
-                            cout<<pressure<<" "<<highGear<<" "<<bottomIntake<<" "<<stream<<" "<<crosshairOffset<<" "<<turretAngle<<" "
-                            <<RPM<<" "<<topIntake<<" "<<leftRPM<<" "<<rightRPM<<" "<<holdsGear<<" "<<mode<<" "<<powered<<endl;
-                    /*double pressure, bool highGear, bool bottomIntake,
-                    bool stream, double crosshairOffset, double turretAngle,
-                    int RPM, bool topIntake, int leftRPM, int rightRPM, bool holdsGear, int mode, bool powered*/
-                    }
+                if(document.HasMember("pressure")){
+                	if(document["pressure"].IsDouble()){
+                		pressure=document["pressure"].GetDouble();
+                	}
                 }
+                if(document.HasMember("highGear")){
+                	if(document["highGear"].IsBool()){
+                		highGear=document["highGear"].GetBool();
+                	}
+                }
+                if(document.HasMember("bottomIntake")){
+                	if(document.HasMember("bottomIntake")){
+                		bottomIntake=document["bottomIntake"].GetBool();
+                	}
+                }
+                if(document.HasMember("crosshairOffset")){
+                	if(document["crosshairOffset"].IsDouble()){
+                		crosshairOffset=document["crosshairOffset"].GetDouble();
+                	}
+                }
+                if(document.HasMember("crosshairOffset")){
+                	if(document["stream"].IsBool()){
+                		stream=document["stream"].GetBool();
+                	}
+                }
+                if(document.HasMember("turretAngle")){
+                	if(document["turretAngle"].IsDouble()){
+                		turretAngle=document["turretAngle"].GetDouble();
+                	}
+                }
+                if(document.HasMember("RPM")){
+                	if(document["RPM"].IsInt()){
+                		RPM=document["RPM"].GetInt();
+                	}
+                }
+                if(document.HasMember("topIntake")){
+                	if(document["topIntake"].IsBool()){
+                		topIntake=document["topIntake"].GetBool();
+                	}
+                }
+                if(document.HasMember("leftRPM")){
+                	if(document["leftRPM"].IsInt()){
+                		leftRPM=document["leftRPM"].GetInt();
+                	}
+                }
+                if(document.HasMember("rightRPM")){
+                	if(document["rightRPM"].IsInt()){
+                		rightRPM=document["rightRPM"].GetInt();
+                	}
+                }
+                if(document.HasMember("mode")){
+                	if(document["mode"].IsInt()){
+                		mode=document["mode"].GetInt();
+                	}
+                }
+                if(document.HasMember("powered")){
+                	if(document["powered"].IsBool()){
+                		powered=document["powered"].GetBool();
+                	}
+                }
+                if(document.HasMember("holdsGear")){
+                	if(document["holdsGear"].IsBool()){
+                		holdsGear=document["holdsGear"].GetBool();
+                	}
+                }
+
+                    }
             }
-        }
         void handle_recieve(const boost::system::error_code& error,size_t){
             start_recieve();
         }
