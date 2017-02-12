@@ -22,6 +22,8 @@ public:
  	static void agitatorOn();
 
  	static void agitatorOff();
+
+ 	static void resetAngle();
 };
 
 
