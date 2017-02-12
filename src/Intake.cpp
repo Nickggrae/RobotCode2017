@@ -5,6 +5,7 @@ double Intake::motorSpeed;
 
 void Intake::init() {
 	Intake::Intakeu = new CANTalon(12);
+	Intake::Intakeu->SetSafetyEnabled(false);
 }
 
 void Intake::turnOn() {

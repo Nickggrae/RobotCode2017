@@ -20,25 +20,29 @@ void DriveBase::init() {
 	DriveBase::fl = new CANTalon(3);
 	//DriveBase::fl->SetFeedbackDevice(CANTalon::CtreMagEncoder_Relative);
 	DriveBase::fl->SetInverted(true);
+//	DriveBase::fl->SetSafetyEnabled(false);
 
 	DriveBase::fr = new CANTalon(8);
 	DriveBase::fr->SetInverted(true);
+//	DriveBase::fr->SetSafetyEnabled(false);
 
 	DriveBase::rl = new CANTalon(11);
 	DriveBase::rl->SetInverted(true);
+//	DriveBase::rl->SetSafetyEnabled(false);
 
 	DriveBase::rr = new CANTalon(10);
 	DriveBase::rr->SetInverted(true);
+//	DriveBase::rr->SetSafetyEnabled(false);
 	DriveBase::robotDrive = new frc::RobotDrive(DriveBase::fl,DriveBase::rl,DriveBase::fr,DriveBase::rr);
 
 	c = new frc::Compressor(0);
 	c->SetClosedLoopControl(true);
 	c->Start();
 
-	DriveBase::solenoid = new frc::DoubleSolenoid(0, 0, 1);
+	DriveBase::solenoid = new frc::DoubleSolenoid(0, 7, 1);
 	DriveBase::solenoid->Set(frc::DoubleSolenoid::kReverse);
 
-	DriveBase::solenoid2 = new frc::DoubleSolenoid(0, 7, 6);
+	DriveBase::solenoid2 = new frc::DoubleSolenoid(0, 0, 6);
 	DriveBase::solenoid2->Set(frc::DoubleSolenoid::kReverse);
 
 }

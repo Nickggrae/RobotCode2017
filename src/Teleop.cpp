@@ -50,22 +50,12 @@ void Teleop::run(double turnAngle) {
 	double rightDrive = Teleop::joy->GetRawAxis(5);
 
 	//Dead zone
-	if(leftDrive < 0.1 || leftDrive > -0.1)
+	if(leftDrive < 0.1 && leftDrive > -0.1)
 		leftDrive = 0.0;
-	if(rightDrive < 0.1 || rightDrive > -0.1)
+	if(rightDrive < 0.1 && rightDrive > -0.1)
 		rightDrive = 0.0;
 
-	if(leftDrive != 0.0 || rightDrive != 0.0)
-	{
-		DriveBase::drive(leftDrive, rightDrive);
-		isDriving = true;
-	}
-	else
-		if(isDriving)//If we were driving, then tell motors to stop. This is in order not to keep telling motors to stop when they are
-		{
-			DriveBase::drive(0.0, 0.0);
-			isDriving = false;
-		}
+	DriveBase::drive(leftDrive, rightDrive);
 
 
 	if(prevButton1 < Teleop::joy->GetRawButton(1)){
@@ -101,24 +91,24 @@ void Teleop::run(double turnAngle) {
 //			frc::Wait(.1);
 		}
 	}
-	bool rightSlider = Teleop::joy->GetRawButton(2);
-	bool leftSlider = Teleop::joy->GetRawButton(3);
-	if(rightSlider && !leftSlider){
-		if(!DriveBase::getSliderState()){
-			DriveBase::switchSlider(true);
-		}
-	}
-	else if(!rightSlider && leftSlider){
-		if(DriveBase::getSliderState()){
-			DriveBase::switchSlider(false);
-		}
-	}
+//	bool rightSlider = Teleop::joy->GetRawButton(2);
+//	bool leftSlider = Teleop::joy->GetRawButton(3);
+//	if(rightSlider && !leftSlider){
+//		if(!DriveBase::getSliderState()){
+//			DriveBase::switchSlider(true);
+//		}
+//	}
+//	else if(!rightSlider && leftSlider){
+//		if(DriveBase::getSliderState()){
+//			DriveBase::switchSlider(false);
+//		}
+//	}
 
 
-	if((Shooter::get() > target) && !passedTarget)
-	{
-		passedTarget = true;
-	}
+//	if((Shooter::get() > target) && !passedTarget)
+//	{
+//		passedTarget = true;
+//	}
 
 	if(joy->GetRawButton(5))
 	{
@@ -128,9 +118,18 @@ void Teleop::run(double turnAngle) {
 	if(turnAngle != angle)
 	{
 		angle = turnAngle;
-		Shooter::setangle(angle);
+		if(angle < 180 && angle > -180)
+		{
+			if(turnAngle != 666)
+				Shooter::setangle(angle);
+			else
+				std::cout << "TA DA~" << std::endl;
+		}
 	}
 
+	SmartDashboard::PutNumber("Vision Angle", angle);
+	SmartDashboard::PutNumber("Turn Angle", turnAngle);
+	SmartDashboard::PutNumber("Attempted Angle", angle + Shooter::getangle());
 	SmartDashboard::PutNumber("Shooter Angle", Shooter::getangle());
 
 	double shooter = SmartDashboard::GetNumber("Shooter", 0.0);
@@ -151,14 +150,9 @@ void Teleop::run(double turnAngle) {
 	if(Teleop::extremePro->GetRawButton(2))
 	{
 		Shooter::agitatorOn();
-		isAgitatorOn = true;
 	}
 	else
-		if(isAgitatorOn)
-		{
 		Shooter::agitatorOff();
-		isAgitatorOn = false;
-		}
 	//Accepts rpm setting
 	double setRPM = scaled_y * 6000.0;
 	Shooter::set(shooter);

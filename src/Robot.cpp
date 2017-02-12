@@ -13,6 +13,8 @@
 #include <boost/chrono.hpp>
 // #include "DriveBase.h"
 
+udp_client *client;
+
 void startLoop() {
 	/*udp_server udp_servers;
 	udp_servers.setPressure(0);
@@ -31,13 +33,14 @@ void startLoop() {
 	udp_servers.createJson();
 	udp_servers.serverInit();*/
 	boost::asio::io_service io_service;
-	udp_client udp_client(io_service);
+	client = new udp_client(io_service);
 	io_service.run();
 }
 
 
 class Robot: public IterativeRobot {
 public:
+
 	void RobotInit(){
 //		NetworkTable::Initialize();
 //		NetworkTable::SetServerMode();
@@ -65,7 +68,7 @@ public:
 	//		 CameraServer::GetInstance()->StartAutomaticCapture();
 	}
 	void TeleopPeriodic(){
-		Teleop::run(udp_client.turretAngle);
+		Teleop::run(client->turretAngle);
 		Copernicus::setMode(Copernicus::Mode::TELEOP);
 		Copernicus::update();
 	}
