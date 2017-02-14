@@ -54,26 +54,37 @@ public:
 		NetworkTable::SetServerMode();
 		NetworkTable::SetTeam(5431);
 
-		Auton::init();
+
 
 		boost::thread startTruck(startLoop);
 		//udp_server.serverInit();
 		//std::shared_ptr<NetworkTable> table = NetworkTable::GetTable("vision");
 	//		 Intake::init();
-		Teleop::init();
 	//		 DriveBase::init();
 //		DriveBase::switchGear(false);
 //		CameraServer::GetInstance()->StartAutomaticCapture();
 //		CameraServer::GetInstance()->StartAutomaticCapture(1);
 	//		 CameraServer::GetInstance()->StartAutomaticCapture();
 	}
+
+	void TeleopInit(){
+		Teleop::init();
+	}
 	void TeleopPeriodic(){
 		Teleop::run(client->turretAngle);
 		Copernicus::setMode(Copernicus::Mode::TELEOP);
 		Copernicus::update();
 	}
+
+	void AutonomousInit(){
+		Auton::init();
+	}
 	void AutonomousPeriodic(){
-		Auton::periodic();
+		Auton::periodic(Auton::RedLeft);
+	}
+
+	void DisabledPeriodic(){
+		DriveBase::disableBrake();
 	}
 };
 

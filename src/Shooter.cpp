@@ -32,11 +32,11 @@ void Shooter::init() {
 	Shooter::angle->SetControlMode(CANSpeedController::kPosition);
 	Shooter::angle->SetSensorDirection(true);
 
-	Shooter::shooterIntake = new CANTalon(3);
+	Shooter::shooterIntake = new CANTalon(666);
 	Shooter::shooterIntake->Set(0.0);
 	Shooter::shooterIntake->SetInverted(false);
 
-	Shooter::conveyor = new CANTalon(2);
+	Shooter::conveyor = new CANTalon(667);
 	Shooter::conveyor->Set(0.0);
 	Shooter::conveyor->SetInverted(false);
 }

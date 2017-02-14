@@ -66,6 +66,8 @@ public:
 
 	static double getRoll(); // gets Roll
 
+	static void resetAHRS(); // resets NavX
+
 	static double DisplacementX();
 
 	static double DisplacementY();
@@ -94,6 +96,12 @@ public:
 	static void switchSlider(bool slider);
 
 	static int getSliderState();
+
+	//Enable Brake Mode
+	static void enableBrake();
+
+	//Disable Brake Mode
+	static void disableBrake();
 };
 
 /**TODO:
