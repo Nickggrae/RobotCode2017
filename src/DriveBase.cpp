@@ -19,19 +19,19 @@ void DriveBase::init() {
 
 	DriveBase::fl = new CANTalon(3);
 	//DriveBase::fl->SetFeedbackDevice(CANTalon::CtreMagEncoder_Relative);
-	DriveBase::fl->SetInverted(true);
+	DriveBase::fl->SetInverted(false);
 //	DriveBase::fl->SetSafetyEnabled(false);
 
 	DriveBase::fr = new CANTalon(8);
-	DriveBase::fr->SetInverted(true);
+	DriveBase::fr->SetInverted(false);
 //	DriveBase::fr->SetSafetyEnabled(false);
 
 	DriveBase::rl = new CANTalon(11);
-	DriveBase::rl->SetInverted(true);
+	DriveBase::rl->SetInverted(false);
 //	DriveBase::rl->SetSafetyEnabled(false);
 
 	DriveBase::rr = new CANTalon(10);
-	DriveBase::rr->SetInverted(true);
+	DriveBase::rr->SetInverted(false);
 //	DriveBase::rr->SetSafetyEnabled(false);
 	DriveBase::robotDrive = new frc::RobotDrive(DriveBase::fl,DriveBase::rl,DriveBase::fr,DriveBase::rr);
 
@@ -133,7 +133,10 @@ double DriveBase::getAccelY(){
 
 double DriveBase::getAccelZ(){
 	return ahrs->GetWorldLinearAccelZ();
+}
 
+void DriveBase::resetAHRS(){
+	ahrs->Reset();
 }
 
 void DriveBase::talonEnable(){
@@ -167,4 +170,18 @@ double DriveBase::velocityY(){
 
 double DriveBase::velocityZ(){
 	return ahrs->GetVelocityZ();
+}
+
+void DriveBase::enableBrake(){
+	DriveBase::fl->ConfigNeutralMode(CANTalon::NeutralMode::kNeutralMode_Brake);
+	DriveBase::fr->ConfigNeutralMode(CANTalon::NeutralMode::kNeutralMode_Brake);
+	DriveBase::rl->ConfigNeutralMode(CANTalon::NeutralMode::kNeutralMode_Brake);
+	DriveBase::rr->ConfigNeutralMode(CANTalon::NeutralMode::kNeutralMode_Brake);
+}
+
+void DriveBase::disableBrake(){
+	DriveBase::fl->ConfigNeutralMode(CANTalon::NeutralMode::kNeutralMode_Coast);
+	DriveBase::fr->ConfigNeutralMode(CANTalon::NeutralMode::kNeutralMode_Coast);
+	DriveBase::rl->ConfigNeutralMode(CANTalon::NeutralMode::kNeutralMode_Coast);
+	DriveBase::rr->ConfigNeutralMode(CANTalon::NeutralMode::kNeutralMode_Coast);
 }

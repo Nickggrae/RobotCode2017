@@ -33,6 +33,7 @@ void Teleop::init() {
 	Teleop::extremePro = new Joystick(1);
 	SmartDashboard::PutNumber("Angle",0.0);
 	SmartDashboard::PutNumber("Shooter",0.0);
+	DriveBase::disableBrake();
 }
 /*lt intake off
 //rt intake on
@@ -46,8 +47,8 @@ void Teleop::init() {
 */
 
 void Teleop::run(double turnAngle) {
-	double leftDrive = Teleop::joy->GetRawAxis(1);
-	double rightDrive = Teleop::joy->GetRawAxis(5);
+	double leftDrive = Teleop::joy->GetRawAxis(5);
+	double rightDrive = Teleop::joy->GetRawAxis(1);
 
 	//Dead zone
 	if(leftDrive < 0.1 && leftDrive > -0.1)
