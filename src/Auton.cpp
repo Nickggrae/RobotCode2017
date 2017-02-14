@@ -9,6 +9,7 @@ std::time_t startTime;
 void Auton::init() {
 	SmartDashboard::PutNumber("State",0.0);
 	DriveBase::enableBrake();
+	DriveBase::resetAHRS();//Resetting NavX before getting angle
 //	time(&startTime); // store time at time of initialization
 //	DriveBase::drive(0.5, 0.5);
 }
@@ -17,7 +18,7 @@ int start = 1;//Declared as a double so that we can create decimal states when w
 void Auton::periodic(int routine) {
 	switch(routine)
 	{
-	case 0://Auton for RedLeft
+	case 1://Auton for RedRight
 		switch(start)
 		{
 		case 1:
@@ -31,7 +32,7 @@ void Auton::periodic(int routine) {
 			std::time_t currentTime;
 			std::time(&currentTime);
 			//double difference = difftime(currentTime, startTime); // get difference in seconds
-			if (std::difftime(currentTime, startTime) >= 1.03) { // stop after 5 seconds
+			if (std::difftime(currentTime, startTime) >= 1.03) { // stop after x seconds
 				DriveBase::resetAHRS();//Resetting NavX before getting angle
 				start = 3;
 			}
@@ -39,7 +40,7 @@ void Auton::periodic(int routine) {
 
 		case 3:
 			DriveBase::drive(-0.28,0.28);
-			if(DriveBase::getYaw() <= -51){
+			if(DriveBase::getYaw() <= -45){
 				start = 4;
 			}
 		break;
@@ -216,7 +217,7 @@ void Auton::periodic(int routine) {
 		SmartDashboard::PutNumber("NavXPitch", DriveBase::getPitch());
 	break;
 
-	case 1://Auton for RedMiddle
+	case 0://Auton for nothing
 		//Add switch case here
 	break;
 

@@ -13,11 +13,12 @@ public:
 
 	enum AutonRoutines
 	{
+		Nothing = 0,
 		RedLeft = 3,
-		RedMiddle = 1,
-		RedRight = 2,
-		BlueLeft = 0,
-		BlueMiddle = 4,
-		BlueRight = 5
+		RedMiddle = 2,
+		RedRight = 1,
+		BlueLeft = 6,
+		BlueMiddle = 5,
+		BlueRight = 4
 	};
 };
