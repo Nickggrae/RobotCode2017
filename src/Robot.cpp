@@ -80,7 +80,7 @@ public:
 		Auton::init();
 	}
 	void AutonomousPeriodic(){
-		Auton::periodic(Auton::RedLeft);
+		Auton::periodic(Auton::RedRight);
 	}
 
 	void DisabledPeriodic(){
