@@ -1,4 +1,5 @@
 #include "Intake.h"
+#include "Copernicus.h"
 
 CANTalon* Intake::Intakeu;
 double Intake::motorSpeed;
@@ -23,7 +24,9 @@ bool Intake::isOn() {
 void Intake::toggleIntake() { // Used for toggle in Teleop
 	if (Intake::isOn()) {
 		Intake::turnOff();
+		Copernicus::setFloorIntake(false);
 	} else {
 		Intake::turnOn();
+		Copernicus::setFloorIntake(true);
 	}
 }

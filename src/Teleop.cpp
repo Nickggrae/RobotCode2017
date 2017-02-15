@@ -133,6 +133,8 @@ void Teleop::run(double turnAngle) {
 	SmartDashboard::PutNumber("Attempted Angle", angle + Shooter::getangle());
 	SmartDashboard::PutNumber("Shooter Angle", Shooter::getangle());
 
+	Copernicus::setFlywheelRPM(Shooter::get());
+
 	double shooter = SmartDashboard::GetNumber("Shooter", 0.0);
 	if(shooter > 0.1)
 	{
