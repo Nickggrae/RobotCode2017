@@ -68,10 +68,12 @@ void DriveBase::switchSlider(bool slider){
 	if (slider){
 		DriveBase::solenoid2->Set(frc::DoubleSolenoid::kForward);
 		DriveBase::sliderState = 1;
+		Copernicus::setHighGear(true);
 	}
 	else{
 		DriveBase::solenoid2->Set(frc::DoubleSolenoid::kReverse);
 		DriveBase::sliderState = 0;
+		Copernicus::setHighGear(false);
 	}
 }
 
