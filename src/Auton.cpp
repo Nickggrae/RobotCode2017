@@ -5,29 +5,33 @@
 
 // used to record time at auton init
 std::time_t startTime;
+int start = 1;//Declared as a double so that we can create decimal states when we want to insert a state (for example 5.1)
 
 void Auton::init() {
 	SmartDashboard::PutNumber("State",0.0);
 	DriveBase::enableBrake();
 	DriveBase::resetAHRS();//Resetting NavX before getting angle
+	start = 1;
 //	time(&startTime); // store time at time of initialization
 //	DriveBase::drive(0.5, 0.5);
 }
 
-int start = 1;//Declared as a double so that we can create decimal states when we want to insert a state (for example 5.1)
 void Auton::periodic(int routine) {
 	switch(routine)
 	{
+	case 0://Auton for nothing
+		DriveBase::drive(0.0,0.0);
+	break;
+
 	case 1://Auton for RedRight
 		switch(start)
 		{
-		case 1:
+		case 1: //set start time to zero at start
 			std::time(&startTime); // store time at time of initialization
-			DriveBase::drive(-0.5, -0.5);
 			start = 2;
 		break;
 
-		case 2:
+		case 2: //drive forward at half speed until ready to turn to get gear
 			DriveBase::drive(-0.45, -0.45);
 			std::time_t currentTime;
 			std::time(&currentTime);
@@ -38,19 +42,19 @@ void Auton::periodic(int routine) {
 			}
 		break;
 
-		case 3:
+		case 3: // turn left 45 degrees to head to gear
 			DriveBase::drive(-0.28,0.28);
 			if(DriveBase::getYaw() <= -45){
 				start = 4;
 			}
 		break;
 
-		case 4:
+		case 4: // reset time to zero
 			std::time(&startTime); // store time at time of initialization
 			start = 5;
 		break;
 
-		case 5:
+		case 5: // drive forward till at gear
 			DriveBase::drive(-0.4, -0.4);
 //			std::time_t currentTime;
 			std::time(&currentTime);
@@ -60,64 +64,58 @@ void Auton::periodic(int routine) {
 			}
 		break;
 
-		case -1:
+		case -1: // reset time to zero and stop driving; wait for person to pick up gear
 			std::time(&startTime); // store time at time of initialization
 			DriveBase::drive(0.0, 0.0);
 			start = -2;
 		break;
 
-		case -2:
-//			std::time_t currentTime;
+		case -2: // stay stopped for 1.5 seconds; wait for gear to leave
 			std::time(&currentTime);
-			//double difference = difftime(currentTime, startTime); // get difference in seconds
 			if (std::difftime(currentTime, startTime) >= 1.5) { // stop after 2 seconds
 				start = 6;
 			}
 		break;
 
-		case 6:
+		case 6: // reset time to zero and drive backward at half speed away from airship
 			std::time(&startTime); // store time at time of initialization
 			DriveBase::drive(0.5, 0.5);
 			start = 7;
 		break;
 
-		case 7:
-//			std::time_t currentTime;
+		case 7: // drive backward for 2.5 seconds away from gear
 			std::time(&currentTime);
-			//double difference = difftime(currentTime, startTime); // get difference in seconds
 			if (std::difftime(currentTime, startTime) >= 2.5) { // stop after 2 seconds
-				start = 23;//Change later - just to get gear on for now
+				DriveBase::resetAHRS();
+				start = 8;//Change later - just to get gear on for now
 			}
 		break;
 
-		case 8:
+		case 8: // turn right for 45 degrees to head to hopper
 			DriveBase::drive(0.5, -0.5);
-			if(DriveBase::getYaw() >= 45)
+			if(DriveBase::getYaw() >= 135)
 				start = 9;
 			break;
 
-		case 9:
+		case 9: // reset time and drive forward towards hopper
 			std::time(&startTime); // store time at time of initialization
 			DriveBase::drive(-0.5, -0.5);
 			start = 10;
 		break;
 
-		case 10:
-//			std::time_t currentTime;
+		case 10: // drive forward for 2 seconds to hopper
 			std::time(&currentTime);
-			//double difference = difftime(currentTime, startTime); // get difference in seconds
-			if (std::difftime(currentTime, startTime) >= 2) { // stop after 2 seconds
+			if (std::difftime(currentTime, startTime) >= 2) {
+				DriveBase::resetAHRS();
 				start = 11;
 			}
 		break;
 
-		case 11:
+		case 11: //
 			DriveBase::drive(0.5, -0.5);
-			if(DriveBase::getYaw() == 0){
+			if(DriveBase::getYaw() >= 90){
 				start = 12;
 			}
-			else
-				DriveBase::drive(0.5, -0.5);
 		break;
 
 		case 12:
@@ -140,8 +138,6 @@ void Auton::periodic(int routine) {
 			if(DriveBase::getYaw() == -90){
 				start = 15;
 			}
-			else
-				DriveBase::drive(-0.5, 0.5);
 		break;
 
 		case 15:
@@ -217,9 +213,7 @@ void Auton::periodic(int routine) {
 		SmartDashboard::PutNumber("NavXPitch", DriveBase::getPitch());
 	break;
 
-	case 0://Auton for nothing
-		//Add switch case here
-	break;
+
 
 	case 2://Auton for RedRight
 		//Add switch case here

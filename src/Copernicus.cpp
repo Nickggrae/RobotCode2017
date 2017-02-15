@@ -56,7 +56,7 @@ void Copernicus::setMode(const Copernicus::Mode mode){
 }
 
 void Copernicus::update(){
-	setBool("powered", true);
+	//setBool("powered", true);
 }
 
 //IMPLEMENTATION
