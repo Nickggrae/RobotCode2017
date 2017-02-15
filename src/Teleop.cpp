@@ -8,6 +8,7 @@
 #include "Shooter.h"
 #include "Intake.h"
 #include "udpServer.hpp"
+#include "Copernicus.h"
 #include <iostream>
 
 //#include "DriveBase.h"

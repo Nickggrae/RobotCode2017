@@ -43,6 +43,7 @@ public:
 		Copernicus::setMode(Copernicus::Mode::TELEOP);
 	}
 	void TeleopPeriodic(){
+		Teleop::run(0.0);
 		Copernicus::update();
 	}
 

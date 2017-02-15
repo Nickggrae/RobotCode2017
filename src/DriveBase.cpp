@@ -1,4 +1,5 @@
 #include "DriveBase.h"
+#include "Copernicus.h"
 
 CANTalon* DriveBase::fl;
 CANTalon* DriveBase::rl;
