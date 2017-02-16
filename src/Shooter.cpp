@@ -51,7 +51,7 @@ double Shooter::get(){
 
 //Set CANTalon rotations based on angle [aka ihatedavid]
 void Shooter::setangle(double ihatedavid){
-	Shooter::angle->Set(ihatedavid);// * (0.007638888888889));
+	Shooter::angle->Set(ihatedavid);// * (0.007638888888889));f
 }
 double Shooter::getangle(){
 	return (Shooter::angle->GetNumberOfQuadIdxRises());// / .00076388888888889);
