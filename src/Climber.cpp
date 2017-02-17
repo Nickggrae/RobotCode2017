@@ -15,4 +15,9 @@ void Climber::turnOn(){
 void Climber::back(){
 	Climber::climb->Set(-0.3);
 }
-
+void Climber::turnOnSlow(){
+	Climber::climb->Set(0.3);
+}
+void Climber::turnOff(){
+	Climber::climb->Set(0);
+}
