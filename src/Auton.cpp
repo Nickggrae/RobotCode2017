@@ -224,7 +224,20 @@ void Auton::periodic(int routine) {
 	break;
 
 	case 4://Auton for BlueMiddle
-		//switch case here
+		switch(start){
+		case 1:
+//		std::time(&currentTime);
+//		DriveBase::drive(.45, .45);
+//		if(std::difftime(currentTime, startTime) >= 3){
+//			start = 2;
+//		}
+		break;
+
+		case 2:
+			DriveBase::drive(0,0);
+		break;
+
+		}
 	break;
 
 	case 5://Auton for BlueRight

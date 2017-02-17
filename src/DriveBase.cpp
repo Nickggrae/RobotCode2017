@@ -58,10 +58,12 @@ void DriveBase::switchGear(bool gear){
 	if (gear){
 		DriveBase::solenoid->Set(frc::DoubleSolenoid::kForward); //sets into high gear
 		DriveBase::gearState = 1; //1 is high gear
+		Copernicus::setHighGear(true);
 	}
 	else{
 		DriveBase::solenoid->Set(frc::DoubleSolenoid::kReverse); //sets into low gear
 		DriveBase::gearState = 0; //0 is low gear
+		Copernicus::setHighGear(false);
 	}
 }
 
@@ -69,12 +71,10 @@ void DriveBase::switchSlider(bool slider){
 	if (slider){
 		DriveBase::solenoid2->Set(frc::DoubleSolenoid::kForward);
 		DriveBase::sliderState = 1;
-		Copernicus::setHighGear(true);
 	}
 	else{
 		DriveBase::solenoid2->Set(frc::DoubleSolenoid::kReverse);
 		DriveBase::sliderState = 0;
-		Copernicus::setHighGear(false);
 	}
 }
 

@@ -67,12 +67,21 @@ void Teleop::run(double turnAngle) {
 
 	bool climberUpButton = Teleop::extremePro->GetRawButton(8);
 	bool climberDownButton = Teleop::extremePro->GetRawButton(7);
+	bool climberUpSlowButton = Teleop::extremePro->GetRawButton(10);
+	bool climberOffButton = Teleop::extremePro->GetRawButton(9);
 //#gotta fix the code cause the code is bad to the bone!!!!!!!!!!!!
-	if(climberUpButton && !climberDownButton) {
+	if(climberUpButton && !climberDownButton && !climberUpSlowButton && !climberOffButton) {
 		Climber::turnOn();
 	}
-	else if (!climberUpButton && climberDownButton) {
+	else if (!climberUpButton && climberDownButton && !climberUpSlowButton && !climberOffButton) {
 		Climber::back();
+	}
+	if(!climberUpButton && !climberDownButton && climberUpSlowButton && !climberOffButton)
+	{
+		Climber::turnOnSlow();
+	};''
+	if(!climberUpButton && !climberDownButton && climberUpSlowButton && !climberOffButton){
+		Climber::turnOff();
 	}
 
 //	if(prevButton2 < Teleop::stick->GetRawButton(7)){
@@ -93,19 +102,19 @@ void Teleop::run(double turnAngle) {
 //			frc::Wait(.1);
 		}
 	}
-//	bool rightSlider = Teleop::joy->GetRawButton(2);
-//	bool leftSlider = Teleop::joy->GetRawButton(3);
-//	if(rightSlider && !leftSlider){
-//		if(!DriveBase::getSliderState()){
-//			DriveBase::switchSlider(true);
-//		}
-//	}
-//	else if(!rightSlider && leftSlider){
-//		if(DriveBase::getSliderState()){
-//			DriveBase::switchSlider(false);
-//		}
-//	}
-
+	bool rightSlider = Teleop::joy->GetRawButton(2);
+	bool leftSlider = Teleop::joy->GetRawButton(3);
+	if(rightSlider && !leftSlider){
+		if(!DriveBase::getSliderState()){
+			DriveBase::switchSlider(true);
+		}
+	}
+	else if(!rightSlider && leftSlider){
+		if(DriveBase::getSliderState()){
+			DriveBase::switchSlider(false);
+		}
+	}
+	SmartDashboard::PutBoolean("Slider State", DriveBase::getSliderState());
 
 //	if((Shooter::get() > target) && !passedTarget)
 //	{
