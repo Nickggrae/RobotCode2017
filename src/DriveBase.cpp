@@ -140,6 +140,7 @@ double DriveBase::getAccelZ(){
 
 void DriveBase::resetAHRS(){
 	ahrs->Reset();
+	ahrs->ZeroYaw();
 }
 
 void DriveBase::talonEnable(){

@@ -168,7 +168,7 @@ void Teleop::run(double turnAngle) {
 	else
 		Shooter::agitatorOff();
 	//Accepts rpm setting
-	double setRPM = scaled_y * 6000.0;
+//	double setRPM = scaled_y * 6000.0;
 	Shooter::set(shooter);
 	double currentRPM = Shooter::get();
 	/*if(passedTarget)

@@ -12,7 +12,13 @@ public:
 	static void periodic(int routine);
 
 	//it has auton so it isnt the same as the enums it looks bad sorry
+	static void TurnRight(double power);
+	static void TurnLeft(double power);
+	static void DriveForward(double power);
+	static void DriveBackwards(double power);
+	static void StayStill();
 
+	static void TestYaw();
 	static void NothingAuton();
 	static void RedLeftAuton();
 	static void RedMiddleAuton();
