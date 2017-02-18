@@ -51,7 +51,7 @@ class udp_client{
                     document.Parse(settingsJson.c_str());
                         if(document.IsObject()){
 //                            cout<<"isobject"<<endl;
-                            if(document.HasMember("pressure")&&document.HasMember("highGear")&&document.HasMember("bottomIntake")&&
+                            /*if(document.HasMember("pressure")&&document.HasMember("highGear")&&document.HasMember("bottomIntake")&&
                                 document.HasMember("stream")&&document.HasMember("crosshairOffset")&&document.HasMember("turretAngle")&&
                                 document.HasMember("RPM")&&document.HasMember("topIntake")&&document.HasMember("leftRPM")&&document.HasMember("rightRPM")&&
                                 document.HasMember("holdsGear")&&document.HasMember("mode")&&document.HasMember("powered")){
@@ -75,7 +75,13 @@ class udp_client{
 //                                      cout<<pressure<<" "<<highGear<<" "<<bottomIntake<<" "<<stream<<" "<<crosshairOffset<<" "<<turretAngle<<" "
 //                                        <<RPM<<" "<<topIntake<<" "<<leftRPM<<" "<<rightRPM<<" "<<holdsGear<<" "<<mode<<" "<<powered<<endl;
                             }
-                        }
+                        }*/
+                            
+                            if(document.HasMember("turretAngle")) {
+                                if(document["turretAngle"].IsDouble()) {
+                                    turretAngle = document["turretAngle"].GetDouble();   
+                                }
+                            }
                     }
                 }
             }
@@ -92,7 +98,7 @@ class udp_client{
             finalString = firstString.substr(0,firstString.find(delimeter)+1);
             document.Parse(finalString.c_str());
             if(document.IsObject()){
-//                cout<<"Its a json"<<endl;
+//              /*  cout<<"Its a json"<<endl;
                 if(document.HasMember("pressure")){
                 	if(document["pressure"].IsDouble()){
                 		pressure=document["pressure"].GetDouble();
@@ -117,13 +123,13 @@ class udp_client{
                 	if(document["stream"].IsBool()){
                 		stream=document["stream"].GetBool();
                 	}
-                }
+                }*/
                 if(document.HasMember("turretAngle")){
                 	if(document["turretAngle"].IsDouble()){
                 		turretAngle=document["turretAngle"].GetDouble();
                 	}
                 }
-                if(document.HasMember("RPM")){
+                /*if(document.HasMember("RPM")){
                 	if(document["RPM"].IsInt()){
                 		RPM=document["RPM"].GetInt();
                 	}
@@ -157,7 +163,7 @@ class udp_client{
                 	if(document["holdsGear"].IsBool()){
                 		holdsGear=document["holdsGear"].GetBool();
                 	}
-                }
+                }*/
 
                     }
             }
@@ -166,7 +172,7 @@ class udp_client{
         }
         void start_send(){
                 udp::resolver resolver(io_service);
-                udp::resolver::query query("10.54.31.26","25566");
+                udp::resolver::query query("10.54.31.56","25566");
                 udp::endpoint reciever_endpoint = *resolver.resolve(query);
                 udp::socket socket(io_service);
                 socket.open(udp::v4());
