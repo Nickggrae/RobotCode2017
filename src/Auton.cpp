@@ -196,17 +196,14 @@ void Auton::BlueRightAuton(){
 
 		case 9: // turn right for 135 degrees to head to launchpad line
 			TurnRight(0.5);
-			if (DriveBase::getYaw() <= -6) //turn left until facing forward to launchpad line
-				start = 9;
-			break;
-
-		case 10: // reset time and drive forward towards launchpad line
-			std::time(&startTime); // store time at time of initialization
-			DriveForward(0.5);
-			start = 11;
+			if (DriveBase::getYaw() <= -45){ //turn left until facing forward to launchpad line
+				std::time(&startTime); // store time
+				start = 11;
+			}
 			break;
 
 		case 11: // drive forward for 2 seconds until at launchpad line
+			DriveForward(0.5);
 			std::time(&currentTime);
 			if (std::difftime(currentTime, startTime) >= 2) {
 //				DriveBase::resetAHRS();
@@ -285,7 +282,7 @@ void Auton::RedMiddleAuton(){
 		case 80:
 			StayStill();
 		break;
-		}
+	}
 }
 
 void Auton::BlueLeftAuton(){
@@ -296,46 +293,51 @@ void Auton::BlueLeftAuton(){
 	//switch case here
 	std::time_t currentTime;
 	switch (start){
-	case 1:
+	case 10:
 		std::time(&startTime); // store time at time of initialization
-		start = 2;
+		start = 20;
 
 	break;
 
-	case 2:
+	case 20:
 		DriveForward(0.5); //moves forward going towards the hopper
 		std::time(&currentTime);
 		if (std::difftime(currentTime, startTime) >= 2) { // time needs to for sure be changed in testing...
 			std::time(&startTime); // store time at time of initialization
-			start = 3;
+			start = 30;
 		}
 
 	break;
 
-	case 3:
-		DriveBackwards(0.5);
+	case 30:
+		TurnLeft(0.5);
 			std::time(&startTime); // store time at time of
 		if (DriveBase::getYaw() >= 90) {//turn until facing left initialization
-			start = 4;
+			start = 40;
 		}
-
 	break;
 
-	case 4:
+	case 40:
 		DriveForward(0.5); //
 		std::time(&currentTime);
 		if (std::difftime(currentTime, startTime) >= .8) { // time needs to for sure be changed in testing...
 			std::time(&startTime); // store time at time of initialization
-			start = 5;
+			start = 50;
 		}
 	break;
 
-	case 5:
-		DriveForward(0.5);
+	case 50:
+		StayStill();
+		if (std::difftime(currentTime, startTime) >= 3) { // time needs to for sure be changed in testing...
+			std::time(&startTime); // store time at time of initialization
+		}
+	break;
+
+	case 60:
+		DriveBackwards(0.5);
 		std::time(&currentTime);
 		if (std::difftime(currentTime, startTime) >= .8) { // time needs to for sure be changed in testing...
 			std::time(&startTime); // store time at time of initialization
-			start = 6;
 		}
 	break;
 	}
