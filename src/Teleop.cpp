@@ -48,8 +48,8 @@ void Teleop::init() {
 */
 
 void Teleop::run(double turnAngle) {
-	double leftDrive = Teleop::joy->GetRawAxis(5);
-	double rightDrive = Teleop::joy->GetRawAxis(1);
+	double leftDrive = Teleop::joy->GetRawAxis(1);
+	double rightDrive = Teleop::joy->GetRawAxis(5);
 
 	//Dead zone
 	if(leftDrive < 0.1 && leftDrive > -0.1)
@@ -58,7 +58,8 @@ void Teleop::run(double turnAngle) {
 		rightDrive = 0.0;
 
 	DriveBase::drive(leftDrive, rightDrive);
-
+	SmartDashboard::PutNumber("left drive", leftDrive);
+	SmartDashboard::PutNumber("right drive", rightDrive);
 
 	if(prevButton1 < Teleop::joy->GetRawButton(1)){
 		Intake::toggleIntake();
@@ -79,7 +80,7 @@ void Teleop::run(double turnAngle) {
 	if(!climberUpButton && !climberDownButton && climberUpSlowButton && !climberOffButton)
 	{
 		Climber::turnOnSlow();
-	};''
+	}
 	if(!climberUpButton && !climberDownButton && climberUpSlowButton && !climberOffButton){
 		Climber::turnOff();
 	}
@@ -180,7 +181,7 @@ void Teleop::run(double turnAngle) {
 		//std::cout << currentRPM << "," << max << "," << min << "," << max - min << "\n";
 	}*/
 	SmartDashboard::PutNumber("Shooter speed", currentRPM);
-
+	SmartDashboard::PutNumber("YawTeleop", DriveBase::getYaw());
 
 	//SmartDashboard::PutNumber("MaxRPM", max);
 	//SmartDashboard::PutNumber("MinRPM", min);

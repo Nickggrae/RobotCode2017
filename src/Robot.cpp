@@ -52,7 +52,7 @@ public:
 		Copernicus::setMode(Copernicus::Mode::AUTON);
 	}
 	void AutonomousPeriodic(){
-		Auton::periodic(Auton::RedRight);
+		Auton::RedLeftAuton();
 		Copernicus::update();
 	}
 

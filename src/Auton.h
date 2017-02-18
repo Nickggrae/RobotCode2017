@@ -11,14 +11,24 @@ public:
 	// Loops through for the whole time of autonomous
 	static void periodic(int routine);
 
+	//it has auton so it isnt the same as the enums it looks bad sorry
+
+	static void NothingAuton();
+	static void RedLeftAuton();
+	static void RedMiddleAuton();
+	static void RedRightAuton();
+	static void BlueLeftAuton();
+	static void BlueMiddleAuton();
+	static void BlueRightAuton();
+
 	enum AutonRoutines
 	{
 		Nothing = 0,
-		RedLeft = 3,
+		RedLeft = 4,
 		RedMiddle = 2,
 		RedRight = 1,
 		BlueLeft = 6,
 		BlueMiddle = 5,
-		BlueRight = 4
+		BlueRight = 3
 	};
 };
