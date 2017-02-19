@@ -5,6 +5,8 @@
 
 class Auton {
 public:
+
+	static std::time_t startTime;
 	// Initialize the drivebase, set's starttime to current time, set's motor speed to half
 	static void init();
 
@@ -12,10 +14,10 @@ public:
 	static void periodic(int routine);
 
 	//POWER ALWAYS HAS TO BE POSITIVE
-	static void TurnRight(double power);
-	static void TurnLeft(double power);
-	static void DriveForward(double power);
-	static void DriveBackwards(double power);
+	static void TurnRight(double power = 0.5);
+	static void TurnLeft(double power = 0.5);
+	static void DriveForward(double power = 0.5);
+	static void DriveBackwards(double power = 0.5);
 	static void StayStill();
 
 	//it has auton so it isnt the same as the enums it looks bad sorry
@@ -27,6 +29,8 @@ public:
 	static void BlueLeftAuton();
 	static void BlueMiddleAuton();
 	static void BlueRightAuton();
+
+	static bool waited(double seconds);
 
 	enum AutonRoutines
 	{
