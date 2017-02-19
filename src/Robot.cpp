@@ -48,11 +48,11 @@ public:
 	}
 
 	void AutonomousInit(){
-		Auton::init();
+		Auton::getInstance().init();
 		Copernicus::setMode(Copernicus::Mode::AUTON);
 	}
 	void AutonomousPeriodic(){
-		Auton::RedRightGearAuton();
+		Auton::getInstance().RedRightGearAuton();
 		Copernicus::update();
 	}
 
