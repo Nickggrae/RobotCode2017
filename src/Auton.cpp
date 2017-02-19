@@ -14,6 +14,8 @@ void Auton::init() {
 	DriveBase::enableBrake();
 	DriveBase::resetAHRS(); //Resetting NavX before getting angle
 	start = 10;
+	Auton::startTime = 0;
+	DriveBase::switchGear(true);
 }
 
 void Auton::TestYaw(){
@@ -69,12 +71,7 @@ void Auton::RedLeftAuton(){
 	loopCount += 1;
 	SmartDashboard::PutNumber("LoopCount", loopCount);
 	switch (start) {
-		case 10: //set start time to zero at start
-			StayStill();
-			start = 20;
-			break;
-
-		case 20: //drive forward at half speed until ready to turn to get gear
+		case 10: //drive forward at half speed until ready to turn to get gear
 			DriveForward();
 			if(waited(2)){
 				start = 30;
@@ -139,64 +136,67 @@ void Auton::BlueRightAuton(){
 		//robot will go deliver gear to the left most one
 		//robot will back out and turn left and go forward until at launch pad line
 	switch (start) {
-		case 1: //set start time to zero at start
-			start = 2;
-			break;
-
-		case 2: //drive forward at half speed until ready to turn to get gear
+	case 10: //drive forward at half speed until ready to turn to get gear
 			DriveForward();
 			if(waited(2)){ //maybe 2
-				start = 3;
+				start = 20;
 			}
 		break;
 
-		case 3: // turn left 45 degrees to head to gear
+		case 20: // turn left 45 degrees to head to gear
 			TurnLeft();
-			if (DriveBase::getYaw() >= 6) {
-				start = 4;
+			if (DriveBase::getYaw() <= -45) {
+				start = 30;
 			}
 		break;
 
-		case 4: // drive forward till at gear
+		case 30: // drive forward till at gear
 			DriveForward();
 			if(waited(2)){
-				start = 5;
+				start = 40;
 			}
 		break;
 
-		case 5: // reset time to zero and stop driving; wait for person to pick up gear
+		case 40: // reset time to zero and stop driving; wait for person to pick up gear
 			StayStill();
-			start = 6;
+			start = 50;
 		break;
 
-		case 6: // stay stopped for 1.5 seconds; wait for gear to leave
+		case 50: // stay stopped for 1.5 seconds; wait for gear to leave
 			if(waited(1.5)){
-				start = 8;
+				start = 60;
 			}
 		break;
 
-		case 8: // drive backward away from gear
+		case 60: // drive backward away from gear
 			DriveBackwards();
 			if(waited(1.5)){
-				start = 9;
+				start = 65;
 			}
 			break;
 
-		case 9: // turn right for 135 degrees to head to launchpad line
+		case 65:
+			StayStill();
+			if(waited(0.2)){
+				start = 70;
+			}
+			break;
+
+		case 70:
 			TurnRight();
-			if (DriveBase::getYaw() <= -45){ //turn left until facing forward to launchpad line
-				start = 11;
+			if (DriveBase::getYaw() >= 0){ //turn left until facing forward to launchpad line
+				start = 80;
 			}
 			break;
 
-		case 11: // drive forward for 2 seconds until at launchpad line
+		case 80: // drive forward for 2 seconds until at launchpad line
 			DriveForward();
 			if(waited(1.5)){
-				start = 12;
+				start = 90;
 			}
 			break;
 
-		case 12:
+		case 90:
 			StayStill();
 			break;
 		}
@@ -212,13 +212,9 @@ void Auton::RedMiddleAuton(){
 	//will shoot the 10 balls while(or after??) delivering gear
 	//robot will turn left and go forward until at the launchpad
 	switch (start) {
-		case 10: //set start time to zero at start
-			start = 20;
-			break;
-
-		case 20: //drive forward at half speed until at gear
+		case 10: //drive forward at half speed until at gear
 			DriveForward();
-			if(waited(1)){
+			if(waited(2)){
 				start = 30;
 			}
 			break;
@@ -226,7 +222,7 @@ void Auton::RedMiddleAuton(){
 		case 30: // stay stopped for 1.5 seconds; wait for gear to leave
 			//NEED TO ADD SHOOTING WHILE PLACING GEAR
 			StayStill();
-			if(waited(1)){
+			if(waited(3.5)){
 				start = 40;
 			}
 			break;
@@ -246,81 +242,110 @@ void Auton::RedMiddleAuton(){
 
 		case 60: // go forward to be ready to turn right
 			DriveForward();
-			if(waited(.5)){
+			if(waited(1.5)){
 				start = 70;
 			}
 			break;
 
 		case 70:
-			StayStill();
+			TurnRight();
+			if (DriveBase::getYaw() >= -10)
+				start = 80;
 		break;
 
+		case 80:
+			DriveForward();
+			if(waited(1.5)){
+				start = 90;
+			}
+		break;
+
+		case 90:
+			StayStill();
+		break;
 	}
 }
 
-void Auton::BlueLeftAuton(){
+void Auton::BlueLeftShootAuton(){
 	//Auton for BlueLeft
-	//Robot will get balls from hopper
-	//Go to the Left Gear and deliver it -- while shooting balls at the same time
-	//after delivering the gear, stop and don't move till teleop
-	//switch case here
+	//Robot will get balls from hopper and shoot them
 	switch (start){
 	case 10:
-		start = 20;
-
+		DriveForward();
+		if(waited(2)){
+			start = 15;
+		}
 	break;
 
-	case 20:
-		DriveForward(); //moves forward going towards the hopper
-		if(waited(2)){
+	case 15:
+		StayStill();
+		if(waited(0.2)){
+			start = 20;
+		}
+		break;
+
+	case 20: //turn left to face hopper
+		TurnLeft();
+		if (DriveBase::getYaw() <= -90) {//turn until facing the hopper
 			start = 30;
 		}
-
 	break;
 
 	case 30:
-		TurnLeft();
-		if (DriveBase::getYaw() >= 90) {//turn until facing left initialization
+		DriveForward(); //to hopper
+		if(waited(1.5)){
 			start = 40;
 		}
 	break;
 
 	case 40:
-		DriveForward(); //
-		if(waited(0.8)){
-			start = 50;
-		}
+		//SHOOT
+		StayStill(); //stays at the hopper
 	break;
 
-	case 50:
-		StayStill();
-		if(waited(3)){
-			start = 60;
-		}
-	break;
-
-	case 60:
-		DriveBackwards();
-		if(waited(.8)){
-			start = 70;
-		}
-	break;
+//when it's done shooting, back out to prepare for teleop
 	}
 }
-// this is not done yet
 
-void Auton::BlueMiddleAuton(){
-	//Goes forward and delivers gears
-	//Shoots while waiting for the gear
-	//Turns right and goes to the line
+void Auton::BlueLeftGearAuton(){
 	switch (start) {
-		case 10: //set start time to zero at start
-			start = 20;
+		case 10: //drive forward at half speed until ready to turn to get gear
+			DriveForward();
+			if(waited(2)){
+				start = 20;
+			}
 			break;
 
-		case 20: //drive forward at half speed until at gear
+		case 20: //turn right 45 degrees
+			TurnRight();
+			if (DriveBase::getYaw() >= 45) {
+				start = 30;
+			}
+			break;
+
+		case 30: // drive forward till at gear
 			DriveForward();
-			if(waited(1)){
+			if(waited(0.8)){
+				start = 40;
+			}
+			break;
+
+		case 40: // stay stopped for 1.5 seconds; wait for gear to leave
+			StayStill();
+			//SHOOT
+			break;
+	}
+}
+
+void Auton::BlueMiddleAuton(){
+	//Auton for BlueMiddle
+	//robot will move forward to the middle gear and deliver it
+	//will shoot the 10 balls while(or after??) delivering gear
+	//robot will turn right and go forward until at the launchpad line
+	switch (start) {
+		case 10: //drive forward at half speed until at gear
+			DriveForward();
+			if(waited(2)){
 				start = 30;
 			}
 			break;
@@ -328,7 +353,7 @@ void Auton::BlueMiddleAuton(){
 		case 30: // stay stopped for 1.5 seconds; wait for gear to leave
 			//NEED TO ADD SHOOTING WHILE PLACING GEAR
 			StayStill();
-			if(waited(1)){
+			if(waited(3.5)){
 				start = 40;
 			}
 			break;
@@ -341,37 +366,43 @@ void Auton::BlueMiddleAuton(){
 			break;
 
 		case 50: //turn left 90 degrees
-			TurnLeft();
-			if (DriveBase::getYaw() <= -90) //turn until facing left
+			TurnRight();
+			if (DriveBase::getYaw() >= 90) //turn until facing Right
 				start = 60;
 			break;
 
 		case 60: // go forward to be ready to turn right
 			DriveForward();
-			if(waited(.5)){
+			if(waited(1.5)){
 				start = 70;
 			}
 			break;
 
 		case 70:
-			StayStill();
+			TurnLeft();
+			if (DriveBase::getYaw() <= 0)
+				start = 80;
 		break;
 
+		case 80:
+			DriveForward();
+			if(waited(1.5)){
+				start = 90;
+			}
+		break;
+
+		case 90:
+			StayStill();
+		break;
 	}
 }
 
-void Auton::RedRightAuton(){
+
+void Auton::RedRightShootAuton(){
 	//Auton for RedRight
-	//Robot will go to the hopper to get the balls
-	//Drive to the gear and deliver it
-	//while at the gear, shoot the balls that were picked up from the hopper
-	//stay at the gear and don't move until teleop...
+	//Robot will go to the hopper to get the balls and shoot them
 	switch (start){
 	case 10:
-		start = 20;
-	break;
-
-	case 20:
 		DriveForward();
 		if(waited(2)){
 			start = 30;
@@ -387,37 +418,47 @@ void Auton::RedRightAuton(){
 
 	case 40:
 		DriveForward(); //to hopper
-		if(waited(.6)){
+		if(waited(1)){
 			start = 50;
 		}
 	break;
 
 	case 50:
-		DriveBackwards(); //moves backwards away from the hopper
-		if(waited(.8)){
-			start = 60;
-		}
+		//SHOOT
+		StayStill(); //stays at the hopper
 	break;
 
-	case 60:	//angle is estimated by Oliver, if it is wrong it is Oliver's fault...
-		TurnLeft();
-		if(DriveBase::getYaw() <= -90) {
-			start = 70;
-		}
-	break;
-
-	case 70:
-		DriveBackwards();//moves the robot to the gear
-		if(waited(1.5)){
-			start = 80;
-		}
-	break;
-
-	case 80:
-		StayStill();
-	break;
+//when it's done shooting, back out to prepare for teleop
 	}
 }
-void Auton::periodic(int routine) {
 
+void Auton::RedRightGearAuton(){
+	switch (start) {
+		case 10: //drive forward at half speed until ready to turn to get gear
+			DriveForward();
+			if(waited(2)){
+				start = 20;
+			}
+			break;
+
+		case 20: //turn left 45 degrees
+			TurnLeft();
+			if (DriveBase::getYaw() <= -45) {
+				start = 30;
+			}
+			break;
+
+		case 30: // drive forward till at gear
+			DriveForward();
+			if(waited(1.1)){
+				start = 40;
+			}
+			break;
+
+		case 40: // stay stopped for 1.5 seconds; wait for gear to leave
+			StayStill();
+			//SHOOT
+			break;
+	}
 }
+
