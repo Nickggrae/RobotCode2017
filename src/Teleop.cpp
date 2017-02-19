@@ -72,17 +72,17 @@ void Teleop::run(double turnAngle) {
 	bool climberOffButton = Teleop::extremePro->GetRawButton(9);
 //#gotta fix the code cause the code is bad to the bone!!!!!!!!!!!!
 	if(climberUpButton && !climberDownButton && !climberUpSlowButton && !climberOffButton) {
-		Climber::turnOn();
+		Climber::getInstance().turnOn();
 	}
 	else if (!climberUpButton && climberDownButton && !climberUpSlowButton && !climberOffButton) {
-		Climber::back();
+		Climber::getInstance().back();
 	}
 	if(!climberUpButton && !climberDownButton && climberUpSlowButton && !climberOffButton)
 	{
-		Climber::turnOnSlow();
+		Climber::getInstance().turnOnSlow();
 	}
 	if(!climberUpButton && !climberDownButton && climberUpSlowButton && !climberOffButton){
-		Climber::turnOff();
+		Climber::getInstance().turnOff();
 	}
 
 //	if(prevButton2 < Teleop::stick->GetRawButton(7)){
@@ -158,8 +158,8 @@ void Teleop::run(double turnAngle) {
 		max = 0;
 	}*/
 
-	double extreme_y = extremePro->GetRawAxis(1);
-	double scaled_y = (extreme_y*0.5)+0.5;
+//	double extreme_y = extremePro->GetRawAxis(1);
+//	double scaled_y = (extreme_y*0.5)+0.5;
 	// -1 to 1
 	if(Teleop::extremePro->GetRawButton(2))
 	{

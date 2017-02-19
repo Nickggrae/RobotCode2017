@@ -1,12 +1,14 @@
 #include "Climber.h"
 
-CANTalon* Climber::climb;
+Climber& Climber::getInstance(){
+	static Climber instance;
+	return instance;
+}
 
 void Climber::init(){
 	climb = new CANTalon(4);
 	climb->ClearStickyFaults();
 	climb->ConfigNeutralMode(CANSpeedController::NeutralMode::kNeutralMode_Brake);
-
 }
 
 void Climber::turnOn(){

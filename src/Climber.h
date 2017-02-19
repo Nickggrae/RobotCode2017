@@ -2,11 +2,17 @@
 #include "Shared.h"
 
 class Climber{
-	static CANTalon* climb;
+	CANTalon* climb;
+	Climber() { init(); }
+	// singleton methods - no definition
+	Climber(Climber const&);
+	void operator=(Climber const&);
+	void init();
+
 public:
-	static void init();
-	static void turnOn();
-	static void back();
-	static void turnOnSlow();
-	static void turnOff();
+	static Climber& getInstance();
+	void turnOn();
+	void back();
+	void turnOnSlow();
+	void turnOff();
 };

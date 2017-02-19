@@ -2,6 +2,7 @@
 #include "Teleop.h"
 #include "Intake.h"
 #include "Auton.h"
+#include "Climber.h"
 #include "Copernicus.h"
 #include "Shooter.h"
 
@@ -20,12 +21,11 @@ public:
 		DriveBase::init();
 		Shooter::init();
 		Intake::init();
-		Climber::init();
 
 		NetworkTable::Initialize();
 		NetworkTable::SetServerMode();
 		NetworkTable::SetTeam(5431);
-
+		Climber::getInstance();		// the very first time we call it will init() the climber
 
 		//udp_server.serverInit();
 		//std::shared_ptr<NetworkTable> table = NetworkTable::GetTable("vision");
@@ -48,7 +48,7 @@ public:
 	}
 
 	void AutonomousInit(){
-		Auton::getInstance().init();
+		Auton::getInstance(); //first call will create an instance and call init
 		Copernicus::setMode(Copernicus::Mode::AUTON);
 	}
 	void AutonomousPeriodic(){
