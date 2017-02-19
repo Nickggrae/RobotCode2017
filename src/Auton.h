@@ -4,33 +4,40 @@
 #include <ctime>
 
 class Auton {
-public:
-
-	static std::time_t startTime;
-	// Initialize the drivebase, set's starttime to current time, set's motor speed to half
-	static void init();
+	std::time_t startTime; //Used to calculate delay through time
+	int state; //Number the state machine is at
+	//singleton- hide constructor and copy constructor
+	Auton(): startTime(0), state(10) {}
+	Auton(Auton const&);
+	void operator=(Auton const&);
 
 	//POWER ALWAYS HAS TO BE POSITIVE
-	static void TurnRight(double power = 0.5);
-	static void TurnLeft(double power = 0.5);
-	static void DriveForward(double power = 0.5);
-	static void DriveBackwards(double power = 0.5);
-	static void StayStill();
+	void TurnRight(double power = 0.5);
+	void TurnLeft(double power = 0.5);
+	void DriveForward(double power = 0.5);
+	void DriveBackwards(double power = 0.5);
+	void StayStill();
+
+	bool waited(double seconds); //Used to wait x seconds returns true if time period has expired
+
+public:
+	static Auton& getInstance();
+
+	// Initialize the drivebase, set's starttime to current time, set's motor speed to half
+	void init();
 
 	//it has auton so it isnt the same as the enums it looks bad sorry
-	static void TestYaw();
-	static void NothingAuton();
-	static void RedLeftAuton();
-	static void RedMiddleAuton();
-	static void RedRightShootAuton();
-	static void RedRightGearAuton();
+	void TestYaw();
+	void NothingAuton();
+	void RedLeftAuton();
+	void RedMiddleAuton();
+	void RedRightShootAuton();
+	void RedRightGearAuton();
 
-	static void BlueLeftShootAuton();
-	static void BlueLeftGearAuton();
-	static void BlueMiddleAuton();
-	static void BlueRightAuton();
-
-	static bool waited(double seconds);
+	void BlueLeftShootAuton();
+	void BlueLeftGearAuton();
+	void BlueMiddleAuton();
+	void BlueRightAuton();
 
 
 	enum AutonRoutines
