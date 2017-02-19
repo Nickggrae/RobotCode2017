@@ -10,9 +10,6 @@ public:
 	// Initialize the drivebase, set's starttime to current time, set's motor speed to half
 	static void init();
 
-	// Loops through for the whole time of autonomous
-	static void periodic(int routine);
-
 	//POWER ALWAYS HAS TO BE POSITIVE
 	static void TurnRight(double power = 0.5);
 	static void TurnLeft(double power = 0.5);
@@ -25,12 +22,16 @@ public:
 	static void NothingAuton();
 	static void RedLeftAuton();
 	static void RedMiddleAuton();
-	static void RedRightAuton();
-	static void BlueLeftAuton();
+	static void RedRightShootAuton();
+	static void RedRightGearAuton();
+
+	static void BlueLeftShootAuton();
+	static void BlueLeftGearAuton();
 	static void BlueMiddleAuton();
 	static void BlueRightAuton();
 
 	static bool waited(double seconds);
+
 
 	enum AutonRoutines
 	{
