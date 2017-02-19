@@ -10,11 +10,13 @@
 #include "DriveBase.h"
 #include "Shared.h"
 #include "Climber.h"
+#include "Intake.h"
 
 class Teleop{
 	static Joystick* stick;
 	static Joystick* joy;
 	static Joystick* extremePro;
+//	Intake &intake = Intake::getInstance();
 public:
 	static void init();
 	static void run(double angle);

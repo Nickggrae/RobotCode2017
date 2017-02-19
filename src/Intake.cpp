@@ -1,32 +1,34 @@
 #include "Intake.h"
 #include "Copernicus.h"
 
-CANTalon* Intake::Intakeu;
-double Intake::motorSpeed;
+Intake& Intake::getInstance(){
+  static Intake instance;
+  return instance;
+}
 
 void Intake::init() {
-	Intake::Intakeu = new CANTalon(12);
-	Intake::Intakeu->SetSafetyEnabled(false);
+	intakeTalon = new CANTalon(12);
+	intakeTalon->SetSafetyEnabled(false);
 }
 
 void Intake::turnOn() {
-	Intake::Intakeu->Set(.50);
+	intakeTalon->Set(.50);
 }
 
 void Intake::turnOff() {
-	Intake::Intakeu->Set(0.0);
+	intakeTalon->Set(0.0);
 }
 
 bool Intake::isOn() {
-	return (Intake::Intakeu->Get() > 0.1); // Returns true if intake is on
+	return (intakeTalon->Get() > 0.1); // Returns true if intake is on
 }
 
 void Intake::toggleIntake() { // Used for toggle in Teleop
-	if (Intake::isOn()) {
-		Intake::turnOff();
+	if (isOn()) {
+		turnOff();
 		Copernicus::setFloorIntake(false);
 	} else {
-		Intake::turnOn();
+		turnOn();
 		Copernicus::setFloorIntake(true);
 	}
 }

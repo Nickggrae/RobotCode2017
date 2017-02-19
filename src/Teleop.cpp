@@ -62,7 +62,7 @@ void Teleop::run(double turnAngle) {
 	SmartDashboard::PutNumber("right drive", rightDrive);
 
 	if(prevButton1 < Teleop::joy->GetRawButton(1)){
-		Intake::toggleIntake();
+		Intake::getInstance().toggleIntake();
 	}
 	prevButton1 = Teleop::joy->GetRawButton(1);
 
