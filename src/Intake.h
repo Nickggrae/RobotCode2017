@@ -3,26 +3,30 @@
 //#include <CANTalon.h>
 
 class Intake{
+  //singleton- hide constructor and copy constructor
+ Intake() { init(); }
+ Intake(Intake const&);
+ void operator=(Intake const&);
+
+   // CANTalon used to control the intake
+  CANTalon* intakeTalon;
+  double motorSpeed;
+
+  //initialize the CANTalon for intake
+  void init();
 
 public:
-	//initialize the CANTalon for intake
-	static void init();
+  static Intake& getInstance();
+
 	//turns on intake
-	static void turnOn();
+	void turnOn();
 	//turns off intake
-	static void turnOff();
+	void turnOff();
 	// checks if the intake is on (for toggle)
-	static bool isOn();
+	bool isOn();
 	// Switches intake from on to off if intake button is pressed
-	static void toggleIntake();
+	void toggleIntake();
 
-	static void agitatorOn();
 
-	static void agitatorOff();
-
-	// CANTalon used to control the intake
-	//Liav - Please rename this
-	static CANTalon* Intakeu;
-	static double motorSpeed;
 
 };
