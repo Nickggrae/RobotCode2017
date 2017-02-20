@@ -15,6 +15,7 @@
 
 int prevButton1 = 0;
 int prevButton2 = 0;
+int prevButton3 = 0;
 
 double target = 3200;
 //double max_d = 0;
@@ -48,8 +49,8 @@ void Teleop::init() {
 */
 
 void Teleop::run(double turnAngle) {
-	double leftDrive = Teleop::joy->GetRawAxis(1);
-	double rightDrive = Teleop::joy->GetRawAxis(5);
+	double leftDrive = Teleop::joy->GetRawAxis(5);
+	double rightDrive = Teleop::joy->GetRawAxis(1);
 
 	//Dead zone
 	if(leftDrive < 0.1 && leftDrive > -0.1)
@@ -61,10 +62,18 @@ void Teleop::run(double turnAngle) {
 	SmartDashboard::PutNumber("left drive", leftDrive);
 	SmartDashboard::PutNumber("right drive", rightDrive);
 
+	//toggle for the floor intake
 	if(prevButton1 < Teleop::joy->GetRawButton(1)){
 		Intake::getInstance().toggleIntake();
 	}
 	prevButton1 = Teleop::joy->GetRawButton(1);
+
+	//toggle for the salad spinner
+	if(prevButton3 <Teleop::joy->GetRawButton(4)){
+		Intake::getInstance().toggleSaladSpinner();
+	}
+	prevButton3 = Teleop::joy->GetRawButton(4);
+
 
 	bool climberUpButton = Teleop::extremePro->GetRawButton(8);
 	bool climberDownButton = Teleop::extremePro->GetRawButton(7);
@@ -146,7 +155,9 @@ void Teleop::run(double turnAngle) {
 
 	Copernicus::setFlywheelRPM(Shooter::get());
 
-	double shooter = SmartDashboard::GetNumber("Shooter", 0.0);
+
+	double shooter = Teleop::extremePro->GetRawAxis(1);
+//	double shooter = SmartDashboard::GetNumber("Shooter", 0.0);
 	if(shooter > 0.1)
 	{
 		target = shooter;
@@ -186,5 +197,3 @@ void Teleop::run(double turnAngle) {
 	//SmartDashboard::PutNumber("MaxRPM", max);
 	//SmartDashboard::PutNumber("MinRPM", min);
 }
-
-

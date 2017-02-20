@@ -10,6 +10,7 @@ class Intake{
 
    // CANTalon used to control the intake
   CANTalon* intakeTalon;
+  CANTalon* saladSpinner;
   double motorSpeed;
 
   //initialize the CANTalon for intake
@@ -27,6 +28,15 @@ public:
 	// Switches intake from on to off if intake button is pressed
 	void toggleIntake();
 
+	void agitatorOn();
 
+	void agitatorOff();
 
+	void saladSpinnerOn();
+
+	void saladSpinnerOff();
+
+	void toggleSaladSpinner();
+
+	bool isOnSalad();
 };
