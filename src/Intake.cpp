@@ -7,10 +7,10 @@ Intake& Intake::getInstance(){
 }
 
 void Intake::init() {
-	intakeTalon = new CANTalon(9);
+	intakeTalon = new CANTalon(MAP_INTAKETALON);
 	intakeTalon->SetSafetyEnabled(false);
 
-	saladSpinner = new CANTalon(5);
+	saladSpinner = new CANTalon(MAP_SALADSPINNER);
 	saladSpinner->SetInverted(true);
 	intakeTalon->SetInverted(true);
 }

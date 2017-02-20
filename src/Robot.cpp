@@ -19,7 +19,7 @@ public:
 //		NetworkTable::SetServerMode();
 //		NetworkTable::SetTeam(5431);
 		DriveBase::init();
-		Shooter::init();
+		Shooter::getInstance().init();
 		Intake::getInstance();
 
 		NetworkTable::Initialize();

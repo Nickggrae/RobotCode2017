@@ -142,7 +142,7 @@ void Teleop::run(double turnAngle) {
 		if(angle < 180 && angle > -180)
 		{
 			if(turnAngle != 666)
-				Shooter::setangle(angle);
+				Shooter::getInstance().setangle(angle);
 			else
 				std::cout << "TA DA~" << std::endl;
 		}
@@ -150,10 +150,10 @@ void Teleop::run(double turnAngle) {
 
 	SmartDashboard::PutNumber("Vision Angle", angle);
 	SmartDashboard::PutNumber("Turn Angle", turnAngle);
-	SmartDashboard::PutNumber("Attempted Angle", angle + Shooter::getangle());
-	SmartDashboard::PutNumber("Shooter Angle", Shooter::getangle());
+	SmartDashboard::PutNumber("Attempted Angle", angle + Shooter::getInstance().getangle());
+	SmartDashboard::PutNumber("Shooter Angle", Shooter::getInstance().getangle());
 
-	Copernicus::setFlywheelRPM(Shooter::get());
+	Copernicus::setFlywheelRPM(Shooter::getInstance().get());
 
 
 	double shooter = Teleop::extremePro->GetRawAxis(1);
@@ -174,14 +174,14 @@ void Teleop::run(double turnAngle) {
 	// -1 to 1
 	if(Teleop::extremePro->GetRawButton(2))
 	{
-		Shooter::agitatorOn();
+		Shooter::getInstance().agitatorOn();
 	}
 	else
-		Shooter::agitatorOff();
+		Shooter::getInstance().agitatorOff();
 	//Accepts rpm setting
 //	double setRPM = scaled_y * 6000.0;
-	Shooter::set(shooter);
-	double currentRPM = Shooter::get();
+	Shooter::getInstance().set(shooter);
+	double currentRPM = Shooter::getInstance().get();
 	/*if(passedTarget)
 	{
 

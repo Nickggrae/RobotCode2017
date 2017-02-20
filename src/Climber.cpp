@@ -6,20 +6,20 @@ Climber& Climber::getInstance(){
 }
 
 void Climber::init(){
-	climb = new CANTalon(4);
+	climb = new CANTalon(MAP_CLIMBER);
 	climb->ClearStickyFaults();
 	climb->ConfigNeutralMode(CANSpeedController::NeutralMode::kNeutralMode_Brake);
 }
 
 void Climber::turnOn(){
-	Climber::climb->Set(0.9);
+	climb->Set(0.9);
 }
 void Climber::back(){
-	Climber::climb->Set(-0.3);
+	climb->Set(-0.3);
 }
 void Climber::turnOnSlow(){
-	Climber::climb->Set(0.3);
+	climb->Set(0.3);
 }
 void Climber::turnOff(){
-	Climber::climb->Set(0);
+	climb->Set(0);
 }
