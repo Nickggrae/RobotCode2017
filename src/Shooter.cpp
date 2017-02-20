@@ -1,72 +1,70 @@
 #include "Shooter.h"
 
-CANTalon* Shooter::shooter;
-CANTalon* Shooter::angle;
-CANTalon* Shooter::shooterIntake;
-CANTalon* Shooter::conveyor;
+Shooter& Shooter::getInstance(){
+	static Shooter instance;
+	return instance;
+}
 
 void Shooter::init() {
-	Shooter::shooter = new CANTalon(14);
-	Shooter::shooter->Set (0.0);
-	Shooter::shooter->SetFeedbackDevice(CANTalon::EncRising);
-	Shooter::shooter->SetStatusFrameRateMs(CANTalon::StatusFrameRate::StatusFrameRateFeedback, 1);
-	Shooter::shooter->ConfigEncoderCodesPerRev(1024);
-	Shooter::shooter->ConfigNominalOutputVoltage(+0., -0.);
-	Shooter::shooter->ConfigPeakOutputVoltage(+12., -12.);
-	Shooter::shooter->SetAllowableClosedLoopErr(0);
-	Shooter::shooter->SelectProfileSlot(0);
-	Shooter::shooter->SetPID(6.25,0.0025,0.0);
-	Shooter::shooter->SetControlMode(CANSpeedController::kSpeed);
+	shooterMaster = new CANTalon(MAP_SHOOTERMASTER);
+	shooterMaster->Set (0.0);
+	shooterMaster->SetFeedbackDevice(CANTalon::EncRising);
+	shooterMaster->SetStatusFrameRateMs(CANTalon::StatusFrameRate::StatusFrameRateFeedback, 1);
+	shooterMaster->ConfigEncoderCodesPerRev(1024);
+	shooterMaster->ConfigNominalOutputVoltage(+0., -0.);
+	shooterMaster->ConfigPeakOutputVoltage(+12., -12.);
+	shooterMaster->SetAllowableClosedLoopErr(0);
+	shooterMaster->SelectProfileSlot(0);
+	shooterMaster->SetPID(6.25,0.0025,0.0);
+	shooterMaster->SetControlMode(CANSpeedController::kSpeed);
+
+	shooterSlave = new CANTalon(MAP_SHOOTERSLAVE);
+	shooterSlave->SetControlMode(CANTalon::ControlMode::kFollower);
+	shooterSlave->Set(shooterMaster->GetDeviceID());
 
 
-	Shooter::angle = new CANTalon(2);
-	Shooter::angle->Set (0.0);
-	Shooter::angle ->SetFeedbackDevice(CANTalon::QuadEncoder);
-	Shooter::angle->ConfigEncoderCodesPerRev(1024);
-	Shooter::angle->ConfigNominalOutputVoltage(+0., -0.);
-	Shooter::angle->ConfigPeakOutputVoltage(+12., -12.);
-	Shooter::angle->SetAllowableClosedLoopErr(0.5);
-	Shooter::angle->SelectProfileSlot(0);
-	Shooter::angle ->SetPID(.005,0.0,0.0);
-//	Shooter::angle->SetPID(0.005, 0.0, 0.0);
-	Shooter::angle->SetControlMode(CANSpeedController::kPosition);
-	Shooter::angle->SetSensorDirection(true);
+	angle = new CANTalon(MAP_ANGLE);
+	angle->Set (0.0);
+	angle ->SetFeedbackDevice(CANTalon::QuadEncoder);
+	angle->ConfigEncoderCodesPerRev(1024);
+	angle->ConfigNominalOutputVoltage(+0., -0.);
+	angle->ConfigPeakOutputVoltage(+12., -12.);
+	angle->SetAllowableClosedLoopErr(0.5);
+	angle->SelectProfileSlot(0);
+	angle->SetPID(.005,0.0,0.0);
+	angle->SetControlMode(CANSpeedController::kPosition);
+	angle->SetSensorDirection(true);
 
-	Shooter::shooterIntake = new CANTalon(666);
-	Shooter::shooterIntake->Set(0.0);
-	Shooter::shooterIntake->SetInverted(false);
+	shooterIntake = new CANTalon(MAP_SHOOTERINTAKE);
+	shooterIntake->Set(0.0);
+	shooterIntake->SetInverted(false);
 
-	Shooter::conveyor = new CANTalon(667);
-	Shooter::conveyor->Set(0.0);
-	Shooter::conveyor->SetInverted(false);
 }
 
 void Shooter::set(double rpm){
-	Shooter::shooter->Set(rpm);
+	shooterMaster->Set(rpm);
 }
 
 double Shooter::get(){
-	return Shooter::shooter->GetSpeed();
+	return shooterMaster->GetSpeed();
 }
 
-//Set CANTalon rotations based on angle [aka ihatedavid]
-void Shooter::setangle(double ihatedavid){
-	Shooter::angle->Set(ihatedavid);// * (0.007638888888889));f
+//Set CANTalon rotations based on angle
+void Shooter::setangle(double angleToSet){
+	angle->Set(angleToSet);// * (0.007638888888889));f
 }
 double Shooter::getangle(){
-	return (Shooter::angle->GetNumberOfQuadIdxRises());// / .00076388888888889);
+	return (angle->GetNumberOfQuadIdxRises());// / .00076388888888889);
 }
 
 void Shooter::agitatorOn(){
-	Shooter::shooterIntake->Set(0.5);
-	Shooter::conveyor->Set(0.45);
+	shooterIntake->Set(0.5);
 }
 
 void Shooter::agitatorOff(){
-	Shooter::shooterIntake->Set(0.0);
-	Shooter::conveyor->Set(0.0);
+	shooterIntake->Set(0.0);
 }
 
 void Shooter::resetAngle(){
-	Shooter::angle->Reset();
+	angle->Reset();
 }

@@ -7,6 +7,31 @@
 
 //FOR DEBUG
 #include <SmartDashboard/SmartDashboard.h>
+/*
+#define MAP_FRONTLEFT 8
+#define MAP_FRONTRIGHT 3
+#define MAP_REARLEFT 10
+#define MAP_REARRIGHT 11
+#define MAP_CLIMBER 4
+#define MAP_INTAKETALON 9
+#define MAP_SALADSPINNER 5
+#define MAP_SHOOTERMASTER 14
+#define MAP_SHOOTERSLAVE 668
+#define MAP_ANGLE 2
+#define MAP_SHOOTERINTAKE 666
+#define MAP_CONVEYOR 667
+*/
+#define MAP_FRONTLEFT 2
+#define MAP_FRONTRIGHT 4
+#define MAP_REARLEFT 3
+#define MAP_REARRIGHT 5
+#define MAP_CLIMBER 11
+#define MAP_INTAKETALON 9
+#define MAP_SALADSPINNER 13
+#define MAP_SHOOTERMASTER 6
+#define MAP_SHOOTERSLAVE 9
+#define MAP_ANGLE 2
+#define MAP_SHOOTERINTAKE 1
 //const int turrentTable = 2;
 //const int leftDriveFront = 11;
 //const int leftDriveBack = 3;

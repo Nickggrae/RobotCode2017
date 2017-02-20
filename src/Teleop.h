@@ -11,6 +11,7 @@
 #include "Shared.h"
 #include "Climber.h"
 #include "Intake.h"
+#include "Shooter.h"
 
 class Teleop{
 	static Joystick* stick;

@@ -20,20 +20,20 @@ void DriveBase::init() {
 	DriveBase::ahrs = new AHRS(SPI::Port::kMXP);
 
 	// CanTalon pair(2,3) pair(4,5)
-	DriveBase::fl = new CANTalon(8);
+	DriveBase::fl = new CANTalon(MAP_FRONTLEFT);
 	//DriveBase::fl->SetFeedbackDevice(CANTalon::CtreMagEncoder_Relative);
 	DriveBase::fl->SetInverted(true);
 //	DriveBase::fl->SetSafetyEnabled(false);
 
-	DriveBase::fr = new CANTalon(3);
+	DriveBase::fr = new CANTalon(MAP_FRONTRIGHT);
 	DriveBase::fr->SetInverted(true);
 //	DriveBase::fr->SetSafetyEnabled(false);
 
-	DriveBase::rl = new CANTalon(10);
+	DriveBase::rl = new CANTalon(MAP_REARLEFT);
 	DriveBase::rl->SetInverted(true);
 //	DriveBase::rl->SetSafetyEnabled(false);
 
-	DriveBase::rr = new CANTalon(11);
+	DriveBase::rr = new CANTalon(MAP_REARRIGHT);
 	DriveBase::rr->SetInverted(true);
 //	DriveBase::rr->SetSafetyEnabled(false);
 	DriveBase::robotDrive = new frc::RobotDrive(DriveBase::fl,DriveBase::rl,DriveBase::fr,DriveBase::rr);
