@@ -15,9 +15,11 @@ frc::RobotDrive* DriveBase::robotDrive;
 frc::Compressor *c;
 AHRS *DriveBase::ahrs(NULL);
 
+//Limit Switch for Gear is DIO 9
 void DriveBase::init() {
 	DriveBase::ahrs = new AHRS(SPI::Port::kMXP);
 
+	// CanTalon pair(2,3) pair(4,5)
 	DriveBase::fl = new CANTalon(8);
 	//DriveBase::fl->SetFeedbackDevice(CANTalon::CtreMagEncoder_Relative);
 	DriveBase::fl->SetInverted(true);
@@ -40,10 +42,10 @@ void DriveBase::init() {
 	c->SetClosedLoopControl(true);
 	c->Start();
 
-	DriveBase::solenoid = new frc::DoubleSolenoid(0, 7, 1);
+	DriveBase::solenoid = new frc::DoubleSolenoid(0, 1);
 	DriveBase::solenoid->Set(frc::DoubleSolenoid::kReverse);
 
-	DriveBase::solenoid2 = new frc::DoubleSolenoid(0, 0, 6);
+	DriveBase::solenoid2 = new frc::DoubleSolenoid(2, 3);
 	DriveBase::solenoid2->Set(frc::DoubleSolenoid::kReverse);
 
 }

@@ -7,12 +7,16 @@ Intake& Intake::getInstance(){
 }
 
 void Intake::init() {
-	intakeTalon = new CANTalon(12);
+	intakeTalon = new CANTalon(9);
 	intakeTalon->SetSafetyEnabled(false);
+
+	saladSpinner = new CANTalon(5);
+	saladSpinner->SetInverted(true);
+	intakeTalon->SetInverted(true);
 }
 
 void Intake::turnOn() {
-	intakeTalon->Set(.50);
+	intakeTalon->Set(1.0);
 }
 
 void Intake::turnOff() {
@@ -20,15 +24,36 @@ void Intake::turnOff() {
 }
 
 bool Intake::isOn() {
-	return (intakeTalon->Get() > 0.1); // Returns true if intake is on
+	return (abs(intakeTalon->Get()) > 0.1); // Returns true if intake is on
 }
 
 void Intake::toggleIntake() { // Used for toggle in Teleop
-	if (isOn()) {
-		turnOff();
+	if (Intake::isOn()) {
+		Intake::turnOff();
 		Copernicus::setFloorIntake(false);
 	} else {
-		turnOn();
+		Intake::turnOn();
 		Copernicus::setFloorIntake(true);
 	}
+}
+
+void Intake::saladSpinnerOn(){
+	saladSpinner->Set(.50);
+}
+
+void Intake::saladSpinnerOff(){
+	saladSpinner->Set(.50);
+}
+
+bool Intake::isOnSalad(){
+	return (abs(saladSpinner->Get()) > 0.1);
+}
+
+void Intake::toggleSaladSpinner(){
+	if (Intake::isOnSalad()) {
+		Intake::saladSpinnerOff();
+	} else {
+		Intake::saladSpinnerOn();
+	}
+
 }

@@ -458,4 +458,3 @@ void Auton::RedRightGearAuton(){
 			break;
 	}
 }
-

@@ -20,7 +20,7 @@ public:
 //		NetworkTable::SetTeam(5431);
 		DriveBase::init();
 		Shooter::init();
-		Intake::getInstance(); //will initialize Intake
+		Intake::getInstance();
 
 		NetworkTable::Initialize();
 		NetworkTable::SetServerMode();
@@ -48,7 +48,7 @@ public:
 	}
 
 	void AutonomousInit(){
-		Auton::getInstance(); //first call will create an instance and call init
+		Auton::getInstance(); //first call will create and instance and call init
 		Copernicus::setMode(Copernicus::Mode::AUTON);
 	}
 	void AutonomousPeriodic(){
