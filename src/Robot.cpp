@@ -24,11 +24,11 @@ public:
 		Shooter::getInstance().init();
 		Intake::getInstance();
 
-		NetworkTable::Initialize();
-		NetworkTable::SetServerMode();
-		NetworkTable::SetTeam(5431);
-		table = NetworkTable::GetTable("vision");
-		table->AddSubTableListener(this);
+//		NetworkTable::Initialize();
+//		NetworkTable::SetServerMode();
+//		NetworkTable::SetTeam(5431);
+//		table = NetworkTable::GetTable("vision");
+//		table->AddSubTableListener(this);
 		Climber::getInstance();		// the very first time we call it will init() the climber
 
 		//udp_server.serverInit();

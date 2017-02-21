@@ -40,12 +40,14 @@ void Shooter::init() {
 //	shooterIntake->SetInverted(false);
 	shooterIntake->SetFeedbackDevice(CANTalon::EncRising);
 	shooterIntake->SetStatusFrameRateMs(CANTalon::StatusFrameRate::StatusFrameRateFeedback, 1);
+	shooterIntake->SetClosedLoopOutputDirection(true);
+	shooterIntake->SetSensorDirection(false);
 	shooterIntake->ConfigEncoderCodesPerRev(1024);
 	shooterIntake->ConfigNominalOutputVoltage(+0., -0.);
 	shooterIntake->ConfigPeakOutputVoltage(+12., -12.);
 	shooterIntake->SetAllowableClosedLoopErr(0);
 	shooterIntake->SelectProfileSlot(0);
-	shooterIntake->SetPID(6.25,0.0025,0.0);
+	shooterIntake->SetPID(1,0.0,0.0);
 	shooterIntake->SetControlMode(CANSpeedController::kSpeed);
 
 }
@@ -74,6 +76,9 @@ void Shooter::agitatorOff(){
 	shooterIntake->Set(0.0);
 }
 
+double Shooter::agitatorRPM(){
+	return shooterIntake->GetSpeed();
+}
 void Shooter::resetAngle(){
 	angle->Reset();
 }

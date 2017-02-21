@@ -24,6 +24,7 @@ public:
  	void set(double rpm);
  	void agitatorOn(double rpm);
  	void agitatorOff();
+ 	double agitatorRPM();
 };
 
 
