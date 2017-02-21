@@ -1,24 +1,30 @@
+#pragma once
 #include "Shared.h"
  //#include <CANTalon.h>
 
-
 class Shooter {
+	//singleton- hide constructor and copy constructor
+	Shooter() { init(); }
+	Shooter(Shooter const&);
+	void operator=(Shooter const&);
+
+	CANTalon* shooterMaster;
+	CANTalon* shooterSlave;
+	CANTalon* angle;
+	CANTalon* shooterIntake;
+
+ 	void resetAngle();
 public:
-	static CANTalon* shooter;
- 	static CANTalon* angle;
+	static Shooter& getInstance();
 
-
- 	static void init();
-
-
- 	static void set(double rpm);
-
-
- 	static double get();
-
- 	static void setangle(double ihatedavid);
-
- 	static double getangle();
+	void setangle(double angleToSet);
+ 	void init();
+ 	double getangle();
+ 	double get();
+ 	void set(double rpm);
+ 	void agitatorOn(double rpm);
+ 	void agitatorOff();
+ 	double agitatorRPM();
 };
 
 
