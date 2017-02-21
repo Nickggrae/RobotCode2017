@@ -163,9 +163,9 @@ void Teleop::run(double turnAngle) {
 
 //	shooter = ((shooter + 1) * 2 ) * 1300;
 
-//	if(shooter > 0.1) {
-//		target = shooter;
-//	}
+	if(shooter > 0.1) {
+		target = shooter;
+	}
 
 	/*if(Teleop::extremePro->GetRawButton(12))
 	{

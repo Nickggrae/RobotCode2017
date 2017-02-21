@@ -12,10 +12,10 @@ void Climber::init(){
 }
 
 void Climber::turnOn(){
-	climb->Set(0.9);
+	climb->Set(1.0);
 }
 void Climber::back(){
-	climb->Set(-0.3);
+	climb->Set(-1.0);
 }
 void Climber::turnOnSlow(){
 	climb->Set(0.3);
