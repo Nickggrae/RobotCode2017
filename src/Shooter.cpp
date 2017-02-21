@@ -14,8 +14,9 @@ void Shooter::init() {
 	shooterMaster->ConfigNominalOutputVoltage(+0., -0.);
 	shooterMaster->ConfigPeakOutputVoltage(+12., -12.);
 	shooterMaster->SetAllowableClosedLoopErr(0);
+	shooterMaster->SetVoltageRampRate(12);
 	shooterMaster->SelectProfileSlot(0);
-	shooterMaster->SetPID(6.25,0.0025,0.0);
+	shooterMaster->SetPID(1,0.0,0.0);
 	shooterMaster->SetControlMode(CANSpeedController::kSpeed);
 
 	shooterSlave = new CANTalon(MAP_SHOOTERSLAVE);
@@ -47,7 +48,7 @@ void Shooter::init() {
 	shooterIntake->ConfigPeakOutputVoltage(+12., -12.);
 	shooterIntake->SetAllowableClosedLoopErr(0);
 	shooterIntake->SelectProfileSlot(0);
-	shooterIntake->SetPID(1,0.0,0.0);
+	shooterIntake->SetPID(1,0.002,0.0);
 	shooterIntake->SetControlMode(CANSpeedController::kSpeed);
 
 }
