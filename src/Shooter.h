@@ -22,7 +22,7 @@ public:
  	double getangle();
  	double get();
  	void set(double rpm);
- 	void agitatorOn();
+ 	void agitatorOn(double rpm);
  	void agitatorOff();
 };
 

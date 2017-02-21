@@ -12,8 +12,10 @@
 // #include "DriveBase.h"
 
 
-class Robot: public IterativeRobot {
+class Robot: public IterativeRobot, public ITableListener {
 public:
+	std::shared_ptr<NetworkTable> table;
+
 	void RobotInit(){
 //		NetworkTable::Initialize();
 //		NetworkTable::SetServerMode();
@@ -25,6 +27,8 @@ public:
 		NetworkTable::Initialize();
 		NetworkTable::SetServerMode();
 		NetworkTable::SetTeam(5431);
+		table = NetworkTable::GetTable("vision");
+		table->AddSubTableListener(this);
 		Climber::getInstance();		// the very first time we call it will init() the climber
 
 		//udp_server.serverInit();
@@ -63,6 +67,15 @@ public:
 	void DisabledPeriodic(){
 		DriveBase::disableBrake();
 		Copernicus::update();
+	}
+
+	void ValueChanged(ITable* source, llvm::StringRef key, std::shared_ptr<nt::Value> value, bool isNew) override{
+		if(key == "horz_angle"){
+			double newAngle = value->GetDouble();
+			if(newAngle != -666 && newAngle != 666){
+				Shooter::getInstance().setangle(newAngle);
+			}
+		}
 	}
 };
 

@@ -37,6 +37,7 @@ void Teleop::init() {
 	SmartDashboard::PutNumber("Shooter",0.0);
 	DriveBase::disableBrake();
 }
+
 /*lt intake off
 //rt intake on
  * button for reversing the intake
@@ -49,8 +50,8 @@ void Teleop::init() {
 */
 
 void Teleop::run(double turnAngle) {
-	double leftDrive = Teleop::joy->GetRawAxis(5);
-	double rightDrive = Teleop::joy->GetRawAxis(1);
+	double leftDrive = Teleop::joy->GetRawAxis(1);
+	double rightDrive = Teleop::joy->GetRawAxis(5);
 
 	//Dead zone
 	if(leftDrive < 0.1 && leftDrive > -0.1)
@@ -79,18 +80,19 @@ void Teleop::run(double turnAngle) {
 	bool climberDownButton = Teleop::extremePro->GetRawButton(7);
 	bool climberUpSlowButton = Teleop::extremePro->GetRawButton(10);
 	bool climberOffButton = Teleop::extremePro->GetRawButton(9);
-//#gotta fix the code cause the code is bad to the bone!!!!!!!!!!!!
+
 	if(climberUpButton && !climberDownButton && !climberUpSlowButton && !climberOffButton) {
-		Climber::getInstance().turnOn();
+		//Climber::getInstance().turnOn();
 	}
 	else if (!climberUpButton && climberDownButton && !climberUpSlowButton && !climberOffButton) {
 		Climber::getInstance().back();
 	}
 	if(!climberUpButton && !climberDownButton && climberUpSlowButton && !climberOffButton)
 	{
-		Climber::getInstance().turnOnSlow();
+		//Climber::getInstance().turnOnSlow();
 	}
-	if(!climberUpButton && !climberDownButton && climberUpSlowButton && !climberOffButton){
+	if(!climberUpButton
+			&& !climberDownButton && climberUpSlowButton && !climberOffButton){
 		Climber::getInstance().turnOff();
 	}
 
@@ -157,9 +159,11 @@ void Teleop::run(double turnAngle) {
 
 
 	double shooter = Teleop::extremePro->GetRawAxis(1);
-//	double shooter = SmartDashboard::GetNumber("Shooter", 0.0);
-	if(shooter > 0.1)
-	{
+	//double shooter = SmartDashboard::GetNumber("Shooter", 0.0);
+
+	shooter = ((shooter + 1) * 2 ) * 1300;
+
+	if(shooter > 0.1) {
 		target = shooter;
 	}
 
@@ -172,12 +176,14 @@ void Teleop::run(double turnAngle) {
 //	double extreme_y = extremePro->GetRawAxis(1);
 //	double scaled_y = (extreme_y*0.5)+0.5;
 	// -1 to 1
-	if(Teleop::extremePro->GetRawButton(2))
-	{
-		Shooter::getInstance().agitatorOn();
-	}
-	else
-		Shooter::getInstance().agitatorOff();
+	double intakeRPM = SmartDashboard::GetNumber("shooterIntake", 0.0);
+	Shooter::getInstance().agitatorOn(intakeRPM);
+//	if(Teleop::extremePro->GetRawButton(2))
+//	{
+//		Shooter::getInstance().agitatorOn(intakeRPM);
+//	}
+//	else
+//		Shooter::getInstance().agitatorOff();
 	//Accepts rpm setting
 //	double setRPM = scaled_y * 6000.0;
 	Shooter::getInstance().set(shooter);
