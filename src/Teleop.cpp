@@ -158,14 +158,14 @@ void Teleop::run(double turnAngle) {
 	Copernicus::setFlywheelRPM(Shooter::getInstance().get());
 
 
-	double shooter = Teleop::extremePro->GetRawAxis(1);
-	//double shooter = SmartDashboard::GetNumber("Shooter", 0.0);
+	//double shooter = Teleop::extremePro->GetRawAxis(1);
+	double shooter = SmartDashboard::GetNumber("Shooter", 0.0);
 
-	shooter = ((shooter + 1) * 2 ) * 1300;
+//	shooter = ((shooter + 1) * 2 ) * 1300;
 
-	if(shooter > 0.1) {
-		target = shooter;
-	}
+//	if(shooter > 0.1) {
+//		target = shooter;
+//	}
 
 	/*if(Teleop::extremePro->GetRawButton(12))
 	{
@@ -199,6 +199,7 @@ void Teleop::run(double turnAngle) {
 	}*/
 	SmartDashboard::PutNumber("Shooter speed", currentRPM);
 	SmartDashboard::PutNumber("YawTeleop", DriveBase::getYaw());
+	SmartDashboard::PutNumber("FeedRPM", Shooter::getInstance().agitatorRPM());
 
 	//SmartDashboard::PutNumber("MaxRPM", max);
 	//SmartDashboard::PutNumber("MinRPM", min);
