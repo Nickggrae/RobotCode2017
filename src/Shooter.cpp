@@ -37,7 +37,16 @@ void Shooter::init() {
 
 	shooterIntake = new CANTalon(MAP_SHOOTERINTAKE);
 	shooterIntake->Set(0.0);
-	shooterIntake->SetInverted(false);
+//	shooterIntake->SetInverted(false);
+	shooterIntake->SetFeedbackDevice(CANTalon::EncRising);
+	shooterIntake->SetStatusFrameRateMs(CANTalon::StatusFrameRate::StatusFrameRateFeedback, 1);
+	shooterIntake->ConfigEncoderCodesPerRev(1024);
+	shooterIntake->ConfigNominalOutputVoltage(+0., -0.);
+	shooterIntake->ConfigPeakOutputVoltage(+12., -12.);
+	shooterIntake->SetAllowableClosedLoopErr(0);
+	shooterIntake->SelectProfileSlot(0);
+	shooterIntake->SetPID(6.25,0.0025,0.0);
+	shooterIntake->SetControlMode(CANSpeedController::kSpeed);
 
 }
 
@@ -57,8 +66,8 @@ double Shooter::getangle(){
 	return (angle->GetNumberOfQuadIdxRises());// / .00076388888888889);
 }
 
-void Shooter::agitatorOn(){
-	shooterIntake->Set(0.5);
+void Shooter::agitatorOn(double rpm){
+	shooterIntake->Set(rpm);
 }
 
 void Shooter::agitatorOff(){

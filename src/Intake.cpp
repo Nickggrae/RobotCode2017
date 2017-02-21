@@ -42,7 +42,7 @@ void Intake::saladSpinnerOn(){
 }
 
 void Intake::saladSpinnerOff(){
-	saladSpinner->Set(.50);
+	saladSpinner->Set(0.0);
 }
 
 bool Intake::isOnSalad(){
