@@ -16,6 +16,9 @@
 int prevButton1 = 0;
 int prevButton2 = 0;
 int prevButton3 = 0;
+int prevButton4 = 0;
+
+int autoFire = 0;
 
 double target = 3200;
 //double max_d = 0;
@@ -74,6 +77,11 @@ void Teleop::run(double turnAngle) {
 		Intake::getInstance().toggleSaladSpinner();
 	}
 	prevButton3 = Teleop::joy->GetRawButton(4);
+
+	//toggle for the agitator
+	if(prevButton4 <Teleop::joy->GetRawButton(5)){
+		Shooter::getInstance().agitatorToggle();
+	}
 
 
 	bool climberUpButton = Teleop::extremePro->GetRawButton(8);
@@ -159,13 +167,17 @@ void Teleop::run(double turnAngle) {
 
 
 	//double shooter = Teleop::extremePro->GetRawAxis(1);
-	double shooter = SmartDashboard::GetNumber("Shooter", 0.0);
+	//double shooter = SmartDashboard::GetNumber("Shooter", 0.0);
 
 //	shooter = ((shooter + 1) * 2 ) * 1300;
+//
+//	if(shooter > 0.1) {
+//		target = shooter;
+//	}
 
-	if(shooter > 0.1) {
+	/*if(enableTurret) {
 		target = shooter;
-	}
+	} else target = 0;*/
 
 	/*if(Teleop::extremePro->GetRawButton(12))
 	{
@@ -173,11 +185,13 @@ void Teleop::run(double turnAngle) {
 		max = 0;
 	}*/
 
+	//Shooter::getInstance().set(target);
+
 //	double extreme_y = extremePro->GetRawAxis(1);
 //	double scaled_y = (extreme_y*0.5)+0.5;
 	// -1 to 1
-	double intakeRPM = SmartDashboard::GetNumber("shooterIntake", 0.0);
-	Shooter::getInstance().agitatorOn(intakeRPM);
+	//double intakeRPM = SmartDashboard::GetNumber("shooterIntake", 0.0);
+	//Shooter::getInstance().agitatorOn(intakeRPM);
 //	if(Teleop::extremePro->GetRawButton(2))
 //	{
 //		Shooter::getInstance().agitatorOn(intakeRPM);
@@ -186,8 +200,11 @@ void Teleop::run(double turnAngle) {
 //		Shooter::getInstance().agitatorOff();
 	//Accepts rpm setting
 //	double setRPM = scaled_y * 6000.0;
-	Shooter::getInstance().set(shooter);
+
+
+	//Shooter::getInstance().set(shooter);
 	double currentRPM = Shooter::getInstance().get();
+
 	/*if(passedTarget)
 	{
 
@@ -203,4 +220,44 @@ void Teleop::run(double turnAngle) {
 
 	//SmartDashboard::PutNumber("MaxRPM", max);
 	//SmartDashboard::PutNumber("MinRPM", min);
+
+	if(!Teleop::extremePro->GetRawButton(1))
+		autoFire = 0;
+	else if(autoFire == 0)
+		autoFire = 10;
+
+	switch (autoFire) { //will fix error later
+		case 10:
+			{
+			double raw_fire_power = Teleop::extremePro->GetRawAxis(1);
+			double rpm_flywheel = (((raw_fire_power+1)/2)*8000)-(1500*raw_fire_power);
+			SmartDashboard::PutNumber("Wanted Flywheel Speed", rpm_flywheel);
+
+			Shooter::getInstance().set(rpm_flywheel);
+
+			int flywheel_error = Shooter::getInstance().getShooterCANTalon()->GetClosedLoopError();
+
+			SmartDashboard::PutNumber("Flywheel closed loop error", flywheel_error);
+
+			if(flywheel_error < 500) {
+				Shooter::getInstance().agitatorOn();
+			}
+
+			if(flywheel_error < 10) {
+				autoFire = 20;
+			}
+			break;
+
+		case 20:
+			{
+			Intake::getInstance().saladSpinnerOn();
+				}
+			break;
+
+		default:
+			{}
+			break;
+	}
 }
+
+	//jordan is gay... i think

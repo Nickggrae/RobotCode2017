@@ -32,7 +32,7 @@ void Shooter::init() {
 	angle->ConfigPeakOutputVoltage(+12., -12.);
 	angle->SetAllowableClosedLoopErr(0.5);
 	angle->SelectProfileSlot(0);
-	angle->SetPID(.005,0.0,0.0);
+	angle->SetPID(.0034,0.0,0.00015);
 	angle->SetControlMode(CANSpeedController::kPosition);
 	angle->SetSensorDirection(true);
 
@@ -66,11 +66,11 @@ void Shooter::setangle(double angleToSet){
 	angle->Set(angleToSet);// * (0.007638888888889));f
 }
 double Shooter::getangle(){
-	return (angle->GetNumberOfQuadIdxRises());// / .00076388888888889);
+	return (angle->GetPosition());// / .00076388888888889);
 }
 
-void Shooter::agitatorOn(double rpm){
-	shooterIntake->Set(rpm);
+void Shooter::agitatorOn(){
+	shooterIntake->Set(2400);
 }
 
 void Shooter::agitatorOff(){
@@ -82,4 +82,20 @@ double Shooter::agitatorRPM(){
 }
 void Shooter::resetAngle(){
 	angle->Reset();
+}
+
+bool Shooter::agitatorIsOn() {
+	return (abs(shooterIntake->Get()) > 0.1); // Returns true if intake is on
+}
+
+CANTalon * Shooter::getShooterCANTalon() {
+	return shooterMaster;
+}
+
+void Shooter::agitatorToggle() { // Used for toggle in Teleop
+	if (Shooter::agitatorIsOn()) {
+		Shooter::agitatorOff();
+	} else {
+		Shooter::agitatorOn();
+	}
 }

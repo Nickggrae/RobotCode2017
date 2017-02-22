@@ -28,7 +28,7 @@ public:
 		NetworkTable::SetServerMode();
 		NetworkTable::SetTeam(5431);
 		table = NetworkTable::GetTable("vision");
-		table->AddSubTableListener(this);
+		//table->AddTableListener(this);
 		Climber::getInstance();		// the very first time we call it will init() the climber
 
 		//udp_server.serverInit();
@@ -72,8 +72,10 @@ public:
 	void ValueChanged(ITable* source, llvm::StringRef key, std::shared_ptr<nt::Value> value, bool isNew) override{
 		if(key == "horz_angle"){
 			double newAngle = value->GetDouble();
-			if(newAngle != -666 && newAngle != 666){
+			if(newAngle != -666.0 && newAngle != 666.0){
 				Shooter::getInstance().setangle(newAngle);
+			}else{
+				Shooter::getInstance().setangle(0.0);
 			}
 		}
 	}

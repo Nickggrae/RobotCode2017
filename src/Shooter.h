@@ -17,14 +17,19 @@ class Shooter {
 public:
 	static Shooter& getInstance();
 
+
 	void setangle(double angleToSet);
  	void init();
  	double getangle();
  	double get();
  	void set(double rpm);
- 	void agitatorOn(double rpm);
+ 	void agitatorOn();
  	void agitatorOff();
  	double agitatorRPM();
+ 	void agitatorToggle();
+ 	bool agitatorIsOn();
+ 	CANTalon *getShooterCANTalon();
+
 };
 
 
