@@ -5,13 +5,12 @@
  *      Author: Academy HS Robotics
  */
 #include "Teleop.h"
+#include "DriveBase.h"
 #include "Shooter.h"
 #include "Intake.h"
 #include "udpServer.hpp"
 #include "Copernicus.h"
 #include <iostream>
-
-//#include "DriveBase.h"
 
 int prevButton1 = 0;
 int prevButton2 = 0;
@@ -38,7 +37,8 @@ void Teleop::init() {
 	Teleop::extremePro = new Joystick(1);
 	SmartDashboard::PutNumber("Angle",0.0);
 	SmartDashboard::PutNumber("Shooter",0.0);
-	DriveBase::disableBrake();
+	DriveBase::getInstance().disableBrake();
+
 }
 
 /*lt intake off
@@ -62,7 +62,7 @@ void Teleop::run(double turnAngle) {
 	if(rightDrive < 0.1 && rightDrive > -0.1)
 		rightDrive = 0.0;
 
-	DriveBase::drive(leftDrive, rightDrive);
+	DriveBase::getInstance().drive(leftDrive, rightDrive);
 	SmartDashboard::PutNumber("left drive", leftDrive);
 	SmartDashboard::PutNumber("right drive", rightDrive);
 
@@ -111,30 +111,31 @@ void Teleop::run(double turnAngle) {
 	bool rightButton = Teleop::joy->GetRawButton(6);
 	bool leftButton = Teleop::joy->GetRawButton(5);
 	if(rightButton && !leftButton){
-		if(!DriveBase::getGearState()){
-			DriveBase::switchGear(true);
+		DriveBase::getInstance().getGearState();
+	}
+		if(!DriveBase::getInstance().getGearState()){
+			DriveBase::getInstance().switchGear(true);
 //			frc::Wait(.1);
 		}
-	}
 	else if(!rightButton && leftButton){
-		if(DriveBase::getGearState()){
-			DriveBase::switchGear(false);
+		if(DriveBase::getInstance().getGearState()){
+			DriveBase::getInstance().switchGear(false);
 //			frc::Wait(.1);
 		}
 	}
 	bool rightSlider = Teleop::joy->GetRawButton(2);
 	bool leftSlider = Teleop::joy->GetRawButton(3);
 	if(rightSlider && !leftSlider){
-		if(!DriveBase::getSliderState()){
-			DriveBase::switchSlider(true);
+		if(!DriveBase::getInstance().getSliderState()){
+			DriveBase::getInstance().switchSlider(true);
 		}
 	}
 	else if(!rightSlider && leftSlider){
-		if(DriveBase::getSliderState()){
-			DriveBase::switchSlider(false);
+		if(DriveBase::getInstance().getSliderState()){
+			DriveBase::getInstance().switchSlider(false);
 		}
 	}
-	SmartDashboard::PutBoolean("Slider State", DriveBase::getSliderState());
+	SmartDashboard::PutBoolean("Slider State", DriveBase::getInstance().getSliderState());
 
 //	if((Shooter::get() > target) && !passedTarget)
 //	{
@@ -143,7 +144,7 @@ void Teleop::run(double turnAngle) {
 
 	if(joy->GetRawButton(5))
 	{
-		DriveBase::ahrs->ResetDisplacement();
+		DriveBase::getInstance().ahrs->ResetDisplacement();
 	}
 
 	if(turnAngle != angle)
@@ -164,6 +165,7 @@ void Teleop::run(double turnAngle) {
 	SmartDashboard::PutNumber("Shooter Angle", Shooter::getInstance().getangle());
 
 	Copernicus::setFlywheelRPM(Shooter::getInstance().get());
+
 
 
 	//double shooter = Teleop::extremePro->GetRawAxis(1);
@@ -215,9 +217,9 @@ void Teleop::run(double turnAngle) {
 		//std::cout << currentRPM << "," << max << "," << min << "," << max - min << "\n";
 	}*/
 	SmartDashboard::PutNumber("Shooter speed", currentRPM);
-	SmartDashboard::PutNumber("YawTeleop", DriveBase::getYaw());
+	SmartDashboard::PutNumber("YawTeleop", DriveBase::getInstance().getYaw());
 	SmartDashboard::PutNumber("FeedRPM", Shooter::getInstance().agitatorRPM());
-
+}
 	//SmartDashboard::PutNumber("MaxRPM", max);
 	//SmartDashboard::PutNumber("MinRPM", min);
 

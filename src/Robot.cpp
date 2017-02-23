@@ -20,7 +20,7 @@ public:
 //		NetworkTable::Initialize();
 //		NetworkTable::SetServerMode();
 //		NetworkTable::SetTeam(5431);
-		DriveBase::init();
+//		DriveBase::init();
 		Shooter::getInstance().init();
 		Intake::getInstance();
 
@@ -65,7 +65,7 @@ public:
 	}
 
 	void DisabledPeriodic(){
-		DriveBase::disableBrake();
+		DriveBase::getInstance().disableBrake();
 		Copernicus::update();
 	}
 

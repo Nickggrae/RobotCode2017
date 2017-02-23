@@ -7,101 +7,105 @@
 #include <AHRS.h>
 //#include "DriveBase.cpp"
 
+
 class DriveBase {
-public:
+	void init();
+	//singleton- hide constructor and copy constructor
+	 DriveBase() { init(); }
+	 DriveBase(DriveBase const&);
+	 void operator=(DriveBase const&);
+
 	//initializes front left
-	static CANTalon* fl;
+	 CANTalon* fl;
 
 	//initializes rear left
-	static CANTalon* rl;
+	 CANTalon* rl;
 
 	//initializes front right
-	static CANTalon* fr;
+	 CANTalon* fr;
 
 	//initializes rear right
-	static CANTalon* rr;
+	 CANTalon* rr;
 
 	//initializes robot drive
-	static frc::RobotDrive* robotDrive;
+	 frc::RobotDrive* robotDrive;
 
 	//initializes solenoid for pneumatics
-	static frc::DoubleSolenoid* solenoid;
+	 frc::DoubleSolenoid* solenoid;
 
-	static frc::DoubleSolenoid* solenoid2;
+	 frc::DoubleSolenoid* solenoid2;
 
 	//initializes the gear state
-	static int gearState;
+	 int gearState;
 
-	static int sliderState;
+	 int sliderState;
 
 public:
+	 AHRS *ahrs;
+	 static DriveBase& getInstance();
 
-	//starts navX
-	static AHRS *ahrs;
+	 void drive(double left, double right); //tank drive robot drive with left and right side
 
-	//initializes base robot code
-	static void init();
+	 void switchGear(bool gear); //set piston forward if true and reverse if false
 
-	static void drive(double left, double right); //tank drive robot drive with left and right side
+	 int getGearState(); //check whether gear has been released or not
 
-	static void switchGear(bool gear); //set piston forward if true and reverse if false
+	 double getEncoderfl(); //gets the encoder position of encoder front left
 
-	static int getGearState(); //check whether gear has been released or not
+	 void resetEncoderfl(); //resets the front left encoder
 
-	static double getEncoderfl(); //gets the encoder position of encoder front left
+	 double getEncoderfr(); // get the encoder position of encoder front right
 
-	static void resetEncoderfl(); //resets the front left encoder
+	 void resetEncoderfr(); //resets the front right encoder
 
-	static double getEncoderfr(); // get the encoder position of encoder front right
+	 void enable(); // enables the DriveBase. TURNED ON BY DEFAULT
 
-	static void resetEncoderfr(); //resets the front right encoder
+	 void disable(); // disables the DriveBase CANTalons
 
-	static void enable(); // enables the DriveBase. TURNED ON BY DEFAULT
+	 double getPitch(); // gets Pitch
 
-	static void disable(); // disables the DriveBase CANTalons
+	 double getYaw(); // gets Yaw
 
-	static double getPitch(); // gets Pitch
+	 double getRoll(); // gets Roll
 
-	static double getYaw(); // gets Yaw
+	 void resetAHRS(); // resets NavX
 
-	static double getRoll(); // gets Roll
+	 double DisplacementX();
 
-	static void resetAHRS(); // resets NavX
+	 double DisplacementY();
 
-	static double DisplacementX();
+	 double DisplacementZ();
 
-	static double DisplacementY();
+	 double getAccelX();
 
-	static double DisplacementZ();
+	 double getAccelY();
 
-	static double getAccelX();
+	 double getAccelZ();
 
-	static double getAccelY();
+	 void talonEnable();
 
-	static double getAccelZ();
+	 void talonDisable();
 
-	static void talonEnable();
-
-	static void talonDisable();
-
-	static double isTalonEnabled();
+	 double isTalonEnabled();
 
 //Usaid if you are reading this it was a test just get rid of it
-	static double velocityX();
+	 double velocityX();
 
-	static double velocityY();
+	 double velocityY();
 
-	static double velocityZ();
+	 double velocityZ();
 
-	static void switchSlider(bool slider);
+	 void switchSlider(bool slider);
 
-	static int getSliderState();
+	 int getSliderState();
 
 	//Enable Brake Mode
-	static void enableBrake();
+	 void enableBrake();
 
 	//Disable Brake Mode
-	static void disableBrake();
+	 void disableBrake();
+
+	 bool isCompressorOn();
 };
 
 /**TODO:
