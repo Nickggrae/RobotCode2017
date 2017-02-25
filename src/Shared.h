@@ -37,7 +37,6 @@
 //const int rightDriveFront = 8;
 //const int rightDriveBack = 10;
 //const int climber = 4;
-////Liav here - rename this to the actual new names (conveyor, feed, intake)
 //const int floorIntake = 12; //actual intake
 //const int feed = 9; //reverse
 //const int polycordIntake = 13; //reverse
