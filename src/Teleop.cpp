@@ -12,6 +12,7 @@
 #include "Copernicus.h"
 #include <iostream>
 
+int autoFire = 0;
 Teleop& Teleop::getInstance(){
   static Teleop instance;
   return instance;
@@ -110,4 +111,43 @@ void Teleop::run() {
 	SmartDashboard::PutNumber("Shooter speed", currentRPM);
 	SmartDashboard::PutNumber("YawTeleop", driveBase.getYaw());
 	SmartDashboard::PutNumber("FeedRPM", shooter.agitatorRPM());
+
+	if (!Teleop::extremePro->GetRawButton(1))
+		autoFire = 0;
+	else if (autoFire == 0)
+		autoFire = 10;
+
+	switch (autoFire) { //will fix error later
+		case 10: {
+			double raw_fire_power = Teleop::extremePro->GetRawAxis(1);
+			double rpm_flywheel = (((raw_fire_power + 1) / 2) * 8000)
+					- (1500 * raw_fire_power);
+			SmartDashboard::PutNumber("Wanted Flywheel Speed", rpm_flywheel);
+
+			Shooter::getInstance().set(rpm_flywheel);
+
+			int flywheel_error =
+					Shooter::getInstance().getShooterCANTalon()->GetClosedLoopError();
+
+			SmartDashboard::PutNumber("Flywheel closed loop error", flywheel_error);
+
+			if (flywheel_error < 500) {
+				Shooter::getInstance().agitatorOn();
+			}
+
+			if (flywheel_error < 10) {
+				autoFire = 20;
+			}
+		}
+		break;
+
+		case 20: {
+			Intake::getInstance().saladSpinnerOn();
+		}
+		break;
+
+		default: {
+		}
+		break;
+	}
 }
