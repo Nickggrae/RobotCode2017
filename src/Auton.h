@@ -41,6 +41,7 @@ public:
 	void BlueMiddleAuton();
 	void BlueRightAuton();
 
+	void EncoderVal(double encoder);
 
 	enum AutonRoutines
 	{

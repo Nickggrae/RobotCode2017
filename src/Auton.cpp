@@ -3,6 +3,7 @@
 #include <ctime>
 #include "AHRS.h"
 #include "DriveBase.h"
+#include <Encoder.h>
 
 Auton& Auton::getInstance(){
 	static Auton instance;
@@ -39,6 +40,11 @@ void Auton::DriveForward(double power){ //define power as positive always
 
 void Auton::DriveBackwards(double power){
 	driveBase.drive(power, power);
+}
+
+void Auton::EncoderVal(double encoder){
+
+
 }
 
 void Auton::StayStill(){
