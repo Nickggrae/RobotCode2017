@@ -35,6 +35,9 @@ class DriveBase {
 
 	 frc::DoubleSolenoid* solenoid2;
 
+	 frc::Compressor* compressor;
+
+
 	//initializes the gear state
 	 int gearState;
 

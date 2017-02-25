@@ -11,38 +11,38 @@ Auton& Auton::getInstance(){
 
 void Auton::init() {
 	SmartDashboard::PutNumber("State", 0.0);
-	DriveBase::getInstance().enableBrake();
-	DriveBase::getInstance().resetAHRS(); //Resetting NavX before getting angle
+	driveBase.enableBrake();
+	driveBase.resetAHRS(); //Resetting NavX before getting angle
 	state = 10;
 	startTime = 0;
-	DriveBase::getInstance().switchGear(true);
+	driveBase.switchGear(true);
 }
 
 void Auton::TestYaw(){
 	StayStill();
-	SmartDashboard::PutNumber("yaw for michael", DriveBase::getInstance().getYaw());
-	SmartDashboard::PutNumber("roll for michael", DriveBase::getInstance().getRoll());
-	SmartDashboard::PutNumber("Pitch for michael", DriveBase::getInstance().getPitch());
+	SmartDashboard::PutNumber("yaw for michael", driveBase.getYaw());
+	SmartDashboard::PutNumber("roll for michael", driveBase.getRoll());
+	SmartDashboard::PutNumber("Pitch for michael", driveBase.getPitch());
 }
 
 void Auton::TurnLeft(double power){
-	DriveBase::getInstance().drive(power, -power);
+	driveBase.drive(power, -power);
 }
 
 void Auton::TurnRight(double power){
-	DriveBase::getInstance().drive(-power, power);
+	driveBase.drive(-power, power);
 }
 
 void Auton::DriveForward(double power){ //define power as positive always
-	DriveBase::getInstance().drive(-power, -power);
+	driveBase.drive(-power, -power);
 }
 
 void Auton::DriveBackwards(double power){
-	DriveBase::getInstance().drive(power, power);
+	driveBase.drive(power, power);
 }
 
 void Auton::StayStill(){
-	DriveBase::getInstance().drive(0.0, 0.0);
+	driveBase.drive(0.0, 0.0);
 }
 
 bool Auton::waited(double seconds){
@@ -78,7 +78,7 @@ void Auton::RedLeftAuton(){
 
 		case 30: //turn right 45 degrees
 			TurnRight();
-			if (DriveBase::getInstance().getYaw() >= 45) {
+			if (driveBase.getYaw() >= 45) {
 				state = 40;
 			}
 			break;
@@ -106,7 +106,7 @@ void Auton::RedLeftAuton(){
 
 		case 70: // turn left for 45 degrees to head to launchpad line
 			TurnLeft();
-			if (DriveBase::getInstance().getYaw() <= 0){ //turn until facing forward to launchpad line
+			if (driveBase.getYaw() <= 0){ //turn until facing forward to launchpad line
 				state = 80;
 			}
 			break;
@@ -124,9 +124,9 @@ void Auton::RedLeftAuton(){
 		}
 
 		SmartDashboard::PutNumber("State", state);
-		SmartDashboard::PutNumber("NavXYaw", DriveBase::getInstance().getYaw());
-		SmartDashboard::PutNumber("NavXRoll", DriveBase::getInstance().getRoll());
-		SmartDashboard::PutNumber("NavXPitch", DriveBase::getInstance().getPitch());
+		SmartDashboard::PutNumber("NavXYaw", driveBase.getYaw());
+		SmartDashboard::PutNumber("NavXRoll", driveBase.getRoll());
+		SmartDashboard::PutNumber("NavXPitch", driveBase.getPitch());
 }
 
 void Auton::BlueRightAuton(){
@@ -143,7 +143,7 @@ void Auton::BlueRightAuton(){
 
 		case 20: // turn left 45 degrees to head to gear
 			TurnLeft();
-			if (DriveBase::getInstance().getYaw() <= -45) {
+			if (driveBase.getYaw() <= -45) {
 				state = 30;
 			}
 		break;
@@ -182,7 +182,7 @@ void Auton::BlueRightAuton(){
 
 		case 70:
 			TurnRight();
-			if (DriveBase::getInstance().getYaw() >= 0){ //turn left until facing forward to launchpad line
+			if (driveBase.getYaw() >= 0){ //turn left until facing forward to launchpad line
 				state = 80;
 			}
 			break;
@@ -199,9 +199,9 @@ void Auton::BlueRightAuton(){
 			break;
 		}
 		SmartDashboard::PutNumber("State", state);
-		SmartDashboard::PutNumber("NavXYaw", DriveBase::getInstance().getYaw());
-		SmartDashboard::PutNumber("NavXRoll", DriveBase::getInstance().getRoll());
-		SmartDashboard::PutNumber("NavXPitch", DriveBase::getInstance().getPitch());
+		SmartDashboard::PutNumber("NavXYaw", driveBase.getYaw());
+		SmartDashboard::PutNumber("NavXRoll", driveBase.getRoll());
+		SmartDashboard::PutNumber("NavXPitch", driveBase.getPitch());
 }
 
 void Auton::RedMiddleAuton(){
@@ -234,7 +234,7 @@ void Auton::RedMiddleAuton(){
 
 		case 50: //turn left 90 degrees
 			TurnLeft();
-			if (DriveBase::getInstance().getYaw() <= -90) //turn until facing left
+			if (driveBase.getYaw() <= -90) //turn until facing left
 				state = 60;
 			break;
 
@@ -247,7 +247,7 @@ void Auton::RedMiddleAuton(){
 
 		case 70:
 			TurnRight();
-			if (DriveBase::getInstance().getYaw() >= -10)
+			if (driveBase.getYaw() >= -10)
 				state = 80;
 		break;
 
@@ -284,7 +284,7 @@ void Auton::BlueLeftShootAuton(){
 
 	case 20: //turn left to face hopper
 		TurnLeft();
-		if (DriveBase::getInstance().getYaw() <= -90) {//turn until facing the hopper
+		if (driveBase.getYaw() <= -90) {//turn until facing the hopper
 			state = 30;
 		}
 	break;
@@ -316,7 +316,7 @@ void Auton::BlueLeftGearAuton(){
 
 		case 20: //turn right 45 degrees
 			TurnRight();
-			if (DriveBase::getInstance().getYaw() >= 45) {
+			if (driveBase.getYaw() >= 45) {
 				state = 30;
 			}
 			break;
@@ -365,7 +365,7 @@ void Auton::BlueMiddleAuton(){
 
 		case 50: //turn left 90 degrees
 			TurnRight();
-			if (DriveBase::getInstance().getYaw() >= 90) //turn until facing Right
+			if (driveBase.getYaw() >= 90) //turn until facing Right
 				state = 60;
 			break;
 
@@ -378,7 +378,7 @@ void Auton::BlueMiddleAuton(){
 
 		case 70:
 			TurnLeft();
-			if (DriveBase::getInstance().getYaw() <= 0)
+			if (driveBase.getYaw() <= 0)
 				state = 80;
 		break;
 
@@ -409,7 +409,7 @@ void Auton::RedRightShootAuton(){
 
 	case 30: //turn right to face hopper
 		TurnRight();
-		if (DriveBase::getInstance().getYaw() >= 90) {//turn until facing the hopper
+		if (driveBase.getYaw() >= 90) {//turn until facing the hopper
 			state = 40;
 		}
 	break;
@@ -441,7 +441,7 @@ void Auton::RedRightGearAuton(){
 
 		case 20: //turn left 45 degrees
 			TurnLeft();
-			if (DriveBase::getInstance().getYaw() <= -45) {
+			if (driveBase.getYaw() <= -45) {
 				state = 30;
 			}
 			break;

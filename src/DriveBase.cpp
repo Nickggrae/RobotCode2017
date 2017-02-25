@@ -1,20 +1,6 @@
 #include "DriveBase.h"
 #include "Copernicus.h"
 
-CANTalon* fl;
-CANTalon* rl;
-CANTalon* fr;
-CANTalon* rr;
-
-int gearState;
-int sliderState;
-
-frc::DoubleSolenoid* solenoid;
-frc::DoubleSolenoid* solenoid2;
-frc::RobotDrive* robotDrive;
-frc::Compressor *c;
-AHRS *ahrs(NULL);
-
 DriveBase& DriveBase::getInstance(){
   static DriveBase instance;
   return instance;
@@ -43,9 +29,9 @@ void DriveBase::init() {
 //	rr->SetSafetyEnabled(false);
 	robotDrive = new frc::RobotDrive(fl,rl,fr,rr);
 
-	c = new frc::Compressor(0);
-	c->SetClosedLoopControl(true);
-	c->Start();
+	compressor = new frc::Compressor(0);
+	compressor->SetClosedLoopControl(true);
+	compressor->Start();
 
 	solenoid = new frc::DoubleSolenoid(0, 1);
 	solenoid->Set(frc::DoubleSolenoid::kReverse);
@@ -59,7 +45,7 @@ void DriveBase::drive(double left, double right){
 	robotDrive->TankDrive(left,right,false);
 }
 
-void switchGear(bool gear){
+void DriveBase::switchGear(bool gear){
 	//HEY - BAD NAMING
 	SmartDashboard::PutBoolean("Gear Status", gear);
 	if (gear){
@@ -74,7 +60,7 @@ void switchGear(bool gear){
 	}
 }
 
-void switchSlider(bool slider){
+void DriveBase::switchSlider(bool slider){
 	if (slider){
 		solenoid2->Set(frc::DoubleSolenoid::kForward);
 		sliderState = 1;
@@ -85,25 +71,25 @@ void switchSlider(bool slider){
 	}
 }
 
-int getSliderState(){
+int DriveBase::getSliderState(){
 	return sliderState;
 }
-int getGearState(){
+int DriveBase::getGearState(){
 	return gearState;
 }
 
-double getEncoderfl(){
+double DriveBase::getEncoderfl(){
 	return fl->GetEncPosition();
 }
 
-void resetEncoderfl(){
+void DriveBase::resetEncoderfl(){
 	fl->Reset();
 }
-double getEncoderfr(){
+double DriveBase::getEncoderfr(){
 	return fr->GetEncPosition();
 }
 
-void resetEncoderfr(){
+void DriveBase::resetEncoderfr(){
 	fr->Reset();
 }
 
@@ -111,92 +97,92 @@ double DriveBase::getYaw(){
 	return ahrs->GetYaw();
 }
 
-double getPitch(){
+double DriveBase::getPitch(){
 	return ahrs->GetPitch();
 }
 
-double getRoll(){
+double DriveBase::getRoll(){
 	return ahrs->GetRoll();
 }
 
-double DisplacementX(){
+double DriveBase::DisplacementX(){
 	return ahrs->GetDisplacementX();
 }
 
-double DisplacementY(){
+double DriveBase::DisplacementY(){
 	return ahrs->GetDisplacementY();
 }
 
-double DisplacementZ(){
+double DriveBase::DisplacementZ(){
 	return ahrs->GetDisplacementZ();
 }
 
-double getAccelX(){
+double DriveBase::getAccelX(){
 	return ahrs->GetWorldLinearAccelX();
 
 }
 
-double getAccelY(){
+double DriveBase::getAccelY(){
 	return ahrs->GetWorldLinearAccelY();
 
 }
 
-double getAccelZ(){
+double DriveBase::getAccelZ(){
 	return ahrs->GetWorldLinearAccelZ();
 }
 
-void resetAHRS(){
+void DriveBase::resetAHRS(){
 	ahrs->Reset();
 	ahrs->ZeroYaw();
 }
 
-void talonEnable(){
+void DriveBase::talonEnable(){
 	fl->Enable();
 	rl->Enable();
 	rr->Enable();
 	fr->Enable();
 }
 
-void talonDisable(){
+void DriveBase::talonDisable(){
 	fl->Disable();
 	rl->Disable();
 	rr->Disable();
 	fr->Disable();
 }
 
-double isTalonEnabled(){
+double DriveBase::isTalonEnabled(){
 	return fl->IsEnabled();
 }
 
 
 //Usaid if you are reading this it was a test just get rid of it
 //Liav is reading this do it yourself
-double velocityX(){
+double DriveBase::velocityX(){
 	return ahrs->GetVelocityX();
 }
 
-double velocityY(){
+double DriveBase::velocityY(){
 	return ahrs->GetVelocityY();
 }
 
-double velocityZ(){
+double DriveBase::velocityZ(){
 	return ahrs->GetVelocityZ();
 }
 
-void enableBrake(){
+void DriveBase::enableBrake(){
 	fl->ConfigNeutralMode(CANTalon::NeutralMode::kNeutralMode_Brake);
 	fr->ConfigNeutralMode(CANTalon::NeutralMode::kNeutralMode_Brake);
 	rl->ConfigNeutralMode(CANTalon::NeutralMode::kNeutralMode_Brake);
 	rr->ConfigNeutralMode(CANTalon::NeutralMode::kNeutralMode_Brake);
 }
 
-void disableBrake(){
+void DriveBase::disableBrake(){
 	fl->ConfigNeutralMode(CANTalon::NeutralMode::kNeutralMode_Coast);
 	fr->ConfigNeutralMode(CANTalon::NeutralMode::kNeutralMode_Coast);
 	rl->ConfigNeutralMode(CANTalon::NeutralMode::kNeutralMode_Coast);
 	rr->ConfigNeutralMode(CANTalon::NeutralMode::kNeutralMode_Coast);
 }
 
-bool isCompressorOn(){
-	return c->GetPressureSwitchValue();
+bool DriveBase::isCompressorOn(){
+	return compressor->GetPressureSwitchValue();
 }

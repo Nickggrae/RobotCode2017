@@ -17,18 +17,9 @@ public:
 	std::shared_ptr<NetworkTable> table;
 
 	void RobotInit(){
-//		NetworkTable::Initialize();
-//		NetworkTable::SetServerMode();
-//		NetworkTable::SetTeam(5431);
-//		DriveBase::init();
+		DriveBase::getInstance();	// the very first time we call it will init()
 		Shooter::getInstance().init();
 		Intake::getInstance();
-
-		NetworkTable::Initialize();
-		NetworkTable::SetServerMode();
-		NetworkTable::SetTeam(5431);
-		table = NetworkTable::GetTable("vision");
-		//table->AddTableListener(this);
 		Climber::getInstance();		// the very first time we call it will init() the climber
 
 		//udp_server.serverInit();
@@ -36,7 +27,7 @@ public:
 	//		 Intake::init();
 	//		 DriveBase::init();
 //		DriveBase::switchGear(false);
-		CameraServer::GetInstance()->StartAutomaticCapture();
+	CameraServer::GetInstance()->StartAutomaticCapture();
 //		CameraServer::GetInstance()->StartAutomaticCapture(1);
 	//		 CameraServer::GetInstance()->StartAutomaticCapture();
 		Copernicus::setMode(Copernicus::Mode::DISABLED);
@@ -45,6 +36,7 @@ public:
 	void TeleopInit(){
 		Teleop::init();
 		Copernicus::setMode(Copernicus::Mode::TELEOP);
+
 	}
 	void TeleopPeriodic(){
 		Teleop::run(0.0);
@@ -72,10 +64,8 @@ public:
 	void ValueChanged(ITable* source, llvm::StringRef key, std::shared_ptr<nt::Value> value, bool isNew) override{
 		if(key == "horz_angle"){
 			double newAngle = value->GetDouble();
-			if(newAngle != -666.0 && newAngle != 666.0){
+			if(newAngle != -666 && newAngle != 666){
 				Shooter::getInstance().setangle(newAngle);
-			}else{
-				Shooter::getInstance().setangle(0.0);
 			}
 		}
 	}
