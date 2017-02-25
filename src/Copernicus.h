@@ -8,26 +8,10 @@
 #ifndef SRC_COPERNCIUS_H_
 #define SRC_COPERNICUS_H_
 
-#if !defined(COPERNICUS_USE_UDP) && !defined(COPERNICUS_USE_TABLES) && !defined(COPERNICUS_USE_NONE)
-#	define COPERNICUS_USE_TABLES
-#endif
-
 #include "Shared.h"
 #include <memory>
 
-#ifdef COPERNICUS_USE_UDP
-3
-#	include <shared_ptr.hpp>
-#	include <rapidjson/document.h>
-#	include <rapidjson/writer.h>
-#	include <rapidjson/stringbuffer.h>
-#	include <thread>
-#	include <chrono>
-#	include <iostream>
-#	include <udpServer.h>
-#elif defined(COPERNCIUS_USE_TABLES)
-#	include <SmartDashboard/SmartDashboard.h>
-#endif
+#include <SmartDashboard/SmartDashboard.h>
 
 /**
  * Sends data to the dashboard. To control how it does that, define either COPERNICUS_USE_UDP for John's UDP server code or COPERNICUS_USE_TABLES for Liav's NetworkTables before including Copernicus.h. If you don't define a macro, it will default to COPERNICUS_USE_TABLES. You can also defined COPERNICUS_USE_NONE to make it not send anything.
@@ -113,7 +97,6 @@ public:
 	This should be called every iteration, no matter if the robot is enabled.
 	*/
 	static void update();
-#ifdef COPERNICUS_USE_TABLES
 private:
 	static void setNumber(const char* key, const double val);
 	static void setBool(const char* key, const bool val);
@@ -122,12 +105,6 @@ private:
 	static void createTable();
 
 	static std::shared_ptr<NetworkTable> table;
-#elif defined(COPERNICUS_USE_UDP)
-private:
-	static void createServer();
-
-	static std::unique_ptr<udp_server> server;
-#endif
 };
 
 #endif /* SRC_TELEOP_H_ */
