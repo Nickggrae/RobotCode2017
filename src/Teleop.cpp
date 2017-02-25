@@ -18,7 +18,7 @@ Teleop& Teleop::getInstance(){
 }
 
 void Teleop::init() {
-	joy = new Joystick(0);
+	xBox = new Joystick(0);
 	extremePro = new Joystick(1);
 	SmartDashboard::PutNumber("Angle",0.0);
 	SmartDashboard::PutNumber("Shooter",0.0);
@@ -26,8 +26,8 @@ void Teleop::init() {
 }
 
 void Teleop::run() {
-	double leftDrive = joy->GetRawAxis(1);
-	double rightDrive = joy->GetRawAxis(5);
+	double leftDrive = xBox->GetRawAxis(1);
+	double rightDrive = xBox->GetRawAxis(5);
 
 	//Dead zone
 	if(leftDrive < 0.1 && leftDrive > -0.1)
@@ -40,21 +40,23 @@ void Teleop::run() {
 	SmartDashboard::PutNumber("right drive", rightDrive);
 
 	//toggle for the floor intake
-	if(prevButton1 < joy->GetRawButton(1)){
+	if(prevButton1 < xBox->GetRawButton(1)){
 		intake.toggleIntake();
 	}
-	prevButton1 = joy->GetRawButton(1);
+	prevButton1 = xBox->GetRawButton(1);
 
 	//toggle for the salad spinner
-	if(prevButton3 <joy->GetRawButton(4)){
+	if(prevButton3 <xBox->GetRawButton(4)){
 		intake.toggleSaladSpinner();
 	}
-	prevButton3 = joy->GetRawButton(4);
+	prevButton3 = xBox->GetRawButton(4);
 
 	//toggle for the agitator
-	if(prevButton4 <joy->GetRawButton(5)){
+	if(prevButton4 < extremePro->GetRawButton(5)){
 		shooter.agitatorToggle();
 	}
+	prevButton4 = extremePro ->GetRawButton(5);
+
 
 	bool climberUpButton = extremePro->GetRawButton(8);
 	bool climberOffButton = extremePro->GetRawButton(9);
@@ -67,8 +69,8 @@ void Teleop::run() {
 		climber.turnOff();
 	}
 
-	bool rightButton = joy->GetRawButton(6);
-	bool leftButton = joy->GetRawButton(5);
+	bool rightButton = xBox->GetRawButton(6);
+	bool leftButton = xBox->GetRawButton(5);
 	if(rightButton && !leftButton){
 		driveBase.getGearState();
 	}
@@ -80,8 +82,8 @@ void Teleop::run() {
 			driveBase.switchGear(false);
 		}
 	}
-	bool rightSlider = joy->GetRawButton(2);
-	bool leftSlider = joy->GetRawButton(3);
+	bool rightSlider = xBox->GetRawButton(2);
+	bool leftSlider = xBox->GetRawButton(3);
 	if(rightSlider && !leftSlider){
 		if(!driveBase.getSliderState()){
 			driveBase.switchSlider(true);
@@ -94,7 +96,7 @@ void Teleop::run() {
 	}
 	SmartDashboard::PutBoolean("Slider State", driveBase.getSliderState());
 
-	if(joy->GetRawButton(5))
+	if(xBox->GetRawButton(5))
 	{
 		driveBase.ahrs->ResetDisplacement();
 	}
@@ -137,6 +139,9 @@ void Teleop::run() {
 			if (flywheel_error < 10) {
 				autoFire = 20;
 			}
+
+
+
 		}
 		break;
 

@@ -28,10 +28,10 @@ void DriveBase::init() {
 	compressor->SetClosedLoopControl(true);
 	compressor->Start();
 
-	solenoid = new frc::DoubleSolenoid(0, 1);
+	solenoid = new frc::DoubleSolenoid(0, 7);
 	solenoid->Set(frc::DoubleSolenoid::kReverse);
 
-	solenoid2 = new frc::DoubleSolenoid(2, 3);
+	solenoid2 = new frc::DoubleSolenoid(6, 1);
 	solenoid2->Set(frc::DoubleSolenoid::kReverse);
 }
 

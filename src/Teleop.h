@@ -19,7 +19,7 @@ class Teleop{
 	Teleop(Teleop const&);
 	void operator=(Teleop const&);
 
-	Joystick* joy;
+	Joystick* xBox;
 	Joystick* extremePro;
 	int prevButton1 = 0;
 	int prevButton2 = 0;
