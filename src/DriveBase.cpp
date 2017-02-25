@@ -12,21 +12,16 @@ void DriveBase::init() {
 
 	// CanTalon pair(2,3) pair(4,5)
 	fl = new CANTalon(MAP_FRONTLEFT);
-	//fl->SetFeedbackDevice(CANTalon::CtreMagEncoder_Relative);
 	fl->SetInverted(true);
-//	fl->SetSafetyEnabled(false);
 
 	fr = new CANTalon(MAP_FRONTRIGHT);
 	fr->SetInverted(true);
-//	fr->SetSafetyEnabled(false);
 
 	rl = new CANTalon(MAP_REARLEFT);
 	rl->SetInverted(true);
-//	rl->SetSafetyEnabled(false);
 
 	rr = new CANTalon(MAP_REARRIGHT);
 	rr->SetInverted(true);
-//	rr->SetSafetyEnabled(false);
 	robotDrive = new frc::RobotDrive(fl,rl,fr,rr);
 
 	compressor = new frc::Compressor(0);
@@ -46,7 +41,6 @@ void DriveBase::drive(double left, double right){
 }
 
 void DriveBase::switchGear(bool gear){
-	//HEY - BAD NAMING
 	SmartDashboard::PutBoolean("Gear Status", gear);
 	if (gear){
 		solenoid->Set(frc::DoubleSolenoid::kForward); //sets into high gear

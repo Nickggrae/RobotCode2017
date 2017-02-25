@@ -14,13 +14,28 @@
 #include "Shooter.h"
 
 class Teleop{
-	static Joystick* stick;
-	static Joystick* joy;
-	static Joystick* extremePro;
-//	Intake &intake = Intake::getInstance();
+	//singleton- hide constructor and copy constructor
+	Teleop() { init(); }
+	Teleop(Teleop const&);
+	void operator=(Teleop const&);
+
+	Joystick* joy;
+	Joystick* extremePro;
+	int prevButton1 = 0;
+	int prevButton2 = 0;
+	int prevButton3 = 0;
+	int prevButton4 = 0;
+	double angle = 0.0;
+	DriveBase & driveBase = DriveBase::getInstance();
+	Intake & intake = Intake::getInstance();
+	Shooter & shooter = Shooter::getInstance();
+	Climber & climber = Climber::getInstance();
+
+	void init();
 public:
-	static void init();
-	static void run(double angle);
+	static Teleop& getInstance();
+
+	void run(double angle);
 };
 
 #endif /* SRC_TELEOP_H_ */

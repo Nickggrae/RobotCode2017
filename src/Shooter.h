@@ -14,12 +14,11 @@ class Shooter {
 	CANTalon* shooterIntake;
 
  	void resetAngle();
+ 	void init();
 public:
 	static Shooter& getInstance();
 
-
 	void setangle(double angleToSet);
- 	void init();
  	double getangle();
  	double get();
  	void set(double rpm);

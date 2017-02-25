@@ -11,15 +11,10 @@ void Climber::init(){
 	climb->ConfigNeutralMode(CANSpeedController::NeutralMode::kNeutralMode_Brake);
 }
 
-void Climber::turnOn(){
-	climb->Set(1.0);
-}
-void Climber::back(){
+void Climber::ClimbUp(){
 	climb->Set(-1.0);
 }
-void Climber::turnOnSlow(){
-	climb->Set(0.3);
-}
+
 void Climber::turnOff(){
 	climb->Set(0);
 }

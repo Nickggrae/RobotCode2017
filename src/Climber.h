@@ -11,8 +11,6 @@ class Climber{
 
 public:
 	static Climber& getInstance();
-	void turnOn();
-	void back();
-	void turnOnSlow();
+	void ClimbUp();
 	void turnOff();
 };

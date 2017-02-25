@@ -18,28 +18,20 @@ public:
 
 	void RobotInit(){
 		DriveBase::getInstance();	// the very first time we call it will init()
-		Shooter::getInstance().init();
+		Shooter::getInstance(); //calls init within function
 		Intake::getInstance();
 		Climber::getInstance();		// the very first time we call it will init() the climber
-
-		//udp_server.serverInit();
-		//std::shared_ptr<NetworkTable> table = NetworkTable::GetTable("vision");
-	//		 Intake::init();
-	//		 DriveBase::init();
-//		DriveBase::switchGear(false);
-	CameraServer::GetInstance()->StartAutomaticCapture();
-//		CameraServer::GetInstance()->StartAutomaticCapture(1);
-	//		 CameraServer::GetInstance()->StartAutomaticCapture();
+		CameraServer::GetInstance()->StartAutomaticCapture();
 		Copernicus::setMode(Copernicus::Mode::DISABLED);
 	}
 
 	void TeleopInit(){
-		Teleop::init();
+		Teleop::getInstance(); //will init
 		Copernicus::setMode(Copernicus::Mode::TELEOP);
-
 	}
+
 	void TeleopPeriodic(){
-		Teleop::run(0.0);
+		Teleop::getInstance().run(0.0);
 		Copernicus::update();
 	}
 
@@ -47,6 +39,7 @@ public:
 		Auton::getInstance(); //first call will create and instance and call init
 		Copernicus::setMode(Copernicus::Mode::AUTON);
 	}
+
 	void AutonomousPeriodic(){
 		Auton::getInstance().RedRightGearAuton();
 		Copernicus::update();
