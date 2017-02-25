@@ -31,7 +31,7 @@ public:
 	}
 
 	void TeleopPeriodic(){
-		Teleop::getInstance().run(0.0);
+		Teleop::getInstance().run();
 		Copernicus::update();
 	}
 

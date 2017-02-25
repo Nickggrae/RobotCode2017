@@ -23,7 +23,6 @@ void Shooter::init() {
 	shooterSlave->SetControlMode(CANTalon::ControlMode::kFollower);
 	shooterSlave->Set(shooterMaster->GetDeviceID());
 
-
 	angle = new CANTalon(MAP_ANGLE);
 	angle->Set (0.0);
 	angle ->SetFeedbackDevice(CANTalon::QuadEncoder);
@@ -38,7 +37,6 @@ void Shooter::init() {
 
 	shooterIntake = new CANTalon(MAP_SHOOTERINTAKE);
 	shooterIntake->Set(0.0);
-//	shooterIntake->SetInverted(false);
 	shooterIntake->SetFeedbackDevice(CANTalon::EncRising);
 	shooterIntake->SetStatusFrameRateMs(CANTalon::StatusFrameRate::StatusFrameRateFeedback, 1);
 	shooterIntake->SetClosedLoopOutputDirection(true);
@@ -50,7 +48,6 @@ void Shooter::init() {
 	shooterIntake->SelectProfileSlot(0);
 	shooterIntake->SetPID(1,0.002,0.0);
 	shooterIntake->SetControlMode(CANSpeedController::kSpeed);
-
 }
 
 void Shooter::set(double rpm){

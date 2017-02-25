@@ -34,8 +34,7 @@ class Teleop{
 	void init();
 public:
 	static Teleop& getInstance();
-
-	void run(double angle);
+	void run();
 };
 
 #endif /* SRC_TELEOP_H_ */

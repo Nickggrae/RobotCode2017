@@ -23,10 +23,9 @@ void Teleop::init() {
 	SmartDashboard::PutNumber("Angle",0.0);
 	SmartDashboard::PutNumber("Shooter",0.0);
 	driveBase.disableBrake();
-
 }
 
-void Teleop::run(double turnAngle) {
+void Teleop::run() {
 	double leftDrive = joy->GetRawAxis(1);
 	double rightDrive = joy->GetRawAxis(5);
 
@@ -100,20 +99,7 @@ void Teleop::run(double turnAngle) {
 		driveBase.ahrs->ResetDisplacement();
 	}
 
-	if(turnAngle != angle)
-	{
-		angle = turnAngle;
-		if(angle < 180 && angle > -180)
-		{
-			if(turnAngle != 666)
-				shooter.setangle(angle);
-			else
-				std::cout << "TA DA~" << std::endl;
-		}
-	}
-
 	SmartDashboard::PutNumber("Vision Angle", angle);
-	SmartDashboard::PutNumber("Turn Angle", turnAngle);
 	SmartDashboard::PutNumber("Attempted Angle", angle + shooter.getangle());
 	SmartDashboard::PutNumber("Shooter Angle", shooter.getangle());
 

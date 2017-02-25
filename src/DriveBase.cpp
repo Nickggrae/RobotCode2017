@@ -33,7 +33,6 @@ void DriveBase::init() {
 
 	solenoid2 = new frc::DoubleSolenoid(2, 3);
 	solenoid2->Set(frc::DoubleSolenoid::kReverse);
-
 }
 
 void DriveBase::drive(double left, double right){
@@ -113,12 +112,10 @@ double DriveBase::DisplacementZ(){
 
 double DriveBase::getAccelX(){
 	return ahrs->GetWorldLinearAccelX();
-
 }
 
 double DriveBase::getAccelY(){
 	return ahrs->GetWorldLinearAccelY();
-
 }
 
 double DriveBase::getAccelZ(){
