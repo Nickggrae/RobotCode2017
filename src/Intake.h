@@ -28,15 +28,11 @@ public:
 	// Switches intake from on to off if intake button is pressed
 	void toggleIntake();
 
-	void agitatorOn();
+	void saladOn();
 
-	void agitatorOff();
+	void saladOff();
 
-	void saladSpinnerOn();
+	bool isSalading();
 
-	void saladSpinnerOff();
-
-	void toggleSaladSpinner();
-
-	bool isOnSalad();
+	void toggleSalad();
 };

@@ -6,9 +6,6 @@
 #include "Copernicus.h"
 #include "Shooter.h"
 
-#include <boost/thread.hpp>
-#include <boost/bind.hpp>
-#include <boost/chrono.hpp>
 // #include "DriveBase.h"
 
 

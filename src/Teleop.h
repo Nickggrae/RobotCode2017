@@ -23,7 +23,7 @@ class Teleop{
 	Joystick* extremePro;
 	int prevButton1 = 0;
 	int prevButton2 = 0;
-	int prevButton3 = 0;
+	int saladSpinnerButton = 0;
 	int prevButton4 = 0;
 	double angle = 0.0;
 	DriveBase & driveBase = DriveBase::getInstance();

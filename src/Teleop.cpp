@@ -36,8 +36,6 @@ void Teleop::run() {
 		rightDrive = 0.0;
 
 	driveBase.drive(leftDrive, rightDrive);
-	SmartDashboard::PutNumber("left drive", leftDrive);
-	SmartDashboard::PutNumber("right drive", rightDrive);
 
 	//toggle for the floor intake
 	if(prevButton1 < xBox->GetRawButton(1)){
@@ -45,11 +43,10 @@ void Teleop::run() {
 	}
 	prevButton1 = xBox->GetRawButton(1);
 
-	//toggle for the salad spinner
-	if(prevButton3 <xBox->GetRawButton(4)){
-		intake.toggleSaladSpinner();
+	if(saladSpinnerButton < xBox->GetRawButton(4)){
+		intake.toggleSalad();
 	}
-	prevButton3 = xBox->GetRawButton(4);
+	saladSpinnerButton = xBox->GetRawButton(4);
 
 	//toggle for the agitator
 	if(prevButton4 < extremePro->GetRawButton(5)){
@@ -72,16 +69,16 @@ void Teleop::run() {
 	bool rightButton = xBox->GetRawButton(6);
 	bool leftButton = xBox->GetRawButton(5);
 	if(rightButton && !leftButton){
-		driveBase.getGearState();
-	}
 		if(!driveBase.getGearState()){
 			driveBase.switchGear(true);
 		}
+	}
 	else if(!rightButton && leftButton){
 		if(driveBase.getGearState()){
 			driveBase.switchGear(false);
 		}
 	}
+
 	bool rightSlider = xBox->GetRawButton(2);
 	bool leftSlider = xBox->GetRawButton(3);
 	if(rightSlider && !leftSlider){
@@ -94,25 +91,23 @@ void Teleop::run() {
 			driveBase.switchSlider(false);
 		}
 	}
-	SmartDashboard::PutBoolean("Slider State", driveBase.getSliderState());
 
 	if(xBox->GetRawButton(5))
 	{
 		driveBase.ahrs->ResetDisplacement();
 	}
 
-	SmartDashboard::PutNumber("Vision Angle", angle);
-	SmartDashboard::PutNumber("Attempted Angle", angle + shooter.getangle());
-	SmartDashboard::PutNumber("Shooter Angle", shooter.getangle());
-
 	Copernicus::setFlywheelRPM(shooter.get());
 
-	double currentRPM = shooter.get();
+	double zAxis = extremePro->GetRawAxis(2);
+	if(zAxis > 0.1 || zAxis < -0.1){
+		Shooter::getInstance().setangle(10.0 * -(zAxis));
+	}
 
-	SmartDashboard::PutNumber("Shooter speed", currentRPM);
-	SmartDashboard::PutNumber("YawTeleop", driveBase.getYaw());
-	SmartDashboard::PutNumber("FeedRPM", shooter.agitatorRPM());
+	Shooter::getInstance().set(rpm_flywheel)
 
+
+/*
 	if (!Teleop::extremePro->GetRawButton(1))
 		autoFire = 0;
 	else if (autoFire == 0)
@@ -153,5 +148,5 @@ void Teleop::run() {
 		default: {
 		}
 		break;
-	}
+	}*/
 }

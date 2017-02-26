@@ -9,10 +9,10 @@ Intake& Intake::getInstance(){
 void Intake::init() {
 	intakeTalon = new CANTalon(MAP_INTAKETALON);
 	intakeTalon->SetSafetyEnabled(false);
+	intakeTalon->SetInverted(true);
 
 	saladSpinner = new CANTalon(MAP_SALADSPINNER);
-	saladSpinner->SetInverted(true);
-	intakeTalon->SetInverted(true);
+	saladSpinner->SetSafetyEnabled(false);
 }
 
 void Intake::turnOn() {
@@ -37,23 +37,23 @@ void Intake::toggleIntake() { // Used for toggle in Teleop
 	}
 }
 
-void Intake::saladSpinnerOn(){
-	saladSpinner->Set(.50);
-}
-
-void Intake::saladSpinnerOff(){
+void Intake::saladOff(){
 	saladSpinner->Set(0.0);
 }
 
-bool Intake::isOnSalad(){
-	return (abs(saladSpinner->Get()) > 0.1);
+void Intake::saladOn(){
+	saladSpinner->Set(0.5);
 }
 
-void Intake::toggleSaladSpinner(){
-	if (Intake::isOnSalad()) {
-		Intake::saladSpinnerOff();
+bool Intake::isSalading(){
+	return (saladSpinner->Get() != 0.0);
+}
+
+void Intake::toggleSalad(){
+	if (Intake::isSalading()) {
+		Intake::saladOff();
 	} else {
-		Intake::saladSpinnerOn();
+		Intake::saladOn();
 	}
-
 }
+
