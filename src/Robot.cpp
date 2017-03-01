@@ -38,7 +38,7 @@ public:
 	}
 
 	void AutonomousPeriodic(){
-		Auton::getInstance().RedRightGearAuton();
+		Auton::getInstance().RedLeftAuton();
 		Copernicus::update();
 	}
 

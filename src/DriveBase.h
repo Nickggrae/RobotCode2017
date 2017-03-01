@@ -43,6 +43,8 @@ class DriveBase {
 
 	 int sliderState;
 
+	 double inchesPerClick;
+
 public:
 	 AHRS *ahrs;
 	 static DriveBase& getInstance();
@@ -53,11 +55,11 @@ public:
 
 	 int getGearState(); //check whether gear has been released or not
 
-	 double getEncoderfl(); //gets the encoder position of encoder front left
+	 double getEncoderflInches(); //gets the encoder position of encoder front left
 
 	 void resetEncoderfl(); //resets the front left encoder
 
-	 double getEncoderfr(); // get the encoder position of encoder front right
+	 double getEncoderfrInches(); // get the encoder position of encoder front right
 
 	 void resetEncoderfr(); //resets the front right encoder
 

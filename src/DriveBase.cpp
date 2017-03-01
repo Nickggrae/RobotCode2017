@@ -12,9 +12,13 @@ void DriveBase::init() {
 
 	// CanTalon pair(2,3) pair(4,5)
 	fl = new CANTalon(MAP_FRONTLEFT);
+	fl->SetFeedbackDevice(CANTalon::EncRising);
+	fl->ConfigEncoderCodesPerRev(2048);//2x encoder revs
 	fl->SetInverted(true);
 
 	fr = new CANTalon(MAP_FRONTRIGHT);
+	fr->SetFeedbackDevice(CANTalon::EncRising);
+	fr->ConfigEncoderCodesPerRev(2048);//2x encoder revs
 	fr->SetInverted(true);
 
 	rl = new CANTalon(MAP_REARLEFT);
@@ -33,6 +37,8 @@ void DriveBase::init() {
 
 	solenoid2 = new frc::DoubleSolenoid(6, 1);
 	solenoid2->Set(frc::DoubleSolenoid::kReverse);
+
+	inchesPerClick = 0.00589294059473;
 }
 
 void DriveBase::drive(double left, double right){
@@ -71,15 +77,15 @@ int DriveBase::getGearState(){
 	return gearState;
 }
 
-double DriveBase::getEncoderfl(){
-	return fl->GetEncPosition();
+double DriveBase::getEncoderflInches(){
+	return fl->GetEncPosition() * inchesPerClick;
 }
 
 void DriveBase::resetEncoderfl(){
 	fl->Reset();
 }
-double DriveBase::getEncoderfr(){
-	return fr->GetEncPosition();
+double DriveBase::getEncoderfrInches(){
+	return fr->GetEncPosition() * inchesPerClick;
 }
 
 void DriveBase::resetEncoderfr(){

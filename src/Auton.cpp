@@ -17,6 +17,8 @@ void Auton::init() {
 	state = 10;
 	startTime = 0;
 	driveBase.switchGear(true);
+	driveBase.resetEncoderfl();
+	driveBase.resetEncoderfr();
 }
 
 void Auton::TestYaw(){
@@ -42,11 +44,6 @@ void Auton::DriveBackwards(double power){
 	driveBase.drive(power, power);
 }
 
-void Auton::EncoderVal(double encoder){
-
-
-}
-
 void Auton::StayStill(){
 	driveBase.drive(0.0, 0.0);
 }
@@ -64,20 +61,30 @@ bool Auton::waited(double seconds){
 	return false;
 }
 
+bool Auton::travelled(double inches){
+	if (driveBase.getEncoderflInches() >= inches || driveBase.getEncoderfrInches() >= inches){
+		driveBase.resetEncoderfl();
+		driveBase.resetEncoderfr();
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+
 void Auton::NothingAuton(){
 	//Auton for nothing
 	StayStill();
 }
 
 void Auton::RedLeftAuton(){
-	//done for now -katka
 	//Auton for REDLEFT
 	//robot will go deliver the gear on the right
 	//drive forward until the line
 	switch (state) {
 		case 10: //drive forward at half speed until ready to turn to get gear
 			DriveForward();
-			if(waited(2)){
+			if(travelled(113)){ //2 seconds wait
 				state = 30;
 			}
 			break;
@@ -91,7 +98,7 @@ void Auton::RedLeftAuton(){
 
 		case 40: // drive forward till at gear
 			DriveForward();
-			if(waited(0.8)){
+			if(travelled(63)){//waited 0.8 seconds
 				state = 50;
 			}
 			break;
@@ -105,7 +112,7 @@ void Auton::RedLeftAuton(){
 
 		case 60: // drive backward for some other time seconds away from gear
 			DriveBackwards();
-			if(waited(1)){
+			if(travelled(-63)){//waited(1
 				state = 70;
 			}
 			break;
@@ -119,7 +126,7 @@ void Auton::RedLeftAuton(){
 
 		case 80: // drive forward for 2 seconds until at launchpad line
 			DriveForward();
-			if(waited(1.5)){
+			if(travelled(40)){//waited(1.5)
 				state = 90;
 			}
 			break;

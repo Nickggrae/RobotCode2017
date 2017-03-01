@@ -16,7 +16,7 @@ void Shooter::init() {
 	shooterMaster->SetAllowableClosedLoopErr(0);
 	shooterMaster->SetVoltageRampRate(12);
 	shooterMaster->SelectProfileSlot(0);
-	shooterMaster->SetPID(1,0.0,0.0);
+	shooterMaster->SetPID(0.6,0.0001,0.00005);
 	shooterMaster->SetControlMode(CANSpeedController::kSpeed);
 
 	shooterSlave = new CANTalon(MAP_SHOOTERSLAVE);

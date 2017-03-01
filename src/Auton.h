@@ -22,6 +22,7 @@ class Auton {
 	void StayStill();
 
 	bool waited(double seconds); //Used to wait x seconds returns true if time period has expired
+	bool travelled(double inches);
 
 public:
 	static Auton& getInstance();
@@ -40,17 +41,4 @@ public:
 	void BlueLeftGearAuton();
 	void BlueMiddleAuton();
 	void BlueRightAuton();
-
-	void EncoderVal(double encoder);
-
-	enum AutonRoutines
-	{
-		Nothing = 0,
-		RedLeft = 4,
-		RedMiddle = 2,
-		RedRight = 1,
-		BlueLeft = 6,
-		BlueMiddle = 5,
-		BlueRight = 3
-	};
 };

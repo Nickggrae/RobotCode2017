@@ -22,13 +22,16 @@ void Teleop::init() {
 	extremePro = new Joystick(1);
 	SmartDashboard::PutNumber("Angle",0.0);
 	SmartDashboard::PutNumber("Shooter",0.0);
+	SmartDashboard::PutNumber("ShooterRPM",0.0);
+	SmartDashboard::PutNumber("ShooterTarget",0.0);
+
 	driveBase.disableBrake();
 }
 
 void Teleop::run() {
 	double leftDrive = xBox->GetRawAxis(1);
 	double rightDrive = xBox->GetRawAxis(5);
-
+	SmartDashboard::PutNumber("ShooterRPM",shooter.get());
 	//Dead zone
 	if(leftDrive < 0.1 && leftDrive > -0.1)
 		leftDrive = 0.0;
@@ -96,15 +99,26 @@ void Teleop::run() {
 	{
 		driveBase.ahrs->ResetDisplacement();
 	}
-
 	Copernicus::setFlywheelRPM(shooter.get());
 
 	double zAxis = extremePro->GetRawAxis(2);
-	if(zAxis > 0.1 || zAxis < -0.1){
-		Shooter::getInstance().setangle(10.0 * -(zAxis));
+	if(zAxis > 0.3 || zAxis < -0.3){
+		shooter.setangle(30.0 * -(zAxis));
+	}else{
+		shooter.setangle(0);
 	}
 
-	Shooter::getInstance().set(rpm_flywheel)
+
+	double yAxis = extremePro->GetRawAxis(3);
+	double RPMraw = ((((yAxis+1)/2)*6000) + 500) - (2000*yAxis);
+	shooter.set(RPMraw);//(SmartDashboard::GetNumber("ShooterTarget",0.0));
+
+
+//	if (yAxis < -0.2){
+//		Shooter::getInstance().set(yAxis*-4500);
+//	}else{
+//		Shooter::getInstance().set(0);
+//	}
 
 
 /*
@@ -116,6 +130,7 @@ void Teleop::run() {
 	switch (autoFire) { //will fix error later
 		case 10: {
 			double raw_fire_power = Teleop::extremePro->GetRawAxis(1);
+
 			double rpm_flywheel = (((raw_fire_power + 1) / 2) * 8000)
 					- (1500 * raw_fire_power);
 			SmartDashboard::PutNumber("Wanted Flywheel Speed", rpm_flywheel);
