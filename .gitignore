@@ -1,1 +1,4 @@
 /Debug/
+node_modules/
+frc_libs_bundle/
+roborio_build/
