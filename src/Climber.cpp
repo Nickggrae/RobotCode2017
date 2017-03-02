@@ -1,20 +1,28 @@
-#include "Climber.h"
+#include <Climber.hpp>
 
-Climber& Climber::getInstance(){
-	static Climber instance;
-	return instance;
-}
+#include <MotorMap.hpp>
 
-void Climber::init(){
-	climb = new CANTalon(MAP_CLIMBER);
-	climb->ClearStickyFaults();
-	climb->ConfigNeutralMode(CANSpeedController::NeutralMode::kNeutralMode_Brake);
-}
+namespace Climber {
 
-void Climber::ClimbUp(){
-	climb->Set(-1.0);
-}
+	CANTalon* climb;
+	bool initialized = false;
 
-void Climber::turnOff(){
-	climb->Set(0);
+	void init() {
+		if(initialized) return;
+
+		climb = new CANTalon(MOTOR_MAP_CLIMBER);
+		climb->ClearStickyFaults();
+		climb->ConfigNeutralMode(CANSpeedController::NeutralMode::kNeutralMode_Brake);
+
+		initialized = true;
+	}
+
+	void ClimbUp(){
+		climb->Set(-1.0);
+	}
+
+	void turnOff(){
+		climb->Set(0);
+	}
+
 }

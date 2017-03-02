@@ -1,12 +1,11 @@
 #pragma once
-#include "Shared.h"
-#include "DriveBase.h"
+#include <DriveBase.hpp>
+#include <Shared.hpp>
 #include <ctime>
 
 class Auton {
 	std::time_t startTime; //Used to calculate delay through time
 	int state; //Number the state machine is at
-	DriveBase & driveBase = DriveBase::getInstance();
 
 	//singleton- hide constructor and copy constructor
 	Auton(): startTime(0), state(10) { init(); }

@@ -1,4 +1,4 @@
-#include "Shared.h"
+#include <Shared.hpp>
 #include "Copernicus.h"
 
 #ifdef COPERNICUS_USE_TABLES

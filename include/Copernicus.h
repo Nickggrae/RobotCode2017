@@ -8,7 +8,7 @@
 #ifndef SRC_COPERNCIUS_H_
 #define SRC_COPERNICUS_H_
 
-#include "Shared.h"
+#include <Shared.hpp>
 #include <memory>
 
 #include <SmartDashboard/SmartDashboard.h>

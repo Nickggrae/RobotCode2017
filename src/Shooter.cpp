@@ -1,98 +1,134 @@
-#include "Shooter.h"
+#include <Shooter.hpp>
 
-Shooter& Shooter::getInstance(){
-	static Shooter instance;
-	return instance;
-}
+#include <MotorMap.hpp>
+#include <SensorMap.hpp>
 
-void Shooter::init() {
-	shooterMaster = new CANTalon(MAP_SHOOTERMASTER);
-	shooterMaster->Set (0.0);
-	shooterMaster->SetFeedbackDevice(CANTalon::EncRising);
-	shooterMaster->SetStatusFrameRateMs(CANTalon::StatusFrameRate::StatusFrameRateFeedback, 1);
-	shooterMaster->ConfigEncoderCodesPerRev(1024);
-	shooterMaster->ConfigNominalOutputVoltage(+0., -0.);
-	shooterMaster->ConfigPeakOutputVoltage(+12., -12.);
-	shooterMaster->SetAllowableClosedLoopErr(0);
-	shooterMaster->SetVoltageRampRate(12);
-	shooterMaster->SelectProfileSlot(0);
-	shooterMaster->SetPID(0.6,0.0001,0.00005);
-	shooterMaster->SetControlMode(CANSpeedController::kSpeed);
+namespace Shooter {
 
-	shooterSlave = new CANTalon(MAP_SHOOTERSLAVE);
-	shooterSlave->SetControlMode(CANTalon::ControlMode::kFollower);
-	shooterSlave->Set(shooterMaster->GetDeviceID());
+	CANTalon* shooterMaster;
+	CANTalon* shooterSlave;
+	CANTalon* angle;
+	CANTalon* shooterIntake;
+	bool initialized = false;
 
-	angle = new CANTalon(MAP_ANGLE);
-	angle->Set (0.0);
-	angle ->SetFeedbackDevice(CANTalon::QuadEncoder);
-	angle->ConfigEncoderCodesPerRev(1024);
-	angle->ConfigNominalOutputVoltage(+0., -0.);
-	angle->ConfigPeakOutputVoltage(+12., -12.);
-	angle->SetAllowableClosedLoopErr(0.5);
-	angle->SelectProfileSlot(0);
-	angle->SetPID(.0034,0.0,0.00015);
-	angle->SetControlMode(CANSpeedController::kPosition);
-	angle->SetSensorDirection(true);
+	void init() {
+		if(initialized) return;
 
-	shooterIntake = new CANTalon(MAP_SHOOTERINTAKE);
-	shooterIntake->Set(0.0);
-	shooterIntake->SetFeedbackDevice(CANTalon::EncRising);
-	shooterIntake->SetStatusFrameRateMs(CANTalon::StatusFrameRate::StatusFrameRateFeedback, 1);
-	shooterIntake->SetClosedLoopOutputDirection(true);
-	shooterIntake->SetSensorDirection(false);
-	shooterIntake->ConfigEncoderCodesPerRev(1024);
-	shooterIntake->ConfigNominalOutputVoltage(+0., -0.);
-	shooterIntake->ConfigPeakOutputVoltage(+12., -12.);
-	shooterIntake->SetAllowableClosedLoopErr(0);
-	shooterIntake->SelectProfileSlot(0);
-	shooterIntake->SetPID(1,0.002,0.0);
-	shooterIntake->SetControlMode(CANSpeedController::kSpeed);
-}
 
-void Shooter::set(double rpm){
-	shooterMaster->Set(rpm);
-}
+		/*
+		 * Master turret flywheel motor controller
+		 */
 
-double Shooter::get(){
-	return shooterMaster->GetSpeed();
-}
+		shooterMaster = new CANTalon(MOTOR_MAP_SHOOTER_MASTER);
+		shooterMaster->Set (0.0);
+		shooterMaster->SetFeedbackDevice(CANTalon::EncRising);
+		shooterMaster->SetStatusFrameRateMs(CANTalon::StatusFrameRate::StatusFrameRateFeedback, 1);
+		shooterMaster->ConfigEncoderCodesPerRev(1024);
+		shooterMaster->ConfigNominalOutputVoltage(+0., -0.);
+		shooterMaster->ConfigPeakOutputVoltage(+12., -12.);
+		shooterMaster->SetAllowableClosedLoopErr(0);
+		shooterMaster->SetVoltageRampRate(SENSOR_MAP_SHOOTER_MASTER_VOLTAGE_RAMP);
+		shooterMaster->SelectProfileSlot(SENSOR_MAP_SHOOTER_MASTER_PROFILE);
+		shooterMaster->SetPID(
+				SENSOR_MAP_SHOOTER_MASTER_PID_P,
+				SENSOR_MAP_SHOOTER_MASTER_PID_I,
+				SENSOR_MAP_SHOOTER_MASTER_PID_D);
+		shooterMaster->SetControlMode(CANSpeedController::kSpeed);
 
-//Set CANTalon rotations based on angle
-void Shooter::setangle(double angleToSet){
-	angle->Set(angleToSet);// * (0.007638888888889));f
-}
-double Shooter::getangle(){
-	return (angle->GetPosition());// / .00076388888888889);
-}
 
-void Shooter::agitatorOn(){
-	shooterIntake->Set(2400);
-}
+		/*
+		 * Slave turret flywheel motor controller
+		 */
 
-void Shooter::agitatorOff(){
-	shooterIntake->Set(0.0);
-}
+		shooterSlave = new CANTalon(MOTOR_MAP_SHOOTER_SLAVE);
+		shooterSlave->SetControlMode(CANTalon::ControlMode::kFollower);
+		shooterSlave->Set(shooterMaster->GetDeviceID());
 
-double Shooter::agitatorRPM(){
-	return shooterIntake->GetSpeed();
-}
-void Shooter::resetAngle(){
-	angle->Reset();
-}
 
-bool Shooter::agitatorIsOn() {
-	return (abs(shooterIntake->Get()) > 0.1); // Returns true if intake is on
-}
+		/*
+		 * Horizontal turret angle motor controller
+		 */
 
-CANTalon * Shooter::getShooterCANTalon() {
-	return shooterMaster;
-}
+		angle = new CANTalon(MOTOR_MAP_SHOOTER_ANGLE);
+		angle->Set (0.0);
+		angle->SetFeedbackDevice(CANTalon::QuadEncoder);
+		angle->ConfigEncoderCodesPerRev(1024);
+		angle->ConfigNominalOutputVoltage(+0., -0.);
+		angle->ConfigPeakOutputVoltage(+12., -12.);
+		angle->SetAllowableClosedLoopErr(0.5);
+		angle->SelectProfileSlot(SENSOR_MAP_SHOOTER_ANGLE_PROFILE);
+		angle->SetPID(
+				SENSOR_MAP_SHOOTER_ANGLE_PID_P,
+				SENSOR_MAP_SHOOTER_ANGLE_PID_I,
+				SENSOR_MAP_SHOOTER_ANGLE_PID_D);
+		angle->SetControlMode(CANSpeedController::kPosition);
+		angle->SetSensorDirection(true);
 
-void Shooter::agitatorToggle() { // Used for toggle in Teleop
-	if (Shooter::agitatorIsOn()) {
-		Shooter::agitatorOff();
-	} else {
-		Shooter::agitatorOn();
+		/*
+		 * Turret feed motor controller
+		 */
+
+		shooterIntake = new CANTalon(MOTOR_MAP_FEED_INTAKE);
+		shooterIntake->Set(0.0);
+		shooterIntake->SetFeedbackDevice(CANTalon::EncRising);
+		shooterIntake->SetStatusFrameRateMs(CANTalon::StatusFrameRate::StatusFrameRateFeedback, 1);
+		shooterIntake->SetClosedLoopOutputDirection(true);
+		shooterIntake->SetSensorDirection(false);
+		shooterIntake->ConfigEncoderCodesPerRev(1024);
+		shooterIntake->ConfigNominalOutputVoltage(+0., -0.);
+		shooterIntake->ConfigPeakOutputVoltage(+12., -12.);
+		shooterIntake->SetAllowableClosedLoopErr(0);
+		shooterIntake->SelectProfileSlot(0);
+		shooterIntake->SetPID(1,0.002,0.0);
+		shooterIntake->SetControlMode(CANSpeedController::kSpeed);
+
+		initialized = true;
+	}
+
+	void set(double rpm){
+		shooterMaster->Set(rpm);
+	}
+
+	double get(){
+		return shooterMaster->GetSpeed();
+	}
+
+	//Set CANTalon rotations based on angle
+	void setangle(double angleToSet){
+		angle->Set(angleToSet);// * (0.007638888888889));f
+	}
+	double getangle(){
+		return (angle->GetPosition());// / .00076388888888889);
+	}
+
+	void agitatorOn(){
+		shooterIntake->Set(2400);
+	}
+
+	void agitatorOff(){
+		shooterIntake->Set(0.0);
+	}
+
+	double agitatorRPM(){
+		return shooterIntake->GetSpeed();
+	}
+	void resetAngle(){
+		angle->Reset();
+	}
+
+	bool agitatorIsOn() {
+		return (abs(shooterIntake->Get()) > 0.1); // Returns true if intake is on
+	}
+
+	CANTalon *getShooterCANTalon() {
+		return shooterMaster;
+	}
+
+	void agitatorToggle() { // Used for toggle in Teleop
+		if (agitatorIsOn()) {
+			agitatorOff();
+		} else {
+			agitatorOn();
+		}
 	}
 }
