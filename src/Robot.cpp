@@ -18,6 +18,7 @@ public:
 		Intake::init();
 		Climber::init();		// the very first time we call it will init() the climber
 		Teleop::init();
+		Auton::init();
 
 		CameraServer::GetInstance()->StartAutomaticCapture();
 		Copernicus::setMode(Copernicus::Mode::DISABLED);
@@ -33,12 +34,12 @@ public:
 	}
 
 	void AutonomousInit(){
-		Auton::getInstance(); //first call will create and instance and call init
+		Auton::init(); //first call will create and instance and call init
 		Copernicus::setMode(Copernicus::Mode::AUTON);
 	}
 
 	void AutonomousPeriodic(){
-		Auton::getInstance().RedLeftAuton();
+		Auton::RedLeftAuton();
 		Copernicus::update();
 	}
 
