@@ -27,9 +27,12 @@ namespace Teleop {
 		DriveBase::init();
 		Intake::init();
 
+
+
+
 		xBox = new Joystick(0);
 		extremePro = new Joystick(1);
-		SmartDashboard::PutNumber("Angle",0.0);
+		//SmartDashboard::PutNumber("Angle",0.0);
 		SmartDashboard::PutNumber("Shooter",0.0);
 		SmartDashboard::PutNumber("ShooterRPM",0.0);
 		SmartDashboard::PutNumber("ShooterTarget",0.0);
@@ -110,12 +113,14 @@ namespace Teleop {
 		}
 		Copernicus::setFlywheelRPM(Shooter::get());
 
-		double zAxis = extremePro->GetRawAxis(2);
+		/*double zAxis = extremePro->GetRawAxis(2);
 		if(zAxis > 0.3 || zAxis < -0.3){
 			Shooter::setangle(30.0 * -(zAxis));
 		}else{
 			Shooter::setangle(0);
-		}
+		}*/
+
+
 
 
 		double yAxis = extremePro->GetRawAxis(3);

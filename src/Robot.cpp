@@ -12,6 +12,7 @@ class Robot: public IterativeRobot, public ITableListener {
 public:
 	std::shared_ptr<NetworkTable> table;
 
+
 	void RobotInit(){
 		DriveBase::init();	// the very first time we call it will init()
 		Shooter::init(); //Initialize the shooter
@@ -19,6 +20,11 @@ public:
 		Climber::init();		// the very first time we call it will init() the climber
 		Teleop::init();
 		Auton::init();
+
+		NetworkTable::SetClientMode();
+		NetworkTable::SetTeam(5431);
+		table = NetworkTable::GetTable("vision");
+		table->AddTableListener(this);
 
 		CameraServer::GetInstance()->StartAutomaticCapture();
 		Copernicus::setMode(Copernicus::Mode::DISABLED);
