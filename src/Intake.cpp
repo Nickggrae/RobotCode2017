@@ -51,7 +51,7 @@ namespace Intake {
 	}
 
 	void saladOn(){
-		saladSpinner->Set(0.5);
+		saladSpinner->Set(1.0);
 	}
 
 	bool isSalading(){

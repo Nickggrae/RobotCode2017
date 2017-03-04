@@ -3,6 +3,8 @@
 #include <Shared.hpp>
 #include <ctime>
 
+#define LEFT_POWER_OFFSET	0.0
+#define RIGHT_POWER_OFFSET	0.02
 namespace Auton {
 	void init();
 	//POWER ALWAYS HAS TO BE POSITIVE
@@ -17,7 +19,7 @@ namespace Auton {
 	// Initialize the drivebase, set's starttime to current time, set's motor speed to half
 
 	//it has auton so it isnt the same as the enums it looks bad sorry
-	void TestYaw();
+	void Test();
 	void NothingAuton();
 	void RedLeftAuton();
 	void RedMiddleAuton();

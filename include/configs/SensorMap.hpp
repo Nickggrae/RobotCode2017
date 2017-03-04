@@ -40,14 +40,14 @@
  * PID values and adjustments (For master flywheel turret motor controller)
  */
 
-#define SENSOR_MAP_SHOOTER_MASTER_VOLTAGE_RAMP 	12 //Shooter master voltage ramp rate
+#define SENSOR_MAP_SHOOTER_MASTER_VOLTAGE_RAMP 	1 //Shooter master voltage ramp rate
 
 //PID Specifics
 #define SENSOR_MAP_SHOOTER_MASTER_PROFILE		0 //Shooter PID Profile id
 
-#define SENSOR_MAP_SHOOTER_MASTER_PID_P 		3.5 //Shooter master PID P value (Proportional)
-#define SENSOR_MAP_SHOOTER_MASTER_PID_I			0.00065 //Shooter master PID I value (Integral)
-#define SENSOR_MAP_SHOOTER_MASTER_PID_D			0.0001 //Shooter master PID D value (Derivative)
+#define SENSOR_MAP_SHOOTER_MASTER_PID_P 		1 //Shooter master PID P value (Proportional)
+#define SENSOR_MAP_SHOOTER_MASTER_PID_I			0.0001//Shooter master PID I value (Integral)
+#define SENSOR_MAP_SHOOTER_MASTER_PID_D			0.00001 //Shooter master PID D value (Derivative)
 
 
 /*
@@ -59,5 +59,11 @@
 #define SENSOR_MAP_SHOOTER_ANGLE_PID_P 			0.0034 //Shooter master PID P value (Proportional)
 #define SENSOR_MAP_SHOOTER_ANGLE_PID_I			0.0 //Shooter master PID I value (Integral)
 #define SENSOR_MAP_SHOOTER_ANGLE_PID_D			0.00015 //Shooter master PID D value (Derivative)
+
+/*
+ * Drivebase encoder settings
+ */
+
+#define SENSOR_MAP_DRIVE_BASE_INCHES_PER_CLICK	0.003006602344
 
 #endif /* INCLUDE_SENSORMAP_HPP_ */

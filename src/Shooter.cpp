@@ -1,4 +1,5 @@
 #include <Shooter.hpp>
+#include <cmath>
 #include <Intake.hpp>
 #include <MotorMap.hpp>
 #include <SensorMap.hpp>
@@ -10,6 +11,7 @@ namespace Shooter {
 	CANTalon* angle;
 	CANTalon* shooterIntake;
 	bool initialized = false;
+	double visionAngle = 0;
 
 	void init() {
 		if(initialized) return;
@@ -85,6 +87,18 @@ namespace Shooter {
 		initialized = true;
 	}
 
+	void setVisionAngle(double angle) {
+		visionAngle = angle;
+	}
+
+	double getVisionAngle() {
+		return visionAngle;
+	}
+
+	bool isOnTarget() {
+		return (abs(visionAngle) <= 2.5);
+	}
+
 	void set(double rpm){
 		shooterMaster->Set(rpm);
 	}
@@ -102,7 +116,7 @@ namespace Shooter {
 	}
 
 	void agitatorOn(){
-		shooterIntake->Set(2400);
+		shooterIntake->Set(1000);
 	}
 
 	void agitatorOff(){
@@ -133,26 +147,27 @@ namespace Shooter {
 	}
 
 	int shoot(int shooterState, double rpm_flywheel){
+		int flywheel_error =
+					Shooter::getShooterCANTalon()->GetClosedLoopError();
+
+			SmartDashboard::PutNumber("Flywheel closed loop error", flywheel_error);
 		switch (shooterState) { //will fix error later
 			case 10: {
 				SmartDashboard::PutNumber("Wanted Flywheel Speed", rpm_flywheel);
-
 				Shooter::set(rpm_flywheel);
-
-				int flywheel_error =
-						Shooter::getShooterCANTalon()->GetClosedLoopError();
-
-				SmartDashboard::PutNumber("Flywheel closed loop error", flywheel_error);
-
-				if (abs(flywheel_error) < 500) {
-					Shooter::agitatorOn();
 				}
 
+				if (abs(flywheel_error) < 20) {
+					shooterState = 15;
+				}
+				break;
+
+			case 15:
+				Shooter::agitatorOn();
 				if (abs(flywheel_error) < 10) {
 					shooterState = 20;
 				}
-			}
-			break;
+				break;
 
 			case 20: {
 				Intake::saladOn();

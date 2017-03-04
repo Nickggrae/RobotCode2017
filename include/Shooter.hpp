@@ -51,6 +51,10 @@ namespace Shooter {
  	double agitatorRPM();
  	void agitatorToggle();
  	bool agitatorIsOn();
+ 	void setVisionAngle(double);
+ 	double getVisionAngle();
+ 	bool isOnTarget();
+ 	int shoot(int, double);
  	CANTalon *getShooterCANTalon();
 
 };

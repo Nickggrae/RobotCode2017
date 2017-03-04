@@ -37,7 +37,6 @@ public:
 	void TeleopPeriodic(){
 		Teleop::run();
 		Copernicus::update();
-		Auton::Test();//temp
 	}
 
 	void AutonomousInit(){
@@ -46,7 +45,7 @@ public:
 	}
 
 	void AutonomousPeriodic(){
-		Auton::RedRightShootAuton();
+		Auton::RedLeftAuton();
 		Auton::Test();
 		//Copernicus::update();
 	}
@@ -65,6 +64,7 @@ public:
 			double newAngle = value->GetDouble();
 			if(newAngle != -666 && newAngle != 666){
 				Shooter::setangle(newAngle);
+				Shooter::setVisionAngle(newAngle);
 			}
 		}
 	}

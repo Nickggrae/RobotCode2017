@@ -7,10 +7,19 @@
 #include <AHRS.h>
 #include <Encoder.h>
 
+//JSON PARSING
+#include <rapidjson/document.h>
+#include <rapidjson/writer.h>
+#include <rapidjson/stringbuffer.h>
+
+#define TEST_JSON "{\"project_test\": }"
+
 namespace Auton {
 	std::time_t startTime; //Used to calculate delay through time
 	int state; //Number the state machine is at
 	int shootState;
+
+	rapidjson::Document doc; //The JSON document
 
 	//bool initialized = false;
 
@@ -40,6 +49,12 @@ namespace Auton {
 
 		//initialized = true;
 	}
+
+	void loadAuton(std::string &toParse) {
+		doc.Parse(toParse.c_str());
+	}
+
+
 
 	void Test(){
 		//StayStill();
@@ -114,6 +129,10 @@ namespace Auton {
 	void NothingAuton(){
 		//Auton for nothing
 		StayStill();
+	}
+
+	void autonStateMachine() {
+		//Value &autons = doc["autons"];
 	}
 
 	void RedLeftAuton(){
@@ -456,47 +475,61 @@ namespace Auton {
 
 
 	void RedRightShootAuton(){
+		int shootRPM = 3030;
 		switch (state) {
 			case 10: //drive forward at half speed until ready to turn to get gear
-				DriveForward(0.3);
-				if(travelled(64)){ //2 seconds wait
+				DriveForward(0.53);
+				Intake::turnOn();
+				Shooter::shoot(10, 0);
+				Shooter::agitatorOff();
+				if(travelled(59)){ //2 seconds wait
 					state = 20;
+					DriveBase::switchSlider(true);
 				}
 				break;
 
 			case 20:
 				StayStill();
-				Shooter::setangle(35);
-				if (waited(0.5)){
+				Shooter::setangle(30);
+				Intake::turnOn();
+				if (waited(0.18)){
 					state = 30;
 					Shooter::setangle(0);
 				}
 				break;
 
 			case 30: //turn right 45 degrees
-				TurnRight(0.3);
-				if (DriveBase::getYaw() >= 84) {
+				TurnRight(0.42);
+				Intake::turnOn();
+				if (DriveBase::getYaw() >= 74) {
 					state = 40;
 				}
 				break;
 
 			case 40: // drive forward till at gear
-				DriveForward(0.3);
-				if(travelled(68)){//waited 0.8 seconds (72 measred inches)
+				DriveForward(0.56);
+				Intake::turnOn();
+				Shooter::shoot(10, shootRPM);
+				if(travelled(72)){//waited 0.8 seconds (72 measred inches)
 					state = 50;
 					shootState = 10;
 				}
 				break;
 
 			case 50:
-				shootState = Shooter::shoot(shootState, 2700);
-				if (shootState == 20 && waited(4)){
-					state = 90;
-				}
+				StayStill();
+				Intake::turnOn();
+				if(Shooter::isOnTarget()) shootState = Shooter::shoot(shootState, shootRPM);
+				//DriveBackwards(0.2);
+
+				//if (shootState == 20 && waited(4)){
+				//	state = 90;
+				//}
 				break;
 
 			case 90:
 				StayStill();
+				Intake::turnOff();
 				break;
 		}
 		SmartDashboard::PutNumber("State", state);
