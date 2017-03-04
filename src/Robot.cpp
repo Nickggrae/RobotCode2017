@@ -19,7 +19,7 @@ public:
 		Intake::init();
 		Climber::init();		// the very first time we call it will init() the climber
 		Teleop::init();
-		Auton::init();
+		Auton::init(); //KATKA DON'T ERASE might need to add at competition
 
 		NetworkTable::SetClientMode();
 		NetworkTable::SetTeam(5431);
@@ -46,7 +46,8 @@ public:
 
 	void AutonomousPeriodic(){
 		Auton::RedLeftAuton();
-		Copernicus::update();
+		Auton::Test();
+		//Copernicus::update();
 	}
 
 	void DisabledInit(){

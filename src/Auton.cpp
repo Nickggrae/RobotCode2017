@@ -11,10 +11,10 @@ namespace Auton {
 	std::time_t startTime; //Used to calculate delay through time
 	int state; //Number the state machine is at
 
-	bool initialized = false;
+	//bool initialized = false;
 
 	void init() {
-		if(initialized) {
+		/*if(initialized) {
 			DriveBase::resetAHRS(); //Resetting NavX before getting angle
 			DriveBase::resetEncoderfl();
 			DriveBase::resetEncoderfr();
@@ -22,9 +22,8 @@ namespace Auton {
 			state = 10;
 			startTime = 0;
 			return;
-		}
+		}*/
 
-		SmartDashboard::PutNumber("State", 0.0);
 		DriveBase::init();
 		Intake::init();
 		Shooter::init();
@@ -33,18 +32,22 @@ namespace Auton {
 		DriveBase::resetAHRS(); //Resetting NavX before getting angle
 		state = 10;
 		startTime = 0;
-		DriveBase::switchGear(true);
+		DriveBase::switchGear(false);
 		DriveBase::resetEncoderfl();
 		DriveBase::resetEncoderfr();
 
-		initialized = true;
+		//initialized = true;
 	}
 
-	void TestYaw(){
-		StayStill();
+	void Test(){
+		//StayStill();
 		SmartDashboard::PutNumber("yaw for michael", DriveBase::getYaw());
 		SmartDashboard::PutNumber("roll for michael", DriveBase::getRoll());
 		SmartDashboard::PutNumber("Pitch for michael", DriveBase::getPitch());
+
+		SmartDashboard::PutNumber("right encoder Inches", DriveBase::getEncoderfrInches());
+		SmartDashboard::PutNumber("left encoder Inches", DriveBase::getEncoderflInches());
+
 	}
 
 	void TurnLeft(double power){
@@ -80,15 +83,27 @@ namespace Auton {
 		return false;
 	}
 
+	void resetDriveEncoders() {
+		DriveBase::resetEncoderfl();
+		DriveBase::resetEncoderfr();
+	}
+
 	bool travelled(double inches){
 		if (DriveBase::getEncoderflInches() >= inches || DriveBase::getEncoderfrInches() >= inches){
-			DriveBase::resetEncoderfl();
-			DriveBase::resetEncoderfr();
+			resetDriveEncoders();
 			return true;
 		}
 		else {
 			return false;
 		}
+	}
+
+	bool turned(double degrees) {
+		if(DriveBase::getYaw() >= degrees) {
+			return true;
+		}
+
+		return false;
 	}
 
 	void NothingAuton(){
@@ -102,23 +117,30 @@ namespace Auton {
 		//drive forward until the line
 		switch (state) {
 			case 10: //drive forward at half speed until ready to turn to get gear
-				DriveForward();
-				if(travelled(113)){ //2 seconds wait
+				DriveForward(0.3);
+				if(travelled(79)){ //2 seconds wait
+					state = 20;
+				}
+				break;
+
+			case 20:
+				StayStill();
+				if (waited(2)){
 					state = 30;
 				}
 				break;
 
 			case 30: //turn right 45 degrees
-				TurnRight();
-				if (DriveBase::getYaw() >= 45) {
+				TurnRight(0.3);
+				if (DriveBase::getYaw() >= 54) {
 					state = 40;
 				}
 				break;
 
 			case 40: // drive forward till at gear
-				DriveForward();
-				if(travelled(63)){//waited 0.8 seconds
-					state = 50;
+				DriveForward(0.3);
+				if(travelled(68)){//waited 0.8 seconds (72 measred inches)
+					state = 90;
 				}
 				break;
 
@@ -154,7 +176,7 @@ namespace Auton {
 				StayStill();
 				break;
 			}
-
+			SmartDashboard::PutNumber("State Auton", state);
 			SmartDashboard::PutNumber("State", state);
 			SmartDashboard::PutNumber("NavXYaw", DriveBase::getYaw());
 			SmartDashboard::PutNumber("NavXRoll", DriveBase::getRoll());
@@ -244,19 +266,18 @@ namespace Auton {
 		switch (state) {
 			case 10: //drive forward at half speed until at gear
 				DriveForward();
-				if(waited(2)){
-					state = 30;
+				if(travelled(10)){
+					state = 90;
 				}
 				break;
 
-			case 30: // stay stopped for 1.5 seconds; wait for gear to leave
+			case 20: // stay stopped for 1.5 seconds; wait for gear to leave
 				//NEED TO ADD SHOOTING WHILE PLACING GEAR
 				StayStill();
-				if(waited(3.5)){
+				if(waited(3.5)){//3.5 wait
 					state = 40;
 				}
 				break;
-
 			case 40: //move backwards away from gear
 				DriveBackwards();
 				if(waited(.4)){
@@ -296,7 +317,8 @@ namespace Auton {
 		}
 	}
 
-	void BlueLeftShootAuton(){
+
+	void BlueLeftShootAuton() {
 		//Auton for BlueLeft
 		//Robot will get balls from hopper and shoot them
 		switch (state){

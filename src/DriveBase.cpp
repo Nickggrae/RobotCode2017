@@ -2,6 +2,7 @@
 #include <DriveBase.hpp>
 
 #include <MotorMap.hpp>
+#include <SensorMap.hpp>
 
 namespace DriveBase {
 	CANTalon *fl, *rl, *fr, *rr;
@@ -27,13 +28,15 @@ namespace DriveBase {
 
 		// CanTalon pair(2,3) pair(4,5)
 		fl = new CANTalon(MOTOR_MAP_LEFT_ONE);
-		fl->SetFeedbackDevice(CANTalon::EncRising);
-		fl->ConfigEncoderCodesPerRev(2048);//2x encoder revs
+		fl->SetFeedbackDevice(CANTalon::CtreMagEncoder_Relative);
+		//fl->ConfigEncoderCodesPerRev(2048);//2x encoder revs
+		fl->SetSensorDirection(true); //Invert the encoder direction
 		fl->SetInverted(true);
 
 		fr = new CANTalon(MOTOR_MAP_RIGHT_ONE);
-		fr->SetFeedbackDevice(CANTalon::EncRising);
-		fr->ConfigEncoderCodesPerRev(2048);//2x encoder revs
+		fr->SetFeedbackDevice(CANTalon::CtreMagEncoder_Relative);
+		fr->SetSensorDirection(false); //Don't Invert the encoder direction
+		//fr->ConfigEncoderCodesPerRev(2048);//2x encoder revs
 		fr->SetInverted(true);
 
 		rl = new CANTalon(MOTOR_MAP_LEFT_TWO);
@@ -53,7 +56,7 @@ namespace DriveBase {
 		solenoid2 = new frc::DoubleSolenoid(6, 1);
 		solenoid2->Set(frc::DoubleSolenoid::kReverse);
 
-		inchesPerClick = 0.00589294059473;
+		inchesPerClick = SENSOR_MAP_DRIVE_BASE_INCHES_PER_CLICK;
 
 		initialized = true;
 	}
@@ -99,18 +102,18 @@ namespace DriveBase {
 	}
 
 	double getEncoderflInches(){
-		return fl->GetEncPosition() * inchesPerClick;
+		return -(fl->GetEncPosition() * inchesPerClick);
 	}
 
 	void resetEncoderfl(){
-		fl->Reset();
+		fl->SetEncPosition(0);
 	}
 	double getEncoderfrInches(){
 		return fr->GetEncPosition() * inchesPerClick;
 	}
 
 	void resetEncoderfr(){
-		fr->Reset();
+		fr->SetEncPosition(0);
 	}
 
 	double getYaw(){

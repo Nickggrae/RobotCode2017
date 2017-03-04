@@ -123,9 +123,11 @@ namespace Teleop {
 
 
 
-		double yAxis = extremePro->GetRawAxis(3);
-		double RPMraw = ((((yAxis+1)/2)*6000) + 500) - (2000*yAxis);
-		Shooter::set(RPMraw);//(SmartDashboard::GetNumber("ShooterTarget",0.0));
+		//double yAxis = extremePro->GetRawAxis(3);
+		//double RPMraw = ((((yAxis+1)/2)*6000) + 500) - (2000*yAxis);
+		//SmartDashboard::GetNumber("ShooterTarget",0.0);
+		Shooter::set(SmartDashboard::GetNumber("Shooter",0.0));
+
 
 
 	//	if (yAxis < -0.2){
