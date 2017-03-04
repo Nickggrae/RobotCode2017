@@ -1,5 +1,5 @@
 #include <Shooter.hpp>
-
+#include <Intake.hpp>
 #include <MotorMap.hpp>
 #include <SensorMap.hpp>
 
@@ -130,5 +130,40 @@ namespace Shooter {
 		} else {
 			agitatorOn();
 		}
+	}
+
+	int shoot(int shooterState, double rpm_flywheel){
+		switch (shooterState) { //will fix error later
+			case 10: {
+				SmartDashboard::PutNumber("Wanted Flywheel Speed", rpm_flywheel);
+
+				Shooter::set(rpm_flywheel);
+
+				int flywheel_error =
+						Shooter::getShooterCANTalon()->GetClosedLoopError();
+
+				SmartDashboard::PutNumber("Flywheel closed loop error", flywheel_error);
+
+				if (abs(flywheel_error) < 500) {
+					Shooter::agitatorOn();
+				}
+
+				if (abs(flywheel_error) < 10) {
+					shooterState = 20;
+				}
+			}
+			break;
+
+			case 20: {
+				Intake::saladOn();
+			}
+			break;
+
+			default: {
+				return 0;
+			}
+			break;
+		}
+		return shooterState;
 	}
 }

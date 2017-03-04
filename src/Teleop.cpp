@@ -27,8 +27,8 @@ namespace Teleop {
 		DriveBase::init();
 		Intake::init();
 
-
-
+		DriveBase::resetEncoderfl();
+		DriveBase::resetEncoderfr();
 
 		xBox = new Joystick(0);
 		extremePro = new Joystick(1);

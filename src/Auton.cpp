@@ -10,6 +10,7 @@
 namespace Auton {
 	std::time_t startTime; //Used to calculate delay through time
 	int state; //Number the state machine is at
+	int shootState;
 
 	//bool initialized = false;
 
@@ -32,6 +33,7 @@ namespace Auton {
 		DriveBase::resetAHRS(); //Resetting NavX before getting angle
 		state = 10;
 		startTime = 0;
+		shootState = 0;
 		DriveBase::switchGear(false);
 		DriveBase::resetEncoderfl();
 		DriveBase::resetEncoderfr();
@@ -48,6 +50,9 @@ namespace Auton {
 		SmartDashboard::PutNumber("right encoder Inches", DriveBase::getEncoderfrInches());
 		SmartDashboard::PutNumber("left encoder Inches", DriveBase::getEncoderflInches());
 
+		SmartDashboard::PutNumber("Travelled shoot red", 0);
+
+
 	}
 
 	void TurnLeft(double power){
@@ -59,11 +64,11 @@ namespace Auton {
 	}
 
 	void DriveForward(double power){ //define power as positive always
-		DriveBase::drive(-power, -power);
+		DriveBase::drive((-power) - LEFT_POWER_OFFSET, (-power) - RIGHT_POWER_OFFSET);
 	}
 
 	void DriveBackwards(double power){
-		DriveBase::drive(power, power);
+		DriveBase::drive(power + LEFT_POWER_OFFSET, power  + RIGHT_POWER_OFFSET);
 	}
 
 	void StayStill(){
@@ -451,37 +456,53 @@ namespace Auton {
 
 
 	void RedRightShootAuton(){
-		//Auton for RedRight
-		//Robot will go to the hopper to get the balls and shoot them
-		switch (state){
-		case 10:
-			DriveForward();
-			if(waited(2)){
-				state = 30;
-			}
-		break;
+		switch (state) {
+			case 10: //drive forward at half speed until ready to turn to get gear
+				DriveForward(0.3);
+				if(travelled(64)){ //2 seconds wait
+					state = 20;
+				}
+				break;
 
-		case 30: //turn right to face hopper
-			TurnRight();
-			if (DriveBase::getYaw() >= 90) {//turn until facing the hopper
-				state = 40;
-			}
-		break;
+			case 20:
+				StayStill();
+				Shooter::setangle(35);
+				if (waited(0.5)){
+					state = 30;
+					Shooter::setangle(0);
+				}
+				break;
 
-		case 40:
-			DriveForward(); //to hopper
-			if(waited(1)){
-				state = 50;
-			}
-		break;
+			case 30: //turn right 45 degrees
+				TurnRight(0.3);
+				if (DriveBase::getYaw() >= 84) {
+					state = 40;
+				}
+				break;
 
-		case 50:
-			//SHOOT
-			StayStill(); //stays at the hopper
-		break;
+			case 40: // drive forward till at gear
+				DriveForward(0.3);
+				if(travelled(68)){//waited 0.8 seconds (72 measred inches)
+					state = 50;
+					shootState = 10;
+				}
+				break;
 
-	//when it's done shooting, back out to prepare for teleop
+			case 50:
+				shootState = Shooter::shoot(shootState, 2700);
+				if (shootState == 20 && waited(4)){
+					state = 90;
+				}
+				break;
+
+			case 90:
+				StayStill();
+				break;
 		}
+		SmartDashboard::PutNumber("State", state);
+		SmartDashboard::PutNumber("NavXYaw", DriveBase::getYaw());
+		SmartDashboard::PutNumber("NavXRoll", DriveBase::getRoll());
+		SmartDashboard::PutNumber("NavXPitch", DriveBase::getPitch());
 	}
 
 	void RedRightGearAuton(){

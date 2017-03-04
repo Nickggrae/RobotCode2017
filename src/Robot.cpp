@@ -46,7 +46,7 @@ public:
 	}
 
 	void AutonomousPeriodic(){
-		Auton::RedRightGearAuton();
+		Auton::RedRightShootAuton();
 		Auton::Test();
 		//Copernicus::update();
 	}
