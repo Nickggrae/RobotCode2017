@@ -117,15 +117,15 @@ namespace Auton {
 		//drive forward until the line
 		switch (state) {
 			case 10: //drive forward at half speed until ready to turn to get gear
-				DriveForward(0.3);
-				if(travelled(79)){ //2 seconds wait
+				DriveForward(0.4);
+				if(travelled(77)){ //2 seconds wait
 					state = 20;
 				}
 				break;
 
 			case 20:
 				StayStill();
-				if (waited(2)){
+				if (waited(0.5)){
 					state = 30;
 				}
 				break;
@@ -138,8 +138,8 @@ namespace Auton {
 				break;
 
 			case 40: // drive forward till at gear
-				DriveForward(0.3);
-				if(travelled(68)){//waited 0.8 seconds (72 measred inches)
+				DriveForward(0.4);
+				if(travelled(64)){//waited 0.8 seconds (72 measred inches)
 					state = 90;
 				}
 				break;
@@ -265,8 +265,8 @@ namespace Auton {
 		//robot will turn left and go forward until at the launchpad
 		switch (state) {
 			case 10: //drive forward at half speed until at gear
-				DriveForward();
-				if(travelled(10)){
+				DriveBase::drive(-0.3, -0.32);
+				if(travelled(71)){
 					state = 90;
 				}
 				break;
@@ -487,22 +487,29 @@ namespace Auton {
 	void RedRightGearAuton(){
 		switch (state) {
 			case 10: //drive forward at half speed until ready to turn to get gear
-				DriveForward();
-				if(waited(2)){
+				DriveForward(0.3);
+				if(travelled(56)){
+					state = 15;
+				}
+				break;
+
+			case 15:
+				StayStill();
+				if (waited(1)){
 					state = 20;
 				}
 				break;
 
 			case 20: //turn left 45 degrees
-				TurnLeft();
-				if (DriveBase::getYaw() <= -45) {
+				TurnLeft(0.3);
+				if (DriveBase::getYaw() <= -49) {
 					state = 30;
 				}
 				break;
 
 			case 30: // drive forward till at gear
-				DriveForward();
-				if(waited(1.1)){
+				DriveForward(0.3);
+				if(travelled(83)){
 					state = 40;
 				}
 				break;
@@ -512,5 +519,9 @@ namespace Auton {
 				//SHOOT
 				break;
 		}
+		SmartDashboard::PutNumber("State", state);
+		SmartDashboard::PutNumber("NavXYaw", DriveBase::getYaw());
+		SmartDashboard::PutNumber("NavXRoll", DriveBase::getRoll());
+		SmartDashboard::PutNumber("NavXPitch", DriveBase::getPitch());
 	}
 }

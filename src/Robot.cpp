@@ -37,6 +37,7 @@ public:
 	void TeleopPeriodic(){
 		Teleop::run();
 		Copernicus::update();
+		Auton::Test();//temp
 	}
 
 	void AutonomousInit(){
@@ -45,7 +46,7 @@ public:
 	}
 
 	void AutonomousPeriodic(){
-		Auton::RedLeftAuton();
+		Auton::RedRightGearAuton();
 		Auton::Test();
 		//Copernicus::update();
 	}
